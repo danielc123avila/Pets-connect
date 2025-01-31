@@ -1,9 +1,9 @@
-//Config
-import config from "../config/config.js"
-//Model
-import usuariosModel from "../models/usuariosModel.js"
-//Controller
-var usuariosController = {}
+// Config
+import config from "../config/config.js";
+// Model
+import { Usuarios, guardarUsuario } from "../models/usuariosModel.js";
+// Controller
+var usuariosController = {};
 
 usuariosController.guardar = function(request, response) {
     const post = {
@@ -13,7 +13,7 @@ usuariosController.guardar = function(request, response) {
         estado: request.body.estado,
         rol: request.body.rol,
         telefono: request.body.telefono
-    }
+    };
 
     // Validaciones
     const validaciones = [
@@ -23,47 +23,47 @@ usuariosController.guardar = function(request, response) {
         { campo: post.email, mensaje: "el campo email es obligatorio" },
         { campo: post.telefono, mensaje: "el campo telefono es obligatorio" },
         { campo: post.password, mensaje: "el campo password es obligatorio" }
-    ]
+    ];
 
     for (const validacion of validaciones) {
         if (!validacion.campo) {
-            return response.json({ state: false, mensaje: validacion.mensaje })
+            return response.json({ state: false, mensaje: validacion.mensaje });
         }
 
         if (validacion.maxLength && validacion.campo.length > validacion.maxLength) {
-            return response.json({ state: false, mensaje: `el campo nombre no debe superar ${validacion.maxLength} caracteres` })
+            return response.json({ state: false, mensaje: `el campo nombre no debe superar ${validacion.maxLength} caracteres` });
         }
     }
 
     // Validación de email
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(post.email)) {
-        return response.json({ state: false, mensaje: "el campo email no es válido" })
+        return response.json({ state: false, mensaje: "el campo email no es válido" });
     }
 
     // Validación de teléfono
     if (isNaN(post.telefono)) {
-        return response.json({ state: false, mensaje: "el campo telefono no es un número" })
+        return response.json({ state: false, mensaje: "el campo telefono no es un número" });
     }
 
     // Encriptar contraseña
-    post.password = SHA256(post.password + config.palabraclave)
+    post.password = SHA256(post.password + config.palabraclave);
 
     // Verificar si el email ya existe
-    usuariosModel.existeemail(post, function(res) {
-        if (res.existe === 'si') {
-            return response.json({ state: false, mensaje: "el email ya está registrado" })
+    Usuarios.exists({ email: post.email }, function(err, res) {
+        if (err) {
+            return response.json({ state: false, mensaje: "Error al verificar el email" });
+        }
+        if (res) {
+            return response.json({ state: false, mensaje: "el email ya está registrado" });
         }
 
         // Guardar usuario
-        usuariosModel.guardar(post, function(respuesta) {
-            response.json(respuesta)
-        })
-    })
-}
+        guardarUsuario(post, function(respuesta) {
+            response.json(respuesta);
+        });
+    });
+};
 
-//Export
+// Export
 export default usuariosController;
-
-
-
