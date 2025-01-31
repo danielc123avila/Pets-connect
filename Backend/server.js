@@ -4,6 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import connectDB from "./config/dataBase.js";
 import usuariosRoutes from './router/usuariosRoutes.js';
+import sha256 from "sha256";
 
 const app = express();
 
@@ -20,8 +21,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//Encriptar
+global.SHA256 = require('sha256')
+
 // routes
-app.use("/", usuariosRoutes)
+app.use("/api", usuariosRoutes)
 
 // port
 const port = process.env.PORT || 5000;
