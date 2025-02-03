@@ -1,7 +1,11 @@
+// Model
+import usuariosModel from "../models/usuariosModel.js";
+//Importar SHA256 desde crypto-js
+import cryptoJS from "crypto-js"; // Importar el módulo completo
+const { SHA256 } = cryptoJS; // Extraer SHA256 del módulo
 // Config
 import config from "../config/config.js";
-// Model
-import { Usuarios, guardarUsuario } from "../models/usuariosModel.js";
+
 // Controller
 var usuariosController = {};
 
@@ -47,23 +51,22 @@ usuariosController.guardar = function(request, response) {
     }
 
     // Encriptar contraseña
-    post.password = SHA256(post.password + config.palabraclave);
+    post.password = SHA256(post.password + config.palabraclave). toString();
 
-    // Verificar si el email ya existe
-    Usuarios.exists({ email: post.email }, function(err, res) {
-        if (err) {
-            return response.json({ state: false, mensaje: "Error al verificar el email" });
-        }
-        if (res) {
-            return response.json({ state: false, mensaje: "el email ya está registrado" });
-        }
+    usuariosModel.existeEmail(post, function(res){
 
-        // Guardar usuario
-        guardarUsuario(post, function(respuesta) {
-            response.json(respuesta);
-        });
-    });
-};
+        if(res.existe == 'si'){
+         response.json({state:false,mensaje: "el email ya esta registrado"})
+         return false
+        }
+        else{
+
+            usuariosModel.guardar(post,function(respuesta){
+                response.json(respuesta)
+            })
+        }
+    })
+}
 
 // Export
 export default usuariosController;
