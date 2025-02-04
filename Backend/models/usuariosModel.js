@@ -11,10 +11,11 @@ const usuariosSchema = new Schema({
     errorlogin: { type: Number, default: 0 },
     fechalogin: { type: Date, default: Date.now },
     azar: String,
-    estado: { type: String, default: '1' },
+    estado: { type: String, default: '0' },
     codepass: String,
     ultlogin: Date,
-    rol: String
+    rol: String,
+    azar:String
 });
 
 // Create the model
@@ -32,37 +33,86 @@ usuariosModel.guardar = function (post, callback) {
 
     // Save the information
     instancia.save()
-        .then((respuesta) => {
-            console.log(respuesta);
-            return callback({ state: true, mensaje: "Usuario guardado" });
-        })
-        .catch((error) => {
-            console.error(error);
-            return callback({ state: false, mensaje: "Se presentó un error" });
-        });
+    .then((respuesta) => {
+        console.log(respuesta);
+        return callback({ state: true, mensaje: "Usuario guardado" })
+    })
+
+    .catch((error) => {
+    console.error(error);
+    return callback({ state: false, mensaje: "Se presentó un error" })
+    })
+}
+
+usuariosModel.registrar = function(post, callback){
+    
+    const instancia = new Usuarios({
+        nombre: post.String,
+        email: post.email,
+        password: post.password,
+        telefono: post.telefono,
+        rol: post.rol,
+        azar : post.azar
+    })
+    
+    instancia.save().then((respuesta) => {
+    console.log(respuesta)
+    return callback ({state:true, mensaje:"usuario guardado"})
+
+    }).catch ((error) => {
+       console.log(error)
+       return callback ({state:false, mensaje:"se presento un error"})
+    })
 }
 
 usuariosModel.existeEmail = function (post, callback){
-
     Usuarios.findOne({email:post.email},{}).then((respuesta) =>{
-        //el null es la respuesta del servidor si los datos ingresados no existen
         if (respuesta == null){
             return callback({existe:'no'})
         }
         else {
             return callback({existe:'si'})
         }
-    })
-    //hacer busqueda en elementos
-    //var posicion =bdusuarios.findIndex((item) => item.email == post.email)
-    //Igual o mayor a cero significa que si existe
-    // if(posicion >=0){
-    //     return callback({existe:'si'})
-    // }
-    // else {
-    //     return callback({existe:'no'})
-    // }
+    })  
+}
 
+usuariosModel.listar = function(post, callback){
+    Usuarios.find({}, {password:0}).then ((respuesta) => {
+     return callback({state:true, datos:respuesta})
+    })
+    .catch ((error) => {
+     return callback ({state:false, datos:[], error:error, mensaje:"se presento un error"})
+    })     
+}
+
+usuariosModel.listarId = function(post, callback){
+    Usuarios.find({_id:post._id}, {password:0}).then ((respuesta) => {
+     return callback({state:true, datos:respuesta})
+    })
+    .catch ((error) => {
+     return callback ({state:false, datos:[], error:error, mensaje:"se presento un error"})
+    })
+}
+
+usuariosModel.actualizar = function (post, callback){
+
+    Usuarios.findByIdAndUpdate(post._id, // Mymodel.findOneAndUpdate({_id:post._id} es una opcion
+    {
+        nombre:post.nombre,
+        rol:post.rol,
+        estado:post.estado,
+        telefono:post.telefono
+    
+
+    }) .then((respuesta) => {
+        return callback ({state:true, mensaje:"Elemento actualizado"})
+        console.log(respuesta)
+
+    })
+    .catch ((error) => {
+        return callback ({state:false, mensaje:"Error al actualizar", error:error})
+    })
+                        
 }
 
 // Export the function and model

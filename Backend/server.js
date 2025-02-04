@@ -4,8 +4,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import connectDB from "./config/dataBase.js";
 import usuariosRoutes from './router/usuariosRoutes.js';
-
-
 const app = express();
 
 // config variables de entorno
