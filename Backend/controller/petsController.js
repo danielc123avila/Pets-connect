@@ -93,3 +93,24 @@ export const crearReporte = async (req, res) => {
     });
   }
 };
+
+export const eliminarMascota = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const mascotaEliminada = await Pet.findByIdAndDelete(id);
+
+    if (!mascotaEliminada) {
+      throw new Error("Mascota no encontrada");
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Mascota eliminada correctamente",
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
