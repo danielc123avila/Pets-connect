@@ -1,8 +1,8 @@
-const usuariosModel = {}
+const usuariosModel = {};
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-// Define the schema
+// Define el esquema
 const usuariosSchema = new Schema({
     nombre: String,
     email: String,
@@ -17,10 +17,10 @@ const usuariosSchema = new Schema({
     rol: String
 });
 
-// Create the model
+// Crea el modelo
 const Usuarios = mongoose.model("Usuarios", usuariosSchema);
 
-// Function to save user data
+// Función para guardar datos de usuario
 usuariosModel.guardar = function (post, callback) {
     const instancia = new Usuarios({
         nombre: post.nombre,
@@ -30,7 +30,7 @@ usuariosModel.guardar = function (post, callback) {
         rol: post.rol
     });
 
-    // Save the information
+    // Guarda la información
     instancia.save()
         .then((respuesta) => {
             console.log(respuesta);
@@ -40,30 +40,30 @@ usuariosModel.guardar = function (post, callback) {
             console.error(error);
             return callback({ state: false, mensaje: "Se presentó un error" });
         });
-}
+};
 
-usuariosModel.existeEmail = function (post, callback){
-
-    Usuarios.findOne({email:post.email},{}).then((respuesta) =>{
-        //el null es la respuesta del servidor si los datos ingresados no existen
-        if (respuesta == null){
-            return callback({existe:'no'})
+// Función para verificar si un email ya existe
+usuariosModel.existeEmail = function (post, callback) {
+    Usuarios.findOne({ email: post.email }, {}).then((respuesta) => {
+        if (respuesta == null) {
+            return callback({ existe: 'no' });
+        } else {
+            return callback({ existe: 'si' });
         }
-        else {
-            return callback({existe:'si'})
-        }
-    })
-    //hacer busqueda en elementos
-    //var posicion =bdusuarios.findIndex((item) => item.email == post.email)
-    //Igual o mayor a cero significa que si existe
-    // if(posicion >=0){
-    //     return callback({existe:'si'})
-    // }
-    // else {
-    //     return callback({existe:'no'})
-    // }
+    });
+};
 
-}
+// Función para obtener un usuario por email y contraseña
+usuariosModel.obtenerUsuarioPorEmail = function (post, callback) {
+    Usuarios.findOne({ email: post.email, password: post.password })
+        .then((usuario) => {
+            callback(usuario);
+        })
+        .catch((error) => {
+            console.error(error);
+            callback(null);
+        });
+};
 
-// Export the function and model
-export default usuariosModel
+
+export default usuariosModel;

@@ -1,19 +1,23 @@
 // Model
 import usuariosModel from "../models/usuariosModel.js";
-//Importar SHA256 desde crypto-js
+// Importar SHA256 desde crypto-js
 import cryptoJS from "crypto-js"; // Importar el módulo completo
 const { SHA256 } = cryptoJS; // Extraer SHA256 del módulo
 // Config
 import config from "../config/config.js";
+// Importar funciones de helpers
+import { generateToken, verifyToken } from "../helpers/jwt.helper.js";
+import { hashPassword, comparePassword } from "../helpers/bcrypt.helper.js";
 
 // Controller
 var usuariosController = {};
 
-usuariosController.guardar = function(request, response) {
+// Función para guardar usuarios
+usuariosController.guardar = async function(request, response) {
     const post = {
         nombre: request.body.nombre,
         email: request.body.email,
-        password: request.body.password,
+        password: await hashPassword(request.body.password),
         estado: request.body.estado,
         rol: request.body.rol,
         telefono: request.body.telefono
@@ -50,23 +54,37 @@ usuariosController.guardar = function(request, response) {
         return response.json({ state: false, mensaje: "el campo telefono no es un número" });
     }
 
-    // Encriptar contraseña
-    post.password = SHA256(post.password + config.palabraclave). toString();
-
-    usuariosModel.existeEmail(post, function(res){
-
-        if(res.existe == 'si'){
-         response.json({state:false,mensaje: "el email ya esta registrado"})
-         return false
+    usuariosModel.existeEmail(post, function(res) {
+        if (res.existe == 'si') {
+            response.json({ state: false, mensaje: "el email ya esta registrado" });
+            return false;
+        } else {
+            usuariosModel.guardar(post, function(respuesta) {
+                response.json(respuesta);
+            });
         }
-        else{
+    });
+};
 
-            usuariosModel.guardar(post,function(respuesta){
-                response.json(respuesta)
-            })
+// Función para el login de usuarios
+usuariosController.login = function(request, response) {
+    const { email, password } = request.body;
+
+    usuariosModel.existeEmail({ email }, function(res) {
+        if (res.existe === 'no') {
+            return response.json({ state: false, mensaje: "Email no registrado" });
         }
-    })
-}
+
+        usuariosModel.obtenerUsuarioPorEmail({ email }, async function(user) {
+            if (!user || !(await comparePassword(password, user.password))) {
+                return response.json({ state: false, mensaje: "Credenciales incorrectas" });
+            }
+
+            const token = generateToken({ userId: user._id, email: user.email });
+            response.json({ state: true, token, mensaje: "Login exitoso" });
+        });
+    });
+};
 
 // Export
 export default usuariosController;
