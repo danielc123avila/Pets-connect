@@ -16,6 +16,27 @@ export const obtenerMascotas = async (req, res) => {
   }
 };
 
+export const obtenerMascotaPorId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const mascota = await Pet.findById(id);
+
+    if (!mascota) {
+      throw new Error("Mascota no encontrada");
+    }
+
+    res.status(200).json({
+      success: true,
+      data: mascota,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const crearReporte = async (req, res) => {
   try {
     const {
