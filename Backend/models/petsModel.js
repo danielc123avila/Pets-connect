@@ -1,102 +1,108 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const petSchema = new mongoose.Schema({
-  // Campos principales
+  // Información básica
   especie: {
     type: String,
-    required: [true, 'La especie es obligatoria'],
+    required: [true, "La especie es obligatoria"],
     enum: {
-      values: ['Perro', 'Gato', 'Otro'],
-      message: 'Especie no válida ({VALUE})'
-    }
+      values: ["Perro", "Gato", "Otro"],
+      message: "Especie inválida. Opciones válidas: Perro, Gato, Otro"
+    },
+    trim: true
   },
   sexo: {
     type: String,
-    required: true,
-    enum: ['Macho', 'Hembra', 'Desconocido']
+    required: [true, "El sexo es obligatorio"],
+    enum: ["Macho", "Hembra", "Desconocido"]
   },
   nombre: {
     type: String,
-    required: [true, 'El nombre es obligatorio'],
+    required: [true, "El nombre es obligatorio"],
     trim: true,
-    maxlength: [50, 'Máximo 50 caracteres']
+    maxlength: [50, "El nombre no puede exceder los 50 caracteres"]
   },
   color: {
     type: String,
     required: true,
-    maxlength: [30, 'Máximo 30 caracteres']
+    maxlength: 30
   },
-  
+
+  // Datos de contacto (campos planos)
+  email: {
+    type: String,
+    required: [true, "El email es obligatorio"],
+    lowercase: true,
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Email inválido"]
+  },
+  celular: {
+    type: String,
+    required: [true, "El número celular es obligatorio"],
+    validate: {
+      validator: function(v) {
+        return /^\+?[1-9]\d{7,14}$/.test(v);
+      },
+      message: "Formato inválido. Ejemplo válido: +5491144556677"
+    }
+  },
+
   // Ubicación y fecha
   ultimaUbicacion: {
     type: String,
-    required: [true, 'Debe especificar el lugar del extravío'],
-    maxlength: [200, 'Máximo 200 caracteres']
+    required: [true, "La última ubicación es obligatoria"],
+    maxlength: 100
   },
   fechaExtravio: {
     type: Date,
     required: true,
     validate: {
-      validator: function(date) {
-        return date <= new Date();
+      validator: function(value) {
+        return value <= new Date();
       },
-      message: 'La fecha no puede ser futura'
+      message: "La fecha de extravío no puede ser futura"
     }
   },
-  
-  // Información de contacto
-  contacto: {
-    email: {
-      type: String,
-      required: true,
-      match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Email inválido']
-    },
-    celular: {
-      type: String,
-      required: true,
-      match: [/^\+?\d{7,15}$/, 'Número inválido']
-    }
-  },
-  
-  // Multimedia y descripciones
-  fotos: {
-    type: [{
-      url: String,
-      thumbnail: String,
-      descripcion: String
-    }],
-    validate: {
-      validator: function(arr) {
-        return arr.length >= 1 && arr.length <= 3;
-      },
-      message: 'Se requieren entre 1 y 3 fotos'
-    }
-  },
+
+  // Descripción y metadata
   descripcion: {
     type: String,
-    required: true,
-    maxlength: [500, 'Máximo 500 caracteres']
+    maxlength: [500, "La descripción no puede exceder 500 caracteres"]
   },
-  palabrasClave: {
-    type: [String],
-    validate: {
-      validator: function(arr) {
-        return arr.length <= 10;
-      },
-      message: 'Máximo 10 palabras clave'
+  palabrasClave: [{
+    type: String,
+    trim: true,
+    lowercase: true
+  }],
+
+  // Manejo de archivos
+  fotos: [{
+    url: {
+      type: String,
+      required: true
+    },
+    thumbnail: String,
+    descripcion: {
+      type: String,
+      default: "Foto de la mascota",
+      maxlength: 100
     }
-  },
-  
-  // Metadatos
+  }],
+
+  // Metadata automática
   estado: {
     type: String,
-    default: '',
-    enum: ['Perdido', 'Encontrado', 'Adopción']
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
+    enum: ["Perdido", "Encontrado", "Resuelto"],
+    default: "Perdido"
   }
+}, {
+  timestamps: true
 });
 
-export default mongoose.model('Pet', petSchema);
+// Índice para búsquedas
+petSchema.index({
+  nombre: "text",
+  descripcion: "text",
+  palabrasClave: "text"
+});
+
+export default mongoose.model("Pet", petSchema);
