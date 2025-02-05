@@ -22,19 +22,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
 //Session/Cookie config
-app.use(cookieParser())                       
-app.use(session({
-    secret:config.sesiones.secret, 
-    resave:true, //guarda la sesion si no se ha modificado
-    saveUninitialized:true,// guarde la sesion asi no se haya iniciado 
-    cookie:{
-        //Tambien se puede configurar el tiempo desde el config conmaxAge.sessiones.expiracion
-        maxAge:config.sesiones.expiracion, httpOnly:true,// el tiempo por el que va estar activo una sesion  
+// app.use(cookieParser())                       
+// app.use(session({
+//     secret:config.sesiones.secret, 
+//     resave:true, //guarda la sesion si no se ha modificado
+//     saveUninitialized:true,// guarde la sesion asi no se haya iniciado 
+//     cookie:{
+//         //Tambien se puede configurar el tiempo desde el config conmaxAge.sessiones.expiracion
+//         maxAge:config.sesiones.expiracion, httpOnly:true,// el tiempo por el que va estar activo una sesion  
 
-    },
-    name: "CookieApp",//CokieApp // nombre del archivo que se descarga desde el backend hasta el frontend
-    rolling:true
-}))
+//     },
+//     name: "CookieApp",//CokieApp // nombre del archivo que se descarga desde el backend hasta el frontend
+//     rolling:true
+// }))
 
 
 
