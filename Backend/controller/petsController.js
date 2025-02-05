@@ -1,5 +1,21 @@
 import Pet from "../models/petsModel.js";
 
+export const obtenerMascotas = async (req, res) => {
+  try {
+    const mascotas = await Pet.find();
+
+    res.status(200).json({
+      success: true,
+      data: mascotas,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const crearReporte = async (req, res) => {
   try {
     const {
@@ -9,10 +25,12 @@ export const crearReporte = async (req, res) => {
       ultimaUbicacion,
       fechaExtravio,
       color,
+      raza,
       email,
       celular,
       descripcion,
       palabrasClave,
+      estado,
     } = req.body;
 
     // Validación de fecha
@@ -27,28 +45,30 @@ export const crearReporte = async (req, res) => {
       ultimaUbicacion,
       fechaExtravio,
       color,
+      raza,
       email: email.toLowerCase(),
       celular,
       descripcion,
-      palabrasClave: palabrasClave.split(",").map(p => p.trim()),
-      fotos: req.files?.map((file, index) => ({
-        url: `/uploads/${file.filename}`,
-        thumbnail: `/uploads/thumbs/${file.filename}`,
-        descripcion: `Foto ${index + 1}`,
-      })) || [],
+      palabrasClave: palabrasClave.split(",").map((p) => p.trim()),
+      estado,
+      fotos:
+        req.files?.map((file, index) => ({
+          url: `/uploads/${file.filename}`,
+          thumbnail: `/uploads/thumbs/${file.filename}`,
+          descripcion: `Foto ${index + 1}`,
+        })) || [],
     });
 
     await nuevaMascota.save();
-    
+
     res.status(201).json({
       success: true,
-      data: nuevaMascota
+      data: nuevaMascota,
     });
-
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
