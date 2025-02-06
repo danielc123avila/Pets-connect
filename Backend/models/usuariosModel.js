@@ -55,7 +55,7 @@ usuariosModel.existeEmail = function (post, callback) {
 
 // Función para obtener un usuario por email y contraseña
 usuariosModel.obtenerUsuarioPorEmail = function (post, callback) {
-    Usuarios.findOne({ email: post.email, password: post.password })
+    Usuarios.findOne({ email: post.email })
         .then((usuario) => {
             callback(usuario);
         })

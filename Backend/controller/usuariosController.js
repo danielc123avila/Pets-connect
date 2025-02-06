@@ -7,13 +7,14 @@ const { SHA256 } = cryptoJS; // Extraer SHA256 del módulo
 import config from "../config/config.js";
 // Importar funciones de helpers
 import { generateToken, verifyToken } from "../helpers/jwt.helper.js";
-import { hashPassword, comparePassword } from "../helpers/bcrypt.helper.js";
+import { hashPassword, comparePassword} from "../helpers/bcrypt.helper.js";
 
 // Controller
 var usuariosController = {};
 
 // Función para guardar usuarios
 usuariosController.guardar = async function(request, response) {
+    console.log('Guardar usuario');
     const post = {
         nombre: request.body.nombre,
         email: request.body.email,
@@ -22,6 +23,8 @@ usuariosController.guardar = async function(request, response) {
         rol: request.body.rol,
         telefono: request.body.telefono
     };
+
+    console.log('Contraseña hasheada:', post.password);
 
     // Validaciones
     const validaciones = [
@@ -60,6 +63,7 @@ usuariosController.guardar = async function(request, response) {
             return false;
         } else {
             usuariosModel.guardar(post, function(respuesta) {
+                console.log('Usuario guardado:', respuesta);
                 response.json(respuesta);
             });
         }
@@ -68,7 +72,11 @@ usuariosController.guardar = async function(request, response) {
 
 // Función para el login de usuarios
 usuariosController.login = function(request, response) {
+    console.log('Login usuario');
     const { email, password } = request.body;
+
+    console.log('Email recibido:', email);
+    console.log('Contraseña recibida:', password);
 
     usuariosModel.existeEmail({ email }, function(res) {
         if (res.existe === 'no') {
@@ -76,7 +84,17 @@ usuariosController.login = function(request, response) {
         }
 
         usuariosModel.obtenerUsuarioPorEmail({ email }, async function(user) {
-            if (!user || !(await comparePassword(password, user.password))) {
+            if (!user) {
+                return response.json({ state: false, mensaje: "Usuario no encontrado" });
+            }
+
+            console.log('Usuario encontrado:', user);
+
+            const passwordMatch = await comparePassword(password, user.password);
+
+            console.log('Resultado de comparePassword:', passwordMatch);
+
+            if (!passwordMatch) {
                 return response.json({ state: false, mensaje: "Credenciales incorrectas" });
             }
 
@@ -84,6 +102,13 @@ usuariosController.login = function(request, response) {
             response.json({ state: true, token, mensaje: "Login exitoso" });
         });
     });
+};
+
+// Función para perfil de usuario (agregada para confirmar que existe)
+usuariosController.perfil = function(request, response) {
+    console.log('Perfil usuario');
+    // Implementación de la lógica del perfil
+    response.json({ state: true, mensaje: "Perfil de usuario" });
 };
 
 // Export
