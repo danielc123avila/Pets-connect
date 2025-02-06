@@ -47,7 +47,7 @@ usuariosModel.guardar = function (post, callback) {
 usuariosModel.registrar = function(post, callback){
     
     const instancia = new Usuarios({
-        nombre: post.String,
+        nombre: post.nombre,
         email: post.email,
         password: post.password,
         telefono: post.telefono,
@@ -96,7 +96,7 @@ usuariosModel.listarId = function(post, callback){
 
 usuariosModel.actualizar = function (post, callback){
 
-    Usuarios.findByIdAndUpdate(post._id, // Mymodel.findOneAndUpdate({_id:post._id} es una opcion
+    Usuarios.findByIdAndUpdate(post._id, 
     {
         nombre:post.nombre,
         rol:post.rol,
@@ -114,6 +114,122 @@ usuariosModel.actualizar = function (post, callback){
     })
                         
 }
+
+usuariosModel.validaLogin = function(post, callback){
+    Usuarios.findOne({email:post.email},{fechalogin:1,errorlogin:1}).then((respuesta) => {
+       return callback(respuesta)
+    }) .catch ((error)=> {
+        return callback(error)
+    })
+}
+
+usuariosModel.actualizarErrores = function(post, callback){
+    Usuarios.findOneAndUpdate({email:post.email}, {
+    errorlogin:post.cantidad, 
+    fechalogin: new Date ()
+
+    }).then((respuesta)=>{
+        console.log(respuesta)
+       return callback ({state:true, mensaje: "Elemento Actualizado"})
+    }) .catch ((error)=> {
+        return callback ({state:false, mensaje: "Error al actualizar", error:error})
+    })
+}
+
+usuariosModel.actualizarFechaLogin = function (post, callback){
+
+    Usuarios.findOneAndUpdate({email:post.email, password:post.password}, 
+    {
+        ultlogin: new Date()
+    
+    }) .then((respuesta) => {
+        return callback ({state:true, mensaje:"Elemento actualizado"})
+        console.log(respuesta)
+
+    })
+    .catch ((error) => {
+        return callback ({state:false, mensaje:"Error al actualizar", error:error})
+    })
+                         
+}
+
+usuariosModel.login = function (post, callback){
+    //Estado nos dice que la cuenta se debio haber activado si esta en uno
+    Usuarios.find({email:post.email, password:post.password, estado: "1"},{})
+       .then ((respuesta) => {
+           if (respuesta.length ==1){
+            return callback({state:true, mensaje: "Bienvenido: " + respuesta[0]. nombre, data:respuesta})
+           }
+           else {
+            return callback ({state:false, datos:[], error:error, mensaje:"se presento un error al ingresar"})
+           }
+       })
+       .catch ((error) => {
+        return callback ({state:false, mensaje:"Credenciales Invalidas o cuenta inactiva" })
+    })
+}
+
+usuariosModel.activar = function (post, callback) {
+    Usuarios.findOneAndUpdate({ email: post.email, azar: post.azar }, // Criterios de búsqueda
+       
+        { estado: "1" } // Campos a actualizar
+    )
+    .then((respuesta) => {
+        if (!respuesta) {
+            return callback({ state: false, mensaje: "Su email y código no son aptos para activar la cuenta" })
+        } else {
+            return callback({ state: true, mensaje: "Cuenta activada" })
+        }
+    })
+    .catch((error) => {
+        return callback({ state: false, mensaje: "Error al activar la cuenta", error: error })
+    })
+}
+
+usuariosModel.eliminar = function (post, callback) {
+    Usuarios.findByIdAndDelete(post._id)
+    .then(() => {
+        callback({ state: true, mensaje: "Elemento eliminado" });
+    })
+    .catch((error) => {
+        callback({ state: false, mensaje: "Error al eliminar", error })
+    })
+}
+
+usuariosModel.guardarCodigoRecuperacion = function (post, callback) {
+    Usuarios.findOneAndUpdate(
+        { email: post.email },
+        { codepass: post.codigo }
+    )
+    .then(() => {
+        callback({ state: true, mensaje: "Hemos enviado un correo electrónico, por favor verifica." })
+    })
+    .catch((error) => {
+        callback({ state: false, mensaje: "Error al generar código", error })
+    })
+}
+
+usuariosModel.recuperarPass = function (post, callback) {
+    Usuarios.findOneAndUpdate(
+        { email: post.email, codepass: post.codigo },
+        { password: post.password }
+    )
+    .then((respuesta) => {
+        if (!respuesta) {
+            callback({ state: false, mensaje: "Código incorrecto o email no encontrado" })
+        } else {
+            callback({ state: true, mensaje: "Contraseña actualizada correctamente" })
+        }
+    })
+    .catch((error) => {
+        console.error("Error en recuperarpass:", error)
+        callback({ state: false, mensaje: "Error al actualizar la contraseña", error })
+    })
+}
+
+
+
+
 
 // Export the function and model
 export default usuariosModel
