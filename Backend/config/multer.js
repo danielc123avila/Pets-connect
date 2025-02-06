@@ -50,4 +50,4 @@ const processImages = async (req, res, next) => {
   }
 };
 
-export const uploadMiddleware = [upload.array('fotos'), processImages];
+export const Multer = [upload.array('fotos'), processImages];
