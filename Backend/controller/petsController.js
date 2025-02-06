@@ -2,12 +2,8 @@ import Pet from "../models/petsModel.js";
 
 export const obtenerMascotas = async (req, res) => {
   try {
-    const mascotas = await Pet.find();
-
-    res.status(200).json({
-      success: true,
-      data: mascotas,
-    });
+    const mascotas = await Pet.find({ deletedAt: { $eq: null } });
+    return res.status(200).json(mascotas);
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -19,7 +15,10 @@ export const obtenerMascotas = async (req, res) => {
 export const obtenerMascotaPorId = async (req, res) => {
   try {
     const { id } = req.params;
-    const mascota = await Pet.findById(id);
+    const mascota = await Pet.findOne({
+      _id: id,
+      deletedAt: { $eq: null },
+    });
 
     if (!mascota) {
       throw new Error("Mascota no encontrada");
@@ -164,8 +163,9 @@ export const actualizarMascota = async (req, res) => {
 
 export const eliminarMascota = async (req, res) => {
   try {
-    const { id } = req.params;
-    const mascotaEliminada = await Pet.findByIdAndDelete(id);
+    const mascotaEliminada = await Pet.findById(req.params.id);
+    mascotaEliminada.deletedAt = Date.now();
+    mascotaEliminada.save();
 
     if (!mascotaEliminada) {
       throw new Error("Mascota no encontrada");

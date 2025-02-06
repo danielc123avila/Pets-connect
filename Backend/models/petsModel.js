@@ -99,13 +99,18 @@ const petSchema = new mongoose.Schema(
         },
       },
     ],
-
     // Metadata automática
     estado: {
       type: String,
       enum: ["Perdido", "Encontrado", "en adopcion"],
     },
+
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
+
   {
     timestamps: true,
   }
