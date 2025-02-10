@@ -16,4 +16,9 @@ config.email.pass = "wswsxhtpnnghmccr"
 config.sesiones.secret = "pure"
 config.sesiones.expiracion = 60000*5
 
+config.origins = [
+    "http://localhost:4200"
+
+]
+
 export default config

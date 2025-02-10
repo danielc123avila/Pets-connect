@@ -16,11 +16,27 @@ dotenv.config()
 connectDB()
 
 // middlewares
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
+
+
+
+//Interceptor
+app.all('*',function(req, res, next){
+
+  var whitelist = req.headers.origin;
+  console.log(whitelist)
+  res.header('Access-Control-Allow-Origin', whitelist);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');  
+  res.header('Access-Control-Allow-Headers', "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+  //Interceptors
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  next();
+    
+})
 
 //Session/Cookie config
 app.use(cookieParser())                       
@@ -37,7 +53,21 @@ app.use(session({
     rolling:true
 }))
 
+//Cors config
+app.use(cors({
+  origin: function(origin,callback){
+    console.log(origin)
+    if (!origin) return callback (null,true)
+      if (config.origins.indexOf(origin) == -1){
+          return callback("error cors sin permisos", false)
 
+      } else {
+          return callback (null, true)
+      }
+            
+
+    }
+}))
 
 // routes
 app.use("/api", usuariosRoutes)
