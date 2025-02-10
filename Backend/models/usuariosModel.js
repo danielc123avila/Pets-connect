@@ -1,4 +1,4 @@
-const usuariosModel = {};
+import bcrypt from 'bcryptjs';
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
@@ -20,27 +20,29 @@ const usuariosSchema = new Schema({
 // Crea el modelo
 const Usuarios = mongoose.model("Usuarios", usuariosSchema);
 
-// Función para guardar datos de usuario
-usuariosModel.guardar = function (post, callback) {
-    const instancia = new Usuarios({
-        nombre: post.nombre,
-        email: post.email,
-        password: post.password,
-        telefono: post.telefono,
-        rol: post.rol
-    });
+// Define el objeto usuariosModel
+const usuariosModel = {};
 
-    instancia.save()          // Guarda la información
-        .then((respuesta) => {
-            console.log(respuesta);
-            return callback({ state: true, mensaje: "Usuario guardado" })
-        })
+// Función para guardar datos de usuario con contraseña hasheada
+usuariosModel.guardar = async function(post, callback) {
+    try {
+        const hashedPassword = await bcrypt.hash(post.password, 10);
+        const instancia = new Usuarios({
+            nombre: post.nombre,
+            email: post.email,
+            password: hashedPassword,
+            telefono: post.telefono,
+            rol: post.rol
+        });
 
-        .catch((error) => {
-            console.error(error);
-            return callback({ state: false, mensaje: "Se presentó un error" })
-        })
-}
+        const respuesta = await instancia.save();
+        console.log(respuesta);
+        callback({ state: true, mensaje: "Usuario guardado" });
+    } catch (error) {
+        console.error(error);
+        callback({ state: false, mensaje: "Se presentó un error" });
+    }
+};
 
 // Función para verificar si un email ya existe
 usuariosModel.existeEmail = function (post, callback) {
@@ -65,6 +67,88 @@ usuariosModel.obtenerUsuarioPorEmail = function (post, callback) {
         });
 };
 
+// Definir la función validaLogin
+usuariosModel.validaLogin = async function(post, callback) {
+    try {
+        const user = await Usuarios.findOne({ email: post.email });
+        if (!user) {
+            callback({ errorlogin: 0, fechalogin: new Date() });
+        } else {
+            callback(user);
+        }
+    } catch (err) {
+        throw err;
+    }
+};
+
+// Función para guardar datos de usuario con contraseña hasheada
+usuariosModel.guardar = async function(post, callback) {
+    try {
+        const hashedPassword = await bcrypt.hash(post.password, 10);
+        const instancia = new Usuarios({
+            nombre: post.nombre,
+            email: post.email,
+            password: hashedPassword,
+            telefono: post.telefono,
+            rol: post.rol
+        });
+
+        const respuesta = await instancia.save();
+        console.log(respuesta);
+        callback({ state: true, mensaje: "Usuario guardado" });
+    } catch (error) {
+        console.error(error);
+        callback({ state: false, mensaje: "Se presentó un error" });
+    }
+};
+
+// Definir la función login
+usuariosModel.login = async function(post, callback) {
+    try {
+        const user = await Usuarios.findOne({ email: post.email });
+        if (!user) {
+            callback({ state: false, mensaje: 'Usuario no encontrado' });
+        } else {
+            const res = await bcrypt.compare(post.password, user.password);
+            if (res) {
+                callback({ state: true, data: user });
+            } else {
+                callback({ state: false, mensaje: 'Contraseña incorrecta' });
+            }
+        }
+    } catch (err) {
+        throw err;
+    }
+};
+
+// Definir la función actualizarErrores
+usuariosModel.actualizarErrores = async function(post, callback) {
+    try {
+        const res = await Usuarios.updateOne(
+            { email: post.email },
+            { $set: { errorlogin: post.cantidad } }
+        );
+        callback(res);
+    } catch (err) {
+        throw err;
+    }
+};
+
+// Definir la función actualizarFechaLogin
+usuariosModel.actualizarFechaLogin = async function(post, callback) {
+    try {
+        const user = await Usuarios.findOneAndUpdate(
+            { email: post.email },
+            { $set: { fechalogin: new Date() } },
+            { new: true }  // Esto devuelve el documento actualizado
+        );
+        console.log("Usuario actualizado:", user);
+        callback({ state: true, data: user });
+    } catch (err) {
+        throw err;
+    }
+};
+            
 // Función para listar todos los usuarios (sin contraseñas)
 usuariosModel.listar = function (post, callback) {
     Usuarios.find({}, { password: 0 })

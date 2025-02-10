@@ -11,8 +11,7 @@ import config from "../config/config.js";
 import { generateToken, verifyToken } from "../helpers/jwt.helper.js";
 import { hashPassword, comparePassword} from "../helpers/bcrypt.helper.js";
 
-// Controller
-var usuariosController = {}
+const usuariosController = {};
 
 
 function tiempoTranscurridoEnMinutos(fecha) {
@@ -158,7 +157,7 @@ usuariosController.registro = function (request, response) {
             
             usuariosModel.registrar(post,function(respuesta){
 
-                const transporter = nodemailer.createTransport ({
+        const transporter = nodemailer.createTransport ({
                     // Host es el servidor de correo que vamos a utilizar (google en este caso)
                     host: config.email.host,
                     //Puerto por el que sale el correo electronico, se configura en el config
@@ -282,66 +281,53 @@ usuariosController.actualizar = function (request, response){
     })
 }
 
-usuariosController.login = function (request, response) {
-    const post = {
-        email: request.body.email,
-        password: request.body.password
-    }
+usuariosController.login = function(request, response) {
+    const post = request.body;
 
-    // Validación de campos obligatorios
-    if (!post.email || !post.password) {
-        return response.json({
-        state: false,
-            mensaje: !post.email ? "El campo email es obligatorio" : "El campo password es obligatorio"
-        })
-    }
-
-    // Encriptar la contraseña
-    post.password = SHA256(post.password + config.palabraclave).toString()
-
-    // Validar el login
-    usuariosModel.validaLogin(post, function (validacion) {
-        const tiempo = tiempoTranscurridoEnMinutos(validacion.fechalogin)
+    usuariosModel.validaLogin(post, function(validacion) {
+        console.log("validacion:", validacion);
+        const tiempo = tiempoTranscurridoEnMinutos(validacion.fechalogin);
 
         if (validacion.errorlogin < 3) {
-            // Si el usuario puede hacer login
-            usuariosModel.login(post, function (respuesta) {
+            usuariosModel.login(post, function(respuesta) {
+                console.log("respuesta login:", respuesta);
                 if (!respuesta.state) {
-                    // Incrementar el contador de errores
-                    post.cantidad = validacion.errorlogin + 1
-                    usuariosModel.actualizarErrores(post, function (act) {
-                        response.json(respuesta)
-                    })
-                } else {
-                    // Actualizar la fecha del último login
-                    usuariosModel.actualizarFechaLogin(post, function (actfecha) {
-                        // Almacenar datos en la sesión
-                        request.session.nombre = respuesta.data[0].nombre
-                        request.session._id = respuesta.data[0]._id
-                        request.session.ultimologin = respuesta.data[0].ultlogin
-                        request.session.rol = respuesta.data[0].rol
-
-                        response.json({ state: true, mensaje: "Bienvenido: " + respuesta.data[0].nombre })
-                    })
-                }
-            })
-        } else {
-            // Usuario bloqueado
-            if (tiempo < 2) {
-                response.json({ state: false, mensaje: "Debe esperar al menos 2 minutos. Han transcurrido: " + tiempo + " minutos" })
-            } else {
-                // Reiniciar el contador de errores
-                usuariosModel.login(post, function (respuesta) {
-                    post.cantidad = 0;
-                    usuariosModel.actualizarErrores(post, function (act) {
+                    post.cantidad = validacion.errorlogin + 1;
+                    usuariosModel.actualizarErrores(post, function(act) {
                         response.json(respuesta);
-                    })
-                })
+                    });
+                } else {
+                    usuariosModel.actualizarFechaLogin(post, function(actfecha) {
+                        console.log("actfecha:", actfecha);
+                        if (actfecha && actfecha.state && actfecha.data) {
+                            console.log("Datos de actfecha.data:", actfecha.data);
+                            // request.session.nombre = actfecha.data.nombre;
+                            // request.session._id = actfecha.data._id;
+                            // request.session.ultimologin = actfecha.data.fechalogin;
+                            // request.session.rol = actfecha.data.rol;
+
+                            response.json({ state: true, mensaje: "Bienvenido: " + actfecha.data.nombre });
+                        } else {
+                            console.log("Error: actfecha.data es indefinido");
+                            response.json({ state: false, mensaje: "Error al actualizar la sesión" });
+                        }
+                    });
+                }
+            });
+        } else {
+            if (tiempo < 2) {
+                response.json({ state: false, mensaje: "Debe esperar al menos 2 minutos. Han transcurrido: " + tiempo + " minutos" });
+            } else {
+                usuariosModel.login(post, function(respuesta) {
+                    post.cantidad = 0;
+                    usuariosModel.actualizarErrores(post, function(act) {
+                        response.json(respuesta);
+                    });
+                });
             }
         }
-    })
-    
-}
+    });
+};
 
 usuariosController.activar = function (request, response) {
     const post = {
@@ -413,8 +399,8 @@ usuariosController.solicitarCodigo = function(request, response)
                     requireTLS:true,
                     //Un obeto, contiene las credenciales de acceso al usuario de Gmail, se agrega en config
                     auth:{
-                      user:config.email.user,
-                      pass:config.email.pass
+                    user:config.email.user,
+                    pass:config.email.pass
                     }
                 })
                 
