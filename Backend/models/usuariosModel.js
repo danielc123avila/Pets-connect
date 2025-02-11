@@ -11,7 +11,7 @@ const usuariosSchema = new Schema({
     errorlogin: { type: Number, default: 0 },
     fechalogin: { type: Date, default: Date.now },
     azar: String,
-    estado: { type: String, default: '0' },
+    estado: String,
     codepass: String,
     ultlogin: Date,
     rol: String,
@@ -27,6 +27,7 @@ usuariosModel.guardar = function (post, callback) {
         nombre: post.nombre,
         email: post.email,
         password: post.password,
+        estado:post.estado,
         telefono: post.telefono,
         rol: post.rol
     });
@@ -50,8 +51,9 @@ usuariosModel.registrar = function(post, callback){
         nombre: post.nombre,
         email: post.email,
         password: post.password,
-        telefono: post.telefono,
-        rol: post.rol,
+        telefono: post.telefono ||0,
+        estado: post.estado ||0 ,
+        rol: post.rol || 0,
         azar : post.azar
     })
     

@@ -81,7 +81,9 @@ usuariosController.registro = function (request, response) {
     const post = {
         nombre: request.body.nombre,
         email: request.body.email,
+        telefono: request.body.telefono,
         password: request.body.password,
+
     }
 
     // Validaciones
