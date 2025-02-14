@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit{
       
     }
   
-    
   }
 
   login(){
@@ -40,8 +39,6 @@ export class LoginComponent implements OnInit{
     payload:{
      email:this.email,
      password:this.password
-
-
     }
    }
 
@@ -68,7 +65,8 @@ export class LoginComponent implements OnInit{
           localStorage.setItem("pass","")
         }
 
-
+        this.router.navigate(["/dashboard"])
+        
         Swal.fire({
           title: "Que bien!",
           text: res.mensaje, // Esta es la respuesta que viene del servidor
