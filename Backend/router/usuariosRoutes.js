@@ -1,6 +1,7 @@
 import express from "express";
 import usuariosController from "../controller/usuariosController.js";
-import { authMiddleware } from "../middlewares/auth-user.middleware.js"
+// import { authMiddleware } from "../middlewares/auth-user.middleware.js";
+// import token from "../controller/authController.js";
 
 const router = express.Router();
 
@@ -35,7 +36,6 @@ router.post("/usuarios/eliminar", usuariosController.eliminar);
 router.post("/usuarios/login", usuariosController.login);
 
 // Ruta protegida para el perfil de usuario
-router.get("/usuarios/perfil", authMiddleware, usuariosController.perfil);
+// router.get("/usuarios/perfil", authMiddleware, usuariosController.perfil);
 
 export default router;
-

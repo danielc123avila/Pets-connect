@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import connectDB from "./config/dataBase.js";
 import usuariosRoutes from './router/usuariosRoutes.js';
 import mascotasRoutes from './router/mascotasRoutes.js';
-
+import authRoutes from './router/authRoutes.js';
 const app = express();
 
 // config variables de entorno
@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // routes
 app.use("/api", usuariosRoutes)
 app.use("/api", mascotasRoutes)
-// port
+app.use("/api", authRoutes)
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)

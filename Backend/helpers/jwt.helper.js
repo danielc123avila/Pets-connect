@@ -1,15 +1,16 @@
 import jwt from "jsonwebtoken";
 
-// Función para generar un token
-export function generateToken(payload) {
-    return jwt.sign(payload, process.env.JWT_SEED, { expiresIn: "1h" });
-}
-
 // Función para verificar un token
-export function verifyToken(token) {
-    try {   
-        return jwt.verify(token, process.env.JWT_SEED);
-    } catch (error) {
-        return null;
+export function verifyToken(err, req, res, next) {
+  try {
+    if (err.name === "UnauthorizedError") {
+      return res
+        .status(401)
+        .json({ message: "Acceso denegado. No se proporcionó token." });
+    } else {
+      next(err);
     }
+  } catch (error) {
+    return res.status(401).json({ message: "Token inválido." });
+  }
 }
