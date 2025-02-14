@@ -3,10 +3,13 @@ import usuariosModel from "../models/usuariosModel.js";
 //Importar SHA256 desde crypto-js
 import cryptoJS from "crypto-js"; // Importar el módulo completo
 const { SHA256 } = cryptoJS; // Extraer SHA256 del módulo
-// config/emailConfig.js
-import nodemailer from "nodemailer";
-// Config
+import { OAuth2Client } from 'google-auth-library';//Google AUth
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)// Crear el cliente de Google
+import nodemailer from "nodemailer";// config/emailConfig.js
 import config from "../config/config.js";
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 // Controller
 var usuariosController = {}
@@ -302,6 +305,90 @@ usuariosController.login = function (request, response) {
     
 }
 
+usuariosController.loginGoogle = function (request, response) {
+    const { token } = request.body;
+
+    // Validación del token
+    if (!token) {
+        return response.json({ state: false, mensaje: "El token de Google es obligatorio" });
+    }
+
+    // Verificar el token de Google
+    client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+    })
+    .then(ticket => {
+        const payload = ticket.getPayload();
+        const googleId = payload.sub;
+        const email = payload.email;
+        const nombre = payload.name;
+        const avatar = payload.picture;
+
+        // Buscar usuario por email o googleId
+        usuariosModel.listarGoogleIdOEmail({ googleId, email }, function (resultado) {
+            if (resultado.existe === 'no') {
+                // Si el usuario no existe, crearlo
+                const nuevoUsuario = {
+                    nombre,
+                    email,
+                    googleId,
+                    avatar,
+                    estado: "1", // Activo
+                    rol: "0" // Rol por defecto
+                }
+
+                usuariosModel.crearUsuarioG(nuevoUsuario, function (respuesta) {
+                    if (respuesta.state) {
+                        // Almacenar datos en la sesión
+                        request.session.nombre = respuesta.usuario.nombre;
+                        request.session._id = respuesta.usuario._id;
+                        request.session.ultimologin = respuesta.usuario.ultlogin;
+                        request.session.rol = respuesta.usuario.rol;
+
+                        response.json({ state: true, mensaje: "Bienvenido: " + respuesta.usuario.nombre, usuario: respuesta.usuario });
+                    } else {
+                        response.json({ state: false, mensaje: "Error al crear el usuario" });
+                    }
+                });
+            } else if (resultado.existe === 'si') {
+                const usuario = resultado.usuario;
+
+                // Si el usuario existe pero no tiene googleId, actualizarlo
+                if (!usuario.googleId) {
+                    usuariosModel.actualizarConGoogleId({ _id: usuario._id, googleId }, function (respuesta) {
+                        if (respuesta.state) {
+                            // Almacenar datos en la sesión
+                            request.session.nombre = usuario.nombre;
+                            request.session._id = usuario._id;
+                            request.session.ultimologin = usuario.ultlogin;
+                            request.session.rol = usuario.rol;
+
+                            response.json({ state: true, mensaje: "Bienvenido: " + usuario.nombre, usuario });
+                        } else {
+                            response.json({ state: false, mensaje: "Error al actualizar el usuario" })
+                        }
+                    })
+                } else {
+                    // Si el usuario ya existe y tiene googleId
+                    request.session.nombre = usuario.nombre;
+                    request.session._id = usuario._id;
+                    request.session.ultimologin = usuario.ultlogin;
+                    request.session.rol = usuario.rol;
+
+                    response.json({ state: true, mensaje: "Bienvenido: " + usuario.nombre, usuario })
+                }
+            } else {
+                response.json({ state: false, mensaje: "Error al buscar el usuario" })
+            }
+        })
+    })
+    .catch(error => {
+        console.error("Error en loginGoogle:", error);
+        response.json({ state: false, mensaje: "Error al iniciar sesión con Google" })
+    })
+}
+
 usuariosController.activar = function (request, response) {
     const post = {
         email: request.body.email,
@@ -466,8 +553,5 @@ usuariosController.recuperarPass = function (request, response) {
     })
 }
 
-
-
-    
 // Export
 export default usuariosController

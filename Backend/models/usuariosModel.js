@@ -15,7 +15,8 @@ const usuariosSchema = new Schema({
     codepass: String,
     ultlogin: Date,
     rol: String,
-    azar:String
+    azar:String,
+    googleId: String
 });
 
 // Create the model
@@ -29,8 +30,8 @@ usuariosModel.guardar = function (post, callback) {
         password: post.password,
         estado:post.estado,
         telefono: post.telefono,
-        rol: post.rol
-    });
+        rol: post.rol,
+    })
 
     // Save the information
     instancia.save()
@@ -43,6 +44,33 @@ usuariosModel.guardar = function (post, callback) {
     console.error(error);
     return callback({ state: false, mensaje: "Se presentó un error" })
     })
+}
+
+usuariosModel.crearUsuarioG = function (post, callback) {
+    const instancia = new Usuarios({
+        nombre: post.nombre,
+        email:post.email,
+        telefono: post.telefono || 0,
+        rol: post.rol || 0 ,
+        googleId: post.googleId,
+        estado: "1" 
+    })
+    instancia.save()
+    .then((respuesta) => {
+        console.log("Usuario creado:", respuesta)
+        return callback({ 
+            state: true, 
+            mensaje: "Usuario guardado", 
+            usuario: respuesta 
+        });
+    })
+    .catch((error) => {
+        console.error("Error al guardar el usuario:", error)
+        return callback({ 
+            state: false, 
+            mensaje: "Error al guardar el usuario" 
+        });
+    });
 }
 
 usuariosModel.registrar = function(post, callback){
@@ -76,6 +104,21 @@ usuariosModel.existeEmail = function (post, callback){
             return callback({existe:'si'})
         }
     })  
+}
+
+usuariosModel.listarGoogleIdOEmail = function (post, callback) {
+    Usuarios.findOne({ $or: [{ googleId: post.googleId }, { email: post.email }] })
+    .then((respuesta) => {
+        if (respuesta == null) {
+            return callback({ existe: 'no', usuario: null })
+        } else {
+            return callback({ existe: 'si', usuario: respuesta })
+        }
+    })
+    .catch((error) => {
+        console.error(error);
+        return callback({ existe: 'error', usuario: null })
+    })
 }
 
 usuariosModel.listar = function(post, callback){
@@ -115,6 +158,17 @@ usuariosModel.actualizar = function (post, callback){
         return callback ({state:false, mensaje:"Error al actualizar", error:error})
     })
                         
+}
+
+usuariosModel.actualizarConGoogleId = function (post, callback) {
+    Usuarios.findByIdAndUpdate(post._id,{googleId: post.googleId })
+    .then((respuesta) => {
+        return callback({ state: true, mensaje: "Elemento actualizado", usuario: respuesta })
+    })
+    .catch((error) => {
+        console.error(error);
+        return callback({ state: false, mensaje: "Error al actualizar", error: error })
+    })
 }
 
 usuariosModel.validaLogin = function(post, callback){
@@ -228,10 +282,6 @@ usuariosModel.recuperarPass = function (post, callback) {
         callback({ state: false, mensaje: "Error al actualizar la contraseña", error })
     })
 }
-
-
-
-
 
 // Export the function and model
 export default usuariosModel

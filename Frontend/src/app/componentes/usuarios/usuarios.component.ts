@@ -43,8 +43,6 @@ export class UsuariosComponent implements OnInit {
     this.password = ""
     this.IdSeleccionado =""
     this.estado = "1"
-    
-
   }
 
 
