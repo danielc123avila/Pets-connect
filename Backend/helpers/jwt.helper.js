@@ -7,7 +7,7 @@ export function generateToken(payload) {
 
 // Función para verificar un token
 export function verifyToken(token) {
-    try {
+    try {   
         return jwt.verify(token, process.env.JWT_SEED);
     } catch (error) {
         return null;

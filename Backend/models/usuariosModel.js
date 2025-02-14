@@ -1,6 +1,7 @@
-import bcrypt from 'bcryptjs';
+import { hashPassword, comparePassword } from '../helpers/bcrypt.helper.js';
 import mongoose from "mongoose";
 const { Schema } = mongoose;
+
 
 // Define el esquema
 const usuariosSchema = new Schema({
@@ -24,9 +25,9 @@ const Usuarios = mongoose.model("Usuarios", usuariosSchema);
 const usuariosModel = {};
 
 // Función para guardar datos de usuario con contraseña hasheada
-usuariosModel.guardar = async function(post, callback) {
+usuariosModel.guardar = async function (post) {
     try {
-        const hashedPassword = await bcrypt.hash(post.password, 10);
+        const hashedPassword = await hashPassword(post.password);
         const instancia = new Usuarios({
             nombre: post.nombre,
             email: post.email,
@@ -36,236 +37,227 @@ usuariosModel.guardar = async function(post, callback) {
         });
 
         const respuesta = await instancia.save();
-        console.log(respuesta);
-        callback({ state: true, mensaje: "Usuario guardado" });
+        return { state: true, mensaje: "Usuario guardado", data: respuesta };
     } catch (error) {
         console.error(error);
-        callback({ state: false, mensaje: "Se presentó un error" });
+        return { state: false, mensaje: "Se presentó un error", error };
     }
 };
 
-// Función para verificar si un email ya existe
-usuariosModel.existeEmail = function (post, callback) {
-    Usuarios.findOne({ email: post.email }, {}).then((respuesta) => {
-        if (respuesta == null) {
-            return callback({ existe: 'no' });
-        } else {
-            return callback({ existe: 'si' });
+// Función para verificar si un email ya está registrado
+usuariosModel.existeEmail = async function (post) {
+    try {
+        const usuario = await Usuarios.findOne({ email: post.email });
+        return { existe: usuario ? 'si' : 'no' };
+    } catch (error) {
+        console.error(error);
+        return { existe: 'no', error };
+    }
+};
+
+// Función para registrar un nuevo usuario
+usuariosModel.registrar = async function (post) {
+    try {
+        const existe = await usuariosModel.existeEmail(post);
+        if (existe.existe === 'si') {
+            return { state: false, mensaje: "El email ya está registrado" };
         }
-    });
+
+        const azar = 'G-' + Math.floor(Math.random() * (9999 - 1000) + 1000);
+        post.azar = azar;
+
+        const respuesta = await usuariosModel.guardar(post);
+        return respuesta;
+    } catch (error) {
+        console.error("Error en el registro:", error);
+        return { state: false, mensaje: "Error interno del servidor", error };
+    }
 };
 
-// Función para obtener un usuario por email y contraseña
-usuariosModel.obtenerUsuarioPorEmail = function (post, callback) {
-    Usuarios.findOne({ email: post.email })
-        .then((usuario) => {
-            callback(usuario);
-        })
-        .catch((error) => {
-            console.error(error);
-            callback(null);
-        });
+// Función para obtener un usuario por email
+usuariosModel.obtenerUsuarioPorEmail = async function ({ email }) {
+    try {
+        const user = await Usuarios.findOne({ email: email });
+        return user; // Retorna el usuario encontrado (o null si no existe)
+    } catch (error) {
+        console.error("Error en obtenerUsuarioPorEmail:", error);
+        throw error;
+    }
 };
 
-// Definir la función validaLogin
-usuariosModel.validaLogin = async function(post, callback) {
+// Función para validar el login
+usuariosModel.validaLogin = async function (post) {
+    try {
+        const user = await Usuarios.findOne({ email: post.email });
+        return user || { errorlogin: 0, fechalogin: new Date() };
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+usuariosModel.login = async function (post) {
     try {
         const user = await Usuarios.findOne({ email: post.email });
         if (!user) {
-            callback({ errorlogin: 0, fechalogin: new Date() });
-        } else {
-            callback(user);
+            return { state: false, mensaje: 'Usuario no encontrado' };
         }
-    } catch (err) {
-        throw err;
-    }
-};
 
-// Función para guardar datos de usuario con contraseña hasheada
-usuariosModel.guardar = async function(post, callback) {
-    try {
-        const hashedPassword = await bcrypt.hash(post.password, 10);
-        const instancia = new Usuarios({
-            nombre: post.nombre,
-            email: post.email,
-            password: hashedPassword,
-            telefono: post.telefono,
-            rol: post.rol
-        });
-
-        const respuesta = await instancia.save();
-        console.log(respuesta);
-        callback({ state: true, mensaje: "Usuario guardado" });
+        const passwordMatch = await comparePassword(post.password, user.password);
+        if (passwordMatch) {
+            return { state: true, data: user };
+        } else {
+            return { state: false, mensaje: 'Contraseña incorrecta' };
+        }
     } catch (error) {
-        console.error(error);
-        callback({ state: false, mensaje: "Se presentó un error" });
+        console.error("Error en login:", error);
+        throw error;
     }
 };
 
-// Definir la función login
-usuariosModel.login = async function(post, callback) {
-    try {
-        const user = await Usuarios.findOne({ email: post.email });
-        if (!user) {
-            callback({ state: false, mensaje: 'Usuario no encontrado' });
-        } else {
-            const res = await bcrypt.compare(post.password, user.password);
-            if (res) {
-                callback({ state: true, data: user });
-            } else {
-                callback({ state: false, mensaje: 'Contraseña incorrecta' });
-            }
-        }
-    } catch (err) {
-        throw err;
-    }
-};
-
-// Definir la función actualizarErrores
-usuariosModel.actualizarErrores = async function(post, callback) {
+// Función para actualizar los errores de login
+usuariosModel.actualizarErrores = async function (post) {
     try {
         const res = await Usuarios.updateOne(
             { email: post.email },
             { $set: { errorlogin: post.cantidad } }
         );
-        callback(res);
-    } catch (err) {
-        throw err;
+        return res;
+    } catch (error) {
+        console.error(error);
+        throw error;
     }
 };
 
-// Definir la función actualizarFechaLogin
-usuariosModel.actualizarFechaLogin = async function(post, callback) {
+// Función para actualizar la fecha de login
+usuariosModel.actualizarFechaLogin = async function (post) {
     try {
         const user = await Usuarios.findOneAndUpdate(
             { email: post.email },
             { $set: { fechalogin: new Date() } },
-            { new: true }  // Esto devuelve el documento actualizado
+            { new: true }
         );
-        console.log("Usuario actualizado:", user);
-        callback({ state: true, data: user });
-    } catch (err) {
-        throw err;
+        return { state: true, data: user };
+    } catch (error) {
+        console.error(error);
+        throw error;
     }
 };
-            
+
 // Función para listar todos los usuarios (sin contraseñas)
-usuariosModel.listar = function (post, callback) {
-    Usuarios.find({}, { password: 0 })
-        .then((respuesta) => {
-            return callback({ state: true, datos: respuesta })
-    })
-        .catch((error) => {
-            return callback({ state: false, datos: [], error: error, mensaje: "se presento un error" })
-        })
-}
+usuariosModel.listar = async function () {
+    try {
+        const usuarios = await Usuarios.find({}, { password: 0 });
+        return { state: true, datos: usuarios };
+    } catch (error) {
+        console.error(error);
+        return { state: false, datos: [], error, mensaje: "Se presentó un error" };
+    }
+};
 
 // Función para listar un usuario por ID (sin contraseña)
-usuariosModel.listarId = function (post, callback) {
-    Usuarios.find({ _id: post._id }, { password: 0 })
-        .then((respuesta) => {
-            return callback({ state: true, datos: respuesta })
-    })
-        .catch((error) => {
-            return callback({ state: false, datos: [], error: error, mensaje: "se presento un error" })
-        })
-}
+usuariosModel.listarId = async function (post) {
+    try {
+        const usuario = await Usuarios.find({ _id: post._id }, { password: 0 });
+        return { state: true, datos: usuario };
+    } catch (error) {
+        console.error(error);
+        return { state: false, datos: [], error, mensaje: "Se presentó un error" };
+    }
+};
 
 // Función para actualizar un usuario
-usuariosModel.actualizar = function (post, callback) {
-    Usuarios.findByIdAndUpdate(post._id,
-        {
+usuariosModel.actualizar = async function (post) {
+    try {
+        const respuesta = await Usuarios.findByIdAndUpdate(post._id, {
             nombre: post.nombre,
             rol: post.rol,
             estado: post.estado,
             telefono: post.telefono
+        }, { new: true });
 
-        }).then((respuesta) => {
-            console.log(respuesta)
-            return callback({ state: true, mensaje: "Elemento actualizado" })
-            
-        })
-        .catch((error) => {
-            return callback({ state: false, mensaje: "Error al actualizar", error: error })
-        })
-}
-
-// Función para actualizar los errores de login
-usuariosModel.actualizarErrores = function (post, callback) {
-    Usuarios.findOneAndUpdate({ email: post.email }, {
-        errorlogin: post.cantidad,
-        fechalogin: new Date()
-    })
-        .then((respuesta) => {
-        console.log(respuesta)
-            return callback({ state: true, mensaje: "Elemento Actualizado" })
-    })
-        .catch((error) => {
-            return callback({ state: false, mensaje: "Error al actualizar", error: error })
-    })
-}
-
-// Función para activar una cuenta
-usuariosModel.activar = function (post, callback) {
-    Usuarios.findOneAndUpdate({ email: post.email, azar: post.azar }, // Criterios de búsqueda
-        { estado: "1" } // Campos a actualizar
-    )
-        .then((respuesta) => {
-            if (!respuesta) {
-                return callback({ state: false, mensaje: "Su email y código no son aptos para activar la cuenta" })
-            } else {
-                return callback({ state: true, mensaje: "Cuenta activada" })
-            }
-        })
-        .catch((error) => {
-            return callback({ state: false, mensaje: "Error al activar la cuenta", error: error })
-        })
-}
-
-// Función para eliminar un usuario
-usuariosModel.eliminar = function (post, callback) {
-    Usuarios.findByIdAndDelete(post._id)
-        .then(() => {
-            callback({ state: true, mensaje: "Elemento eliminado" });
-        })
-        .catch((error) => {
-            callback({ state: false, mensaje: "Error al eliminar", error })
-        })
-}
-
-// Función para guardar el código de recuperación de contraseña
-usuariosModel.guardarCodigoRecuperacion = function (post, callback) {
-    Usuarios.findOneAndUpdate(
-        { email: post.email },
-        { codepass: post.codigo }
-    )
-        .then(() => {
-            callback({ state: true, mensaje: "Hemos enviado un correo electrónico, por favor verifica." })
-        })
-        .catch((error) => {
-            callback({ state: false, mensaje: "Error al generar código", error })
-        })
-}
-
-// Función para recuperar la contraseña
-usuariosModel.recuperarPass = function (post, callback) {
-    Usuarios.findOneAndUpdate(
-        { email: post.email, codepass: post.codigo },
-        { password: post.password }
-    )
-        .then((respuesta) => {
-            if (!respuesta) {
-                callback({ state: false, mensaje: "Código incorrecto o email no encontrado" })
-            } else {
-                callback({ state: true, mensaje: "Contraseña actualizada correctamente" })
-            }
-        })
-        .catch((error) => {
-            console.error("Error en recuperarpass:", error)
-            callback({ state: false, mensaje: "Error al actualizar la contraseña", error })
-        })
+        return { state: true, mensaje: "Elemento actualizado", data: respuesta };
+    } catch (error) {
+        console.error(error);
+        return { state: false, mensaje: "Error al actualizar", error };
+    }
 };
 
+// Función para activar una cuenta
+usuariosModel.activar = async function (post) {
+    try {
+        const respuesta = await Usuarios.findOneAndUpdate(
+            { email: post.email, azar: post.azar },
+            { estado: "1" },
+            { new: true }
+        );
+
+        if (!respuesta) {
+            return { state: false, mensaje: "Su email y código no son aptos para activar la cuenta" };
+        } else {
+            return { state: true, mensaje: "Cuenta activada", data: respuesta };
+        }
+    } catch (error) {
+        console.error(error);
+        return { state: false, mensaje: "Error al activar la cuenta", error };
+    }
+};
+
+// Función para eliminar un usuario
+usuariosModel.eliminar = async function (post) {
+    try {
+        await Usuarios.findByIdAndDelete(post._id);
+        return { state: true, mensaje: "Elemento eliminado" };
+    } catch (error) {
+        console.error(error);
+        return { state: false, mensaje: "Error al eliminar", error };
+    }
+};
+
+// Función para guardar el código de recuperación de contraseña
+usuariosModel.guardarCodigoRecuperacion = async function (post) {
+    try {
+        await Usuarios.findOneAndUpdate(
+            { email: post.email },
+            { codepass: post.codigo }
+        );
+        return { state: true, mensaje: "Hemos enviado un correo electrónico, por favor verifica." };
+    } catch (error) {
+        console.error(error);
+        return { state: false, mensaje: "Error al generar código", error };
+    }
+};
+
+// Función para recuperar la contraseña
+usuariosModel.recuperarPass = async function (post) {
+    try {
+        const respuesta = await Usuarios.findOneAndUpdate(
+            { email: post.email, codepass: post.codigo },
+            { password: await hashPassword(post.password) },
+            { new: true }
+        );
+
+        if (!respuesta) {
+            return { state: false, mensaje: "Código incorrecto o email no encontrado" };
+        } else {
+            return { state: true, mensaje: "Contraseña actualizada correctamente", data: respuesta };
+        }
+    } catch (error) {
+        console.error("Error en recuperarPass:", error);
+        return { state: false, mensaje: "Error al actualizar la contraseña", error };
+    }
+};
+
+// Función para actualizar la contraseña de un usuario
+usuariosModel.actualizarContraseña = async function (id, nuevaContraseña) {
+    try {
+        const hashedPassword = await hashPassword(nuevaContraseña);
+        await Usuarios.findByIdAndUpdate(id, { password: hashedPassword });
+        return { state: true, mensaje: "Contraseña actualizada correctamente" };
+    } catch (error) {
+        console.error("Error al actualizar la contraseña:", error);
+        return { state: false, mensaje: "Error al actualizar la contraseña", error };
+    }
+};
 
 export default usuariosModel;
-
