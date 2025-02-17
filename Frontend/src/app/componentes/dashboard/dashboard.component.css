@@ -1,0 +1,79 @@
+.navbar {
+    padding: 0.5rem 1rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos del navbar */
+    align-items: center;
+}
+/* Estilos para el ícono de usuario */
+.navbar-nav .nav-item.dropdown .nav-link {
+padding: 0.5rem 1rem;
+display: flex;
+align-items: center;
+}
+
+.navbar-nav .nav-item.dropdown .nav-link i {
+font-size: 1.2rem;
+color: #007bff; /* Color del ícono */
+}
+
+/* Estilos para los enlaces del navbar */
+.navbar-nav .nav-item .nav-link {
+cursor: pointer;
+transition: 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+color: #007bff; /* Cambia el color al hacer hover */
+}
+
+/* Estilos para el dropdown */
+.dropdown-menu {
+min-width: 200px; /* Ancho del dropdown */
+}
+
+.dropdown-item {
+padding: 0.5rem 1rem;
+font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+background-color: #f8f9fa; /* Color de fondo al hacer hover */
+}
+
+/* Estilos para el menú del navbar */
+.navbar-nav {
+    display: flex;
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+/* Íconos del navbar */
+.navbar-nav .nav-item .nav-link {
+    font-size: 1rem;
+    padding: 0.4rem;
+}
+
+/* Responsive navbar */
+@media (max-width: 375px) {
+    .navbar {
+        padding: 0.3rem 0.8rem; /* Reduce el padding */
+    }
+
+    .navbar-nav { /* Asegura que los elementos queden en línea */
+        gap: 5px;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+        font-size: 0.9rem;
+        padding: 0.3rem;
+    }
+
+    .dropdown-menu {
+        min-width: 180px; /* Reduce el ancho del dropdown */
+    }
+}
