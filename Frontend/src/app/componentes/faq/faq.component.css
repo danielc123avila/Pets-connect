@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #f9f9ed;
+}
+h1 {
+  color: #277380;
+  font-family: "poppins";
+  font-weight: 600;
+  font-size: 39.81px;
+  margin-bottom: 6%;
+  margin-top: 2%;
+  margin-left: 20%;
+}
+h2 {
+  font-family: "inter";
+  font-size: 20px;
+  line-height: 24.2px;
+  font-weight: 600;
+  margin-bottom: 2%;
+}
+p {
+  font-size: 19px;
+  letter-spacing: 0.2px;
+  font-family: "inter";
+}
+
+.faq {
+  margin-left: 9.8%;
+}
+.faq {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  margin-left: 10%;
+  margin-bottom: 5%;
+}
+/* .faq img {
+    width: 1.5%;
+  } */
+h1 {
+  margin-left: 30%;
+
+  margin-top: 5%;
+}
+.faq-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 5%;
+  margin-right: 12%;
+}
+
+.faq-content img {
+  margin-left: 11%;
+}
+.faq .faq-write {
+  margin-left: 7%;
+}
+.faq-write {
+  max-width: 80%;
+  margin-right: 2%;
+}
+.img-content {
+  width: 15%;
+  position: absolute;
+  margin-left: 75%;
+}
+.img-content img {
+  width: 100%;
+}
+@media (max-width: 500px) {
+  H1 {
+    font-size: 27.5px;
+    font-weight: 700;
+    letter-spacing: 2%;
+    text-align: center;
+    margin-left: 15%;
+  }
+  h2 {
+    font-size: 19.02px;
+    font-weight: 400;
+    letter-spacing: 2%;
+  }
+  p {
+    font-size: small;
+  }
+
+  .faq {
+    margin-right: 11%;
+    margin-bottom: 5%;
+    flex-direction: column;
+  }
+  .faq {
+    margin-left: 0%;
+  }
+  .faq .faq-write {
+    margin-left: 20%;
+  }
+  .faq img {
+    margin-left: 11%;
+  }
+
+  .faq-content {
+    margin-bottom: 5%;
+  }
+  .img-content {
+    width: 24%;
+  }
+.img-content {
+   margin-left: -3% !important;
+  }
+}
