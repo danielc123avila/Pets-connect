@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit{
   status(){
     let data = {
       host:this.peticion.urlHost,
-      path:"/status", //este path viene del backend
+      path:"/api/status", //este path viene del backend
       payload:{}
     }
   
@@ -62,7 +62,7 @@ export class DashboardComponent implements OnInit{
     
     let data = {
       host:this.peticion.urlHost,
-      path:"/logout", //este path viene del backend
+      path:"/api/logout", //este path viene del backend
       payload:{}
      
     

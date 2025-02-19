@@ -14,11 +14,14 @@ dotenv.config();
 // Controller
 var usuariosController = {}
 
-
 function tiempoTranscurridoEnMinutos(fecha) {
     const ahora = new Date();
     const diferencia = ahora - new Date(fecha);
     return Math.floor(diferencia / 60000); // Convertir milisegundos a minutos
+}
+
+usuariosController.status = function (request, response) {
+    response.json(request.session)
 }
 
 usuariosController.guardar = function(request, response) {
@@ -303,6 +306,12 @@ usuariosController.login = function (request, response) {
         }
     })
     
+}
+
+usuariosController.logout = function (request, response) {
+    request.session.destroy(() => {
+        response.json({ state: true, mensaje: "Se ha cerrado su sesión correctamente" })
+    })
 }
 
 usuariosController.loginGoogle = function (request, response) {

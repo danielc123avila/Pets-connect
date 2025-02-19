@@ -71,6 +71,7 @@ app.use(cors({
 
 // routes
 app.use("/api", usuariosRoutes)
+// Usar las rutas de usuarios
 
 // port
 const port = process.env.PORT || 5000;

@@ -108,12 +108,21 @@ usuariosModel.existeEmail = function (post, callback){
 
 usuariosModel.listarGoogleIdOEmail = function (post, callback) {
     Usuarios.findOne({ $or: [{ googleId: post.googleId }, { email: post.email }] })
-    .then((respuesta) => {
-        if (respuesta == null) {
-            return callback({ existe: 'no', usuario: null })
-        } else {
-            return callback({ existe: 'si', usuario: respuesta })
+    .then((usuario) => {
+        if (!usuario) {
+            return callback({ existe: 'no', usuario: null });
         }
+
+        // Si el usuario existe, actualizar ultlogin
+        usuario.ultlogin = new Date();
+        usuario.save()
+            .then(usuarioActualizado => {
+                return callback({ existe: 'si', usuario: usuarioActualizado })
+            })
+            .catch(error => {
+                console.error("Error al actualizar ultlogin:", error)
+                return callback({ existe: 'error', usuario: null })
+            });
     })
     .catch((error) => {
         console.error(error);

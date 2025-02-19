@@ -11,10 +11,10 @@
           <a class="nav-link" routerLink="/perfil">Perfil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/usuarios">Usuarios</a>
+          <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/usuarios">Usuarios</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/mascotas">Mascotas</a>
+          <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/mascotas">Mascotas</a>
         </li>
       </ul>
       <!-- Dropdown para la información del usuario -->
