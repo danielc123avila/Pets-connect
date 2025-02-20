@@ -4,12 +4,16 @@ import { HomeComponent } from './componentes/home/home.component';
 import { DashboardComponent } from './componentes/dashboard/dashboard.component';
 import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 import { AuthGuard } from './guards/auth.guard'; 
+import { QuienesSomosComponent } from './componentes/quienes-somos/quienes-somos.component';
+import { FAQComponent } from './componentes/faq/faq.component';
 
 export const routes: Routes = [
 
   {path:"",component:HomeComponent,pathMatch:"full",title:"PetsConnect"},
   {path:"login",component:LoginComponent,pathMatch:"full"},
   {path:"dashboard",component:DashboardComponent,pathMatch:"full"},
+  {path:"quienessomos",component:QuienesSomosComponent,pathMatch:"full"},
+  {path:"faq",component:FAQComponent,pathMatch:"full"},
   {path:"usuarios",component:UsuariosComponent,pathMatch:"full",canActivate: [AuthGuard] }
 
     
