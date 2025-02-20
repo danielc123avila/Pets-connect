@@ -71,8 +71,8 @@ usuariosController.guardar = function(request, response) {
     usuariosModel.existeEmail(post, function(res){
 
         if(res.existe == 'si'){
-         response.json({state:false,mensaje: "el email ya esta registrado"})
-         return false
+            response.json({state:false,mensaje: "el email ya esta registrado"})
+            return false
         }
         else{
 
@@ -112,8 +112,8 @@ usuariosController.registro = function (request, response) {
     usuariosModel.existeEmail(post, function(res){
 
         if(res.existe == 'si'){
-         response.json({state:false,mensaje: "el email ya esta registrado"})
-         return false
+            response.json({state:false,mensaje: "el email ya esta registrado"})
+            return false
         }
         else{
             //Variable para establecer numero aleatorio 
@@ -134,8 +134,8 @@ usuariosController.registro = function (request, response) {
                     requireTLS:true,
                     //Un obeto, contiene las credenciales de acceso al usuario de Gmail, se agrega en config
                     auth:{
-                      user:config.email.user,
-                      pass:config.email.pass
+                        user:config.email.user,
+                        pass:config.email.pass
                     }
                 })
                 
@@ -191,12 +191,12 @@ usuariosController.registro = function (request, response) {
                     </div> `
                 }   // envia correo con ciertas condiciones
                 transporter.sendMail(mailOptions, (error,info) => {
-                  if (error){
-                    console.log(error)
-                  }
-                  else {
-                    console.log(info)
-                  }
+                    if (error){
+                        console.log(error)
+                    }
+                    else {
+                        console.log(info)
+                    }
                 })
                 response.json(respuesta)
             })
