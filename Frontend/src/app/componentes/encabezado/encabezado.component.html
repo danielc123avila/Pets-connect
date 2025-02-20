@@ -1,12 +1,12 @@
 <header class="header">
 
     <div class="logoPetsConnect">
-        <img class="imagenLogo" src="assets/logoPetsConnect.png" alt="Pets Connect Logotipo">
+        <img class="imagenLogo"  routerLink="/" src="assets/logoPetsConnect.png" alt="Pets Connect Logotipo">
     </div>
     <div class="enlacesHeader">
-        <a class="linkHeader" routerLink="quienes-somos">¿Quiénes somos?</a>
-        <a class="linkHeader" routerLink="faq">FAQ</a>
-        <a class="linkHeader" href="">Ver publicaciones</a>
+        <a class="linkHeader" routerLink="/quienessomos">¿Quiénes somos?</a>
+        <a class="linkHeader" routerLink="/faq">FAQ</a>
+        <a class="linkHeader"  *ngIf="rol === 'Administrador' || rol === 'Usuario'"  href="">Ver publicaciones</a>
     </div>
     <div class="btnIniciarSesion">
         <button class="btnIniciarSesion">Iniciar sesión</button>
