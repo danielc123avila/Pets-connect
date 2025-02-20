@@ -1,13 +1,14 @@
-import express from "express"
-import dotenv from "dotenv"
-import cors from "cors"
-import bodyParser from "body-parser"
-import connectDB from "./config/dataBase.js"
-import usuariosRoutes from './router/usuariosRoutes.js'
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import bodyParser from "body-parser";
+import connectDB from "./config/dataBase.js";
+import usuariosRoutes from './router/usuariosRoutes.js';
+import mascotasRoutes from './router/mascotasRoutes.js';
 import session from "express-session"
 import cookieParser from "cookie-parser"
 import config from "./config/config.js"
-const app = express()
+const app = express();
 
 // config variables de entorno
 dotenv.config()
@@ -37,6 +38,7 @@ app.all('*',function(req, res, next){
   next();
     
 })
+
 
 //Session/Cookie config
 app.use(cookieParser())                       
