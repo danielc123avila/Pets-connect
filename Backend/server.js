@@ -73,6 +73,8 @@ app.use(cors({
 
 // routes
 app.use("/api", usuariosRoutes)
+app.use("/api", mascotasRoutes)
+
 // Usar las rutas de usuarios
 
 // port
