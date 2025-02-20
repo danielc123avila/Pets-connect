@@ -123,4 +123,5 @@ petSchema.index({
   palabrasClave: "text",
 });
 
+
 export default mongoose.model("Pet", petSchema);
