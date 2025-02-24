@@ -16,6 +16,4 @@ export const routes: Routes = [
   {path:"faq",component:FAQComponent,pathMatch:"full"},
   {path:"usuarios",component:UsuariosComponent,pathMatch:"full",canActivate: [AuthGuard] }
 
-    
-
 ]

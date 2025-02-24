@@ -54,3 +54,27 @@ body {
     font-family: "Inter";
     font-size: 13px;
 }
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    background-color: #206973; /* Color de fondo */
+    color: #FCEB99; /* Color del texto e icono */
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    gap: 10px;
+}
+  
+.separator {
+    width: 1px;
+    height: 20px;
+    background-color: #FCEB99;
+}
+  
+mat-icon {
+    color: #FCEB99;
+}
