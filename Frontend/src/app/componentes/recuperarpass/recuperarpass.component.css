@@ -1,0 +1,9 @@
+div#login {
+    width: 375px;
+    background: #f5c688;
+    padding: 30px;
+    border-radius: 14px;
+    margin-left:  calc(50% - 180px);
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

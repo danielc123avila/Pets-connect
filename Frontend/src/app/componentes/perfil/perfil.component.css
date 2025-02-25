@@ -1,0 +1,26 @@
+/* Estilos para la tabla */
+table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #343a40;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr {
+    cursor: pointer;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}

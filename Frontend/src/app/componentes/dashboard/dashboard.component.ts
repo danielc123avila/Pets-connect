@@ -3,10 +3,11 @@ import { PeticionService } from '../../servicios/peticionservice.service';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { PerfilComponent } from "../perfil/perfil.component";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink,CommonModule],
+  imports: [RouterLink, CommonModule, PerfilComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -76,7 +77,7 @@ export class DashboardComponent implements OnInit{
           text: res.mensaje, // Esta es la respuesta que viene del servidor
           icon: "success"//icono se puede cabiar en base a los iconos de sweep alaert
         });
-        this. router.navigate (["login"])
+        this. router.navigate (["/"])
 
       }
       

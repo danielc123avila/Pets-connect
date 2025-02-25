@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { PeticionService } from '../../servicios/peticionservice.service';
-import Swal from 'sweetalert2';
 import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-encabezado',
@@ -12,30 +13,28 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './encabezado.component.html',
   styleUrl: './encabezado.component.css'
 })
-export class EncabezadoComponent {
+export class EncabezadoComponent implements OnInit {
+  
+  nombre:string = ""
+  rol:string = ""
+  _id:string = ""
 
-  constructor (public peticion:PeticionService, private router:Router){}
+  constructor (public peticion:PeticionService, private router:Router, private cdr: ChangeDetectorRef){}
   ngOnInit(): void {
     this.status()
   }
 
-  nombre:string = ""
-  rol:string = ""
 
-  status(){
+  status() {
     let data = {
-      host:this.peticion.urlHost,
-      path:"/api/status", //este path viene del backend
-      payload:{}
+      host: this.peticion.urlHost,
+      path: "/api/status",
+      payload: {}
     }
+
+    this.peticion.post(data.host + data.path, data.payload).then((res: any) => {
+      console.log(res);
   
-    this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
-      console.log(res)
-      if (res.nombre == undefined || res.nombre == null){
-        this.router.navigate(["/"])
-      }
-      this.nombre = res.nombre
-    
       //Switch
      switch (res.rol) {
       case "0":
@@ -48,36 +47,34 @@ export class EncabezadoComponent {
       default:
       break;
       }
-    })
-   
-      
-  } 
-
-  logout (){
-    
-    let data = {
-      host:this.peticion.urlHost,
-      path:"/logout", //este path viene del backend
-      payload:{}
-     
-    
-    }
-    this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
-      console.log(res)
-      if(res.state == true){
-
-        Swal.fire({
-          title: "Que bien!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "success"//icono se puede cabiar en base a los iconos de sweep alaert
-        });
-        this.status()
-
-      }
-      
+      this.cdr.detectChanges()
 
     })
-      
   }
 
+
+  logout() {
+    let data = {
+      host: this.peticion.urlHost,
+      path: "/api/logout", // Este path viene del backend
+      payload: {}
+    };
+
+    this.peticion.post(data.host + data.path, data.payload).then((res: any) => {
+      console.log(res);
+      if (res.state == true) {
+        Swal.fire({
+          title: "¡Que bien!",
+          text: res.mensaje,
+          icon: "success"
+        })
+        
+        this.rol = ""
+        this.cdr.detectChanges()
+        this. router.navigate (["/"])
+      }
+
+    })
+  }
 }
+

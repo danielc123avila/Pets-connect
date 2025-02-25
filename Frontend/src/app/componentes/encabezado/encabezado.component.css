@@ -58,7 +58,7 @@ body {
 .logout-button {
     display: flex;
     align-items: center;
-    background-color: #206973; /* Color de fondo */
+    background-color: #277380; /* Color de fondo */
     color: #FCEB99; /* Color del texto e icono */
     font-weight: bold;
     border: none;
@@ -75,6 +75,9 @@ body {
     background-color: #FCEB99;
 }
   
-mat-icon {
-    color: #FCEB99;
+.material-symbols-outlined {
+    font-size: 24px;  /* Ajusta el tamaño del icono */
+    color: #FCEB99;   /* Color del icono */
+    display: flex;
+    align-items: center;
 }
