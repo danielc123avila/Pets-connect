@@ -15,7 +15,7 @@
     </thead>
     <tbody>
       <ng-container *ngFor="let item of datos"> 
-        <tr (click)="EditarId(item._id,item.rol)">
+        <tr (click)="EditarId(item._id)">
           <td>{{item.nombre}}</td>
           <td>{{item.email}}</td>
           <td>{{item.telefono}}</td>
