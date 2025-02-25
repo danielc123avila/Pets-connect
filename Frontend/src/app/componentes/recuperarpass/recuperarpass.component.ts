@@ -10,7 +10,7 @@ import { PieDePaginaComponent } from "../pie-de-pagina/pie-de-pagina.component";
 
 @Component({
   selector: 'app-recuperarpass',
-  imports: [FormsModule, CommonModule, RouterLink, EncabezadoComponent, PieDePaginaComponent],
+  imports: [FormsModule, CommonModule, EncabezadoComponent, PieDePaginaComponent],
   templateUrl: './recuperarpass.component.html',
   styleUrl: './recuperarpass.component.css'
 })
