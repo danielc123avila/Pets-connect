@@ -54,3 +54,30 @@ body {
     font-family: "Inter";
     font-size: 13px;
 }
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    background-color: #277380; /* Color de fondo */
+    color: #FCEB99; /* Color del texto e icono */
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    gap: 10px;
+}
+  
+.separator {
+    width: 1px;
+    height: 20px;
+    background-color: #FCEB99;
+}
+  
+.material-symbols-outlined {
+    font-size: 24px;  /* Ajusta el tamaño del icono */
+    color: #FCEB99;   /* Color del icono */
+    display: flex;
+    align-items: center;
+}

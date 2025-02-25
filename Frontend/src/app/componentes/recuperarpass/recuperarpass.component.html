@@ -1,0 +1,26 @@
+<app-encabezado></app-encabezado>
+<div id="login">
+    <div class="form-group">
+      <label for="Email">Email address</label>
+      <input type="email" class="form-control" id="email" [(ngModel)] ="email"> 
+      <!-- ngModel establece una variable que se comunica con typescript-->
+    </div>
+    <div class="form-group">
+      <label for="Password">Password</label>
+      <input type="password" class="form-control" id="Password" [(ngModel)] ="password">
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Confirmar</label>
+        <input type="password" class="form-control" id="Password" [(ngModel)] ="confirmar">
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Codigo de recuperacion</label>                <!--Bloquea codigo si password y confirmar no coinsiden-->
+        <input type="password" class="form-control" id="Password" [(ngModel)] = "codigo" [disabled]="password != confirmar">
+    </div>
+  <!-- [disabled]="password != confirmar" Bloquea button si password y confirmar no coinsiden-->
+    <button type="submit" class="btn btn-primary" (click)="recuperar()"[disabled]="password != confirmar">Cambiar contraseña</button>
+    
+</div>
+<app-pie-de-pagina></app-pie-de-pagina>

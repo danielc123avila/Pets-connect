@@ -25,12 +25,11 @@ export class LoginComponent implements OnInit{
 
     if (this.recordar == true){
       this.email = localStorage.getItem("email")?.toString()
-      this.password = localStorage.getItem("pass")?.toString()
-      
-      
+      this.password = localStorage.getItem("pass")?.toString()  
     }
     this.inicializarGoogle();
   }
+
 
   inicializarGoogle() {  
     // Definir la función global para manejar la respuesta de Google
@@ -52,17 +51,17 @@ export class LoginComponent implements OnInit{
               icon: "error"  
             });  
           } else {  
-            localStorage.setItem("recordar", this.recordar.toString());  
+            localStorage.setItem("recordar", this.recordar.toString())
 
             if (this.recordar) {  
               localStorage.setItem("email", this.email);  
               localStorage.setItem("pass", this.password);  
             } else {  
-              localStorage.setItem("email", "");  
-              localStorage.setItem("pass", "");  
+              localStorage.setItem("email", "")  
+              localStorage.setItem("pass", "")  
             }  
 
-            this.router.navigate(["/dashboard"]);  
+            this.router.navigate(["/dashboard"])  
 
             Swal.fire({  
               title: "¡Qué bien!",  
@@ -77,9 +76,9 @@ export class LoginComponent implements OnInit{
             title: "Error",  
             text: "Hubo un problema con la autenticación. Por favor, intenta de nuevo.",  
             icon: "error"  
-          });
-        });  
-    };
+          })
+        })
+    }
 
     // Esperar que Google haya cargado su SDK antes de intentar inicializarlo
     setTimeout(() => {
@@ -104,7 +103,7 @@ export class LoginComponent implements OnInit{
     
     let data = {
     host:this.peticion.urlHost,
-    path:"/api/usuarios/login", //este path viene del backend
+    path:"/api/usuarios/login",
     payload:{
      email:this.email,
      password:this.password
@@ -114,12 +113,11 @@ export class LoginComponent implements OnInit{
     this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
       console.log(res)
       if (res.state == false){
-        //Acontinuacion estamos importando sweet alerts
         Swal.fire({
           title: "Ouch!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "error"//icono se puede cabiar en base a los iconos de sweep alaert
-        });
+          text: res.mensaje, 
+          icon: "error"
+        })
       }
       else {
         localStorage.setItem("recordar",this.recordar.toString())
@@ -134,18 +132,17 @@ export class LoginComponent implements OnInit{
           localStorage.setItem("pass","")
         }
 
-        this.router.navigate(["/dashboard"])
+        this.router.navigate(["/"])
         
         Swal.fire({
           title: "Que bien!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "success"//icono se puede cabiar en base a los iconos de sweep alaert
+          text: res.mensaje,
+          icon: "success"
         });
       }
                                
     })
-   //     cierre peticion
-
+   
   }
   
   

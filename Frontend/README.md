@@ -61,3 +61,6 @@ For more information on using the Angular CLI, including detailed command refere
 #  Angular Guards para Proteger Rutas
 ng generate guard guards/auth
 
+# Angular materials
+npm install @angular/material
+
