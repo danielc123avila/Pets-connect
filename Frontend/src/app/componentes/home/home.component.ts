@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [EncabezadoComponent, PieDePaginaComponent],
+  imports: [EncabezadoComponent, PieDePaginaComponent, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
