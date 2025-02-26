@@ -104,15 +104,6 @@ usuariosController.registro = function (request, response) {
 
     }
     
-    const phoneRegex = /^[0-9]{7,10}$/;
-    if (isNaN(post.telefono)) {
-        return response.json({ state: false, mensaje: "el campo telefono no es un número" });
-    }
-
-    if (!phoneRegex.test(post.telefono)) {
-        return response.json({ state: false, mensaje: "El número de teléfono no es válido." });
-    }
-
     // Validaciones
     if (!post.nombre || post.nombre.length > 20) {
         return response.json({ state: false, mensaje: "El campo nombre es obligatorio y no debe superar 20 caracteres" })

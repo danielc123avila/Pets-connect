@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit{
       //Switch
      switch (res.rol) {
       case "0":
-        this.rol = "Usuario"
+        this.rol = "Cliente"
       break;
       case "1":
         this.rol = "Administrador"
