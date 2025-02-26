@@ -26,33 +26,6 @@ export class EncabezadoComponent implements OnInit {
   }
 
 
-  /* status() {
-    let data = {
-      host: this.peticion.urlHost,
-      path: "/api/status",
-      payload: {}
-    }
-    this.isLoading = true; // Activar el estado de carga
-    this.peticion.post(data.host + data.path, data.payload).then((res: any) => {
-      console.log(res);
-  
-      //Switch
-     switch (res.rol) {
-      case "0":
-        this.rol = "Usuario"
-      break;
-      case "1":
-        this.rol = "Administrador"
-      break;
-
-      default:
-      break;
-      }
-      
-
-    })
-  } */
-
   status() {
     let data = {
       host: this.peticion.urlHost,
