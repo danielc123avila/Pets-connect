@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { InterceptorService } from './interceptor/interceptorservice.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +16,5 @@ export const appConfig: ApplicationConfig = {
 
     },
     provideRouter(routes), 
-    provideHttpClient()] // Para usear Http client en registro
+    provideHttpClient(), provideAnimationsAsync()] // Para usear Http client en registro
 };

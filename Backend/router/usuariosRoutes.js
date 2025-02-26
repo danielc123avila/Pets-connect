@@ -22,7 +22,7 @@ router.post("/usuarios/registro", usuariosController.registro)
 
 router.post("/usuarios/listar", soloadmin, usuariosController.listar)
 
-router.post("/usuarios/listarid", soloadmin, usuariosController.listarId)
+router.post("/usuarios/listarid",  usuariosController.listarId)
 
 router.post("/usuarios/actualizar", usuariosController.actualizar)
 

@@ -6,10 +6,19 @@
     <div class="enlacesHeader">
         <a class="linkHeader" routerLink="/quienessomos">¿Quiénes somos?</a>
         <a class="linkHeader" routerLink="/faq">FAQ</a>
-        <a class="linkHeader"  *ngIf="rol === 'Administrador' || rol === 'Usuario'"  href="">Ver publicaciones</a>
+        <a class="linkHeader" href="">Ver publicaciones</a>
     </div>
-    <div class="btnIniciarSesion">
-        <button class="btnIniciarSesion">Iniciar sesión</button>
+   
+    <div class="btnIniciarSesion" *ngIf="!isLoading && rol !== 'Administrador' && rol !== 'Cliente'">
+        <button class="btnIniciarSesion" routerLink="/login">Iniciar sesión</button>
     </div>
-
+    
+    
+    <button  mat-button class="logout-button" *ngIf="!isLoading && (rol === 'Administrador' || rol === 'Cliente')">
+        <span (click)="logout()">Cerrar sesión</span>
+        <div class="separator"></div>
+        <span class="material-symbols-outlined" routerLink="/dashboard">account_circle</span>
+    </button>
+    
+   
 </header>

@@ -5,7 +5,7 @@ import { PieDePaginaComponent } from './componentes/pie-de-pagina/pie-de-pagina.
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, EncabezadoComponent, PieDePaginaComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

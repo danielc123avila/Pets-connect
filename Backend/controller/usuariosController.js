@@ -54,15 +54,27 @@ usuariosController.guardar = function(request, response) {
         }
     }
 
-    // Validación de email
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@!#$%^&*()_+{}":;<>,.?/~`])[A-Za-z\d@!#$%^&*()_+{}":;<>,.?/~`]{8,}$/;
+    if (!passwordRegex.test(post.password)) {
+        return response.json({ 
+            state: false, 
+            mensaje: "La contraseña debe tener mínimo 8 caracteres, una mayúscula, un número y un carácter especial" 
+        })
+    } 
+
+    
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(post.email)) {
         return response.json({ state: false, mensaje: "el campo email no es válido" });
     }
 
-    // Validación de teléfono
+    const phoneRegex = /^[0-9]{7,10}$/;
     if (isNaN(post.telefono)) {
         return response.json({ state: false, mensaje: "el campo telefono no es un número" });
+    }
+
+    if (!phoneRegex.test(post.telefono)) {
+        return response.json({ state: false, mensaje: "El número de teléfono no es válido." });
     }
 
     // Encriptar contraseña
@@ -91,6 +103,15 @@ usuariosController.registro = function (request, response) {
         password: request.body.password,
 
     }
+    
+    const phoneRegex = /^[0-9]{7,10}$/;
+    if (isNaN(post.telefono)) {
+        return response.json({ state: false, mensaje: "el campo telefono no es un número" });
+    }
+
+    if (!phoneRegex.test(post.telefono)) {
+        return response.json({ state: false, mensaje: "El número de teléfono no es válido." });
+    }
 
     // Validaciones
     if (!post.nombre || post.nombre.length > 20) {
@@ -105,6 +126,14 @@ usuariosController.registro = function (request, response) {
     if (!post.password) {
         return response.json({ state: false, mensaje: "El campo password es obligatorio" })
     }
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@!#$%^&*()_+{}":;<>,.?/~`])[A-Za-z\d@!#$%^&*()_+{}":;<>,.?/~`]{8,}$/;
+    if (!passwordRegex.test(post.password)) {
+        return response.json({ 
+            state: false, 
+            mensaje: "La contraseña debe tener mínimo 8 caracteres, una mayúscula, un número y un carácter especial" 
+        })
+    } 
 
     // Encriptar contraseña
     post.password = SHA256(post.password + config.palabraclave).toString()
@@ -240,6 +269,16 @@ usuariosController.actualizar = function (request, response){
         return response.json({ state: false, mensaje: `El campo ${campo} es obligatorio` });
         }
     }
+
+    const phoneRegex = /^[0-9]{10,10}$/;
+    if (isNaN(post.telefono)) {
+        return response.json({ state: false, mensaje: "el campo telefono no es un número" });
+    }
+
+    if (!phoneRegex.test(post.telefono)) {
+        return response.json({ state: false, mensaje: "El número de teléfono no es válido." });
+    }
+
 
     // Llamada al modelo para actualizar el usuario
     usuariosModel.actualizar(post, function(respuesta) {
@@ -548,6 +587,14 @@ usuariosController.recuperarPass = function (request, response) {
     if (!post.password) {
         return response.json({ state: false, mensaje: "El campo password es obligatorio" })
     }
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@!#$%^&*()_+{}":;<>,.?/~`])[A-Za-z\d@!#$%^&*()_+{}":;<>,.?/~`]{8,}$/;
+    if (!passwordRegex.test(post.password)) {
+        return response.json({ 
+            state: false, 
+            mensaje: "La contraseña debe tener mínimo 8 caracteres, una mayúscula, un número y un carácter especial" 
+        })
+    } 
 
     // Encriptar la contraseña
     post.password = SHA256(post.password + config.palabraclave).toString()
