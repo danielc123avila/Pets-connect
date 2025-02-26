@@ -15,27 +15,23 @@ declare var $:any
 export class UsuariosComponent implements OnInit {
   constructor(private peticion:PeticionService){}
 
-  // la respuesta de la peticion se guarda en el siguiente array
+ 
   datos:any [] = []
-  // variables de ng que estan en html
   nombre:string=""
   email:string=""
   telefono : number = 0
   password:string=""
-  // Aca estamos almacenando el Id, para usarla mas adelante
   IdSeleccionado:string=""
   estado:string = "1"
   rol:string = ""
   
-  //soluciona el error de UsuariosComponent
   ngOnInit(): void {
     this.listar()
   }
 
   Nuevo(){
-    //formdatos
+    
     $('#formdatos').modal('show')
-    //limpiar la informacion del formulario  
     this.nombre = ""
     this.email = ""
     this.rol = ""
@@ -50,7 +46,7 @@ export class UsuariosComponent implements OnInit {
     let data = 
     {
      host:this.peticion.urlHost,
-     path:"/api/usuarios/listar", //este path viene del backend
+     path:"/api/usuarios/listar", 
      payload:{
      }
     }
@@ -67,8 +63,8 @@ export class UsuariosComponent implements OnInit {
     let data = 
     {
      host:this.peticion.urlHost,
-     path:"/api/usuarios/guardar", //este path viene del backend
-     payload:{ // aca estamos asignando los datos
+     path:"/api/usuarios/guardar", 
+     payload:{ 
       nombre: this.nombre,
       email: this.email,
       telefono : this.telefono,
@@ -82,21 +78,20 @@ export class UsuariosComponent implements OnInit {
     this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
       console.log(res)
       if (res.state == false){
-        //Acontinuacion estamos importando sweet alerts
         Swal.fire({
           title: "Ouch!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "error"//icono se puede cabiar en base a los iconos de sweep alaert
+          text: res.mensaje,
+          icon: "error"
         });
       }
       else{
         Swal.fire({
           title: "Que bien!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "success"//icono se puede cabiar en base a los iconos de sweep alaert
+          text: res.mensaje,
+          icon: "success"
         });
-        $('#formdatos').modal('hide') //cierra el modal cuando se guarde el usuario
-        this.listar() //aca le decimos que recargue para listar el usuario 
+        $('#formdatos').modal('hide') 
+        this.listar() 
       }
                                
     })
@@ -104,12 +99,11 @@ export class UsuariosComponent implements OnInit {
   }
 
   EditarId(id:string){
-    //Usando la variable Id
     this.IdSeleccionado = id 
     let data = 
     {
      host:this.peticion.urlHost,
-     path:"/api/usuarios/listarId", //este path viene del backend
+     path:"/api/usuarios/listarId", 
      payload:{
       _id:id
      }
@@ -134,7 +128,7 @@ export class UsuariosComponent implements OnInit {
     let data = 
     {
      host:this.peticion.urlHost,
-     path:"/api/usuarios/actualizar", //este path viene del backend
+     path:"/api/usuarios/actualizar", 
      payload:{
       nombre:this.nombre,
       telefono:this.telefono,
@@ -148,21 +142,20 @@ export class UsuariosComponent implements OnInit {
     this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
       console.log(res)
       if (res.state == false){
-        //Acontinuacion estamos importando sweet alerts
         Swal.fire({
           title: "Ouch!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "error"//icono se puede cabiar en base a los iconos de sweep alaert
+          text: res.mensaje, 
+          icon: "error"
         });
       }
       else{
         Swal.fire({
           title: "Que bien!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "success"//icono se puede cabiar en base a los iconos de sweep alaert
+          text: res.mensaje,
+          icon: "success"
         });
-        $('#formdatos').modal('hide') //cierra el modal cuando se guarde el usuario
-        this.listar() //aca le decimos que recargue para listar el usuario 
+        $('#formdatos').modal('hide') 
+        this.listar() 
       }
       
                                
@@ -174,7 +167,7 @@ export class UsuariosComponent implements OnInit {
     let data = 
     {
      host:this.peticion.urlHost,
-     path:"/api/usuarios/eliminar", //este path viene del backend
+     path:"/api/usuarios/eliminar",
      payload:{
       _id:this.IdSeleccionado
       
@@ -184,21 +177,20 @@ export class UsuariosComponent implements OnInit {
     this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
       console.log(res)
       if (res.state == false){
-        //Acontinuacion estamos importando sweet alerts
         Swal.fire({
           title: "Ouch!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "error"//icono se puede cabiar en base a los iconos de sweep alaert
+          text: res.mensaje, 
+          icon: "error"
         });
       }
       else{
         Swal.fire({
           title: "Que bien!",
-          text: res.mensaje, // Esta es la respuesta que viene del servidor
-          icon: "success"//icono se puede cabiar en base a los iconos de sweep alaert
+          text: res.mensaje,
+          icon: "success"
         });
-        $('#formdatos').modal('hide') //cierra el modal cuando se guarde el usuario
-        this.listar() //aca le decimos que recargue para listar el usuario 
+        $('#formdatos').modal('hide') 
+        this.listar() 
       }
       
                                

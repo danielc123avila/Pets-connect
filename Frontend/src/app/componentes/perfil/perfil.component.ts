@@ -48,7 +48,7 @@ export class PerfilComponent implements OnInit{
       // Asigna el rol
       switch (res.rol) {
         case "0":
-          this.rol = "Usuario";
+          this.rol = "Cliente";
           break;
         case "1":
           this.rol = "Administrador";
