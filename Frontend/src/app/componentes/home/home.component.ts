@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',

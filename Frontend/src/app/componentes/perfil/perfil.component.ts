@@ -85,7 +85,7 @@ export class PerfilComponent implements OnInit{
   recuperar(id: string, event: Event) {
     event.stopPropagation()
     this.router.navigate(['/solicitarcodigo'])
-    $('#formdatos').modal('hide') 
+    $('.formdatos').modal('hide') 
   }
 
   EditarId(_id:string){
@@ -102,7 +102,7 @@ export class PerfilComponent implements OnInit{
 
     this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
       console.log(res)
-      $('#formdatos').modal('show')
+      $('.formdatos').modal('show')
       this.nombre = res.datos[0].nombre
       this.email = res.datos[0].email
       this.telefono = res.datos[0].telefono
@@ -145,7 +145,7 @@ export class PerfilComponent implements OnInit{
           text: res.mensaje, 
           icon: "success"
         });
-        $('#formdatos').modal('hide') 
+        $('.formdatos').modal('hide') 
         this.listarId(this._id) 
       }
       

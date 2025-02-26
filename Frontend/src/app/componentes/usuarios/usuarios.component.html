@@ -13,6 +13,7 @@
         <tr>
           <th scope="col">Nombre</th>
           <th scope="col">Email</th>
+          <th scope="col">Telefono</th>
           <th scope="col">Rol</th>
           <th scope="col">Estado</th>
         </tr>
@@ -22,6 +23,7 @@
           <tr (click)="EditarId(item._id)">
             <td>{{item.nombre}}</td>
             <td>{{item.email}}</td>
+            <td>{{item.telefono}}</td>
             <td>
               <span *ngIf="item.rol == '0'">Cliente</span>
               <span *ngIf="item.rol == '1'">Administrador</span>

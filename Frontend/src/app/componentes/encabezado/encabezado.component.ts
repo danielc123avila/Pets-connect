@@ -18,6 +18,7 @@ export class EncabezadoComponent implements OnInit {
   nombre:string = ""
   rol:string = ""
   _id:string = ""
+  isLoading: boolean = true
 
   constructor (public peticion:PeticionService, private router:Router, private cdr: ChangeDetectorRef){}
   ngOnInit(): void {
@@ -30,27 +31,32 @@ export class EncabezadoComponent implements OnInit {
       host: this.peticion.urlHost,
       path: "/api/status",
       payload: {}
-    }
+    };
 
+    this.isLoading = true; // Activar el estado de carga
     this.peticion.post(data.host + data.path, data.payload).then((res: any) => {
       console.log(res);
-  
-      //Switch
-     switch (res.rol) {
-      case "0":
-        this.rol = "Usuario"
-      break;
-      case "1":
-        this.rol = "Administrador"
-      break;
 
-      default:
-      break;
+      // Asignar el rol
+      switch (res.rol) {
+        case "0":
+          this.rol = "Usuario";
+          break;
+        case "1":
+          this.rol = "Administrador";
+          break;
+        default:
+          this.rol = "";
+          break;
       }
-      this.cdr.detectChanges()
 
-    })
+      this.isLoading = false; // Desactivar el estado de carga
+    }).catch((error) => {
+      console.error("Error en la petición de status:", error);
+      this.isLoading = false; // Desactivar el estado de carga en caso de error
+    });
   }
+
 
 
   logout() {
