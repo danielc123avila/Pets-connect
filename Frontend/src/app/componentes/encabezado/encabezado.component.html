@@ -8,7 +8,7 @@
         <a class="linkHeader" routerLink="/faq">FAQ</a>
         <a class="linkHeader" href="">Ver publicaciones</a>
     </div>
-   
+
     <div class="btnIniciarSesion" *ngIf="!isLoading && rol !== 'Administrador' && rol !== 'Cliente'">
         <button class="btnIniciarSesion" routerLink="/login">Iniciar sesión</button>
     </div>
@@ -20,5 +20,5 @@
         <span class="material-symbols-outlined" routerLink="/dashboard">account_circle</span>
     </button>
     
-   
+
 </header>

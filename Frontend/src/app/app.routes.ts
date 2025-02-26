@@ -11,6 +11,7 @@ import { SolicitarcodigoComponent } from './componentes/solicitarcodigo/solicita
 import { RecuperarpassComponent } from './componentes/recuperarpass/recuperarpass.component';
 import { ActivarComponent } from './componentes/activar/activar.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
+import { DetailComponent } from './pages/detail/detail.component';
 
 export const routes: Routes = [
 
@@ -28,6 +29,7 @@ export const routes: Routes = [
   {path:"quienessomos",component:QuienesSomosComponent,pathMatch:"full"},
   {path:"faq",component:FAQComponent,pathMatch:"full"},
   //PerfilUsuario
-  {path:"perfil",component:PerfilComponent,pathMatch:"full"}
-
+  {path:"perfil",component:PerfilComponent,pathMatch:"full"},
+  //detalle mascota
+  {path:"detalle/:id", component:DetailComponent}
 ]

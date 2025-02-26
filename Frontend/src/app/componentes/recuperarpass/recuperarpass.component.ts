@@ -25,14 +25,14 @@ export class RecuperarpassComponent {
 
   recuperar(){
   
-   
+  
     let data = {
     host:this.peticion.urlHost,
     path:"/api/usuarios/recuperarpass", 
     payload:{
-     email:this.email,
-     password:this.password,
-     codigo:this.codigo
+      email:this.email,
+      password:this.password,
+      codigo:this.codigo
 
     }}
 
