@@ -16,5 +16,5 @@ export const appConfig: ApplicationConfig = {
 
     },
     provideRouter(routes), 
-    provideHttpClient(), provideAnimationsAsync()] // Para usear Http client en registro
+    provideHttpClient(), provideAnimationsAsync(), provideAnimationsAsync()] // Para usear Http client en registro
 };
