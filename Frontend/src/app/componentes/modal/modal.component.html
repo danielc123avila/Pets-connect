@@ -1,1 +1,19 @@
-<p>modal works!</p>
+<div >
+  <main>
+    <section class="out">
+      <button (click)="closeModal()">X</button>
+    </section>
+    <div class="ya-casi">
+      <p>Ya casi... 😺</p>
+      <p>¿Querés subir la publicación?</p>
+    </div>
+    <div class="botones">
+      <div class="continue">
+        <button (click)="abrirModal()">Si, publicar</button>
+      </div>
+      <div class="cancel">
+        <button (click)="closeModal()">No, cancelar</button>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,53 @@
+* {
+  border-radius: 12px;
+  width: "588px";
+  height: "264px";
+  background-color: #d9eff2;
+}
+body {
+  background-color: #d9eff2;
+}
+p {
+  font-family: "Inter";
+  text-align: center;
+  font-size: 19.02px;
+  font-weight: 700;
+  line-height: 26.63px;
+}
+main {
+  padding: 1%;
+}
+.out button {
+  font-size: 20px;
+  font-family: "Rubik";
+  font-weight: 500;
+  border: none;
+  margin-top: 15px;
+  margin-left: 93%;
+  text-decoration: none;
+}
+
+.ya-casi {
+  margin-top: 25px;
+}
+.botones{
+  display: flex;
+  justify-content: center;
+  margin-top: 37px;
+  margin-bottom: 25px;
+}
+.continue button{
+  border: none;
+  background-color:#FEB941 ;
+  width:207px;
+  height: 48px;
+  border-radius: 50px;
+}
+.cancel button{
+  margin-left: 50px;
+  border: none;
+  background-color: #FDE49E;
+  width:207px;
+  height: 48px;
+  border-radius: 50px;
+}
