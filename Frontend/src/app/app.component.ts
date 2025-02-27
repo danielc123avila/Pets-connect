@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { EncabezadoComponent } from './componentes/encabezado/encabezado.component';
-import { PieDePaginaComponent } from './componentes/pie-de-pagina/pie-de-pagina.component';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +9,5 @@ import { PieDePaginaComponent } from './componentes/pie-de-pagina/pie-de-pagina.
 })
 export class AppComponent {
   title = 'Frontend';
+  
 }

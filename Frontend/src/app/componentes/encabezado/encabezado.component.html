@@ -10,7 +10,7 @@
     </div>
    
     <div class="btnIniciarSesion" *ngIf="!isLoading && rol !== 'Administrador' && rol !== 'Cliente'">
-        <button class="btnIniciarSesion" routerLink="/login">Iniciar sesión</button>
+        <button class="btnIniciarSesion" (click)="openLogin()">Iniciar sesión</button>
     </div>
     
     
@@ -22,3 +22,5 @@
     
    
 </header>
+
+<app-login *ngIf="showLogin" (onClose)="closeLogin()"></app-login>

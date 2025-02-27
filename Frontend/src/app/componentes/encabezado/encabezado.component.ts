@@ -3,13 +3,15 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { PeticionService } from '../../servicios/peticionservice.service';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginComponent } from "../login/login.component";
 import Swal from 'sweetalert2';
+
 
 
 @Component({
   selector: 'app-encabezado',
   standalone: true,
-  imports: [RouterLink, CommonModule, MatIconModule],
+  imports: [RouterLink, CommonModule, MatIconModule, LoginComponent],
   templateUrl: './encabezado.component.html',
   styleUrl: './encabezado.component.css'
 })
@@ -23,6 +25,14 @@ export class EncabezadoComponent implements OnInit {
   constructor (public peticion:PeticionService, private router:Router, private cdr: ChangeDetectorRef){}
   ngOnInit(): void {
     this.status()
+  }
+
+  showLogin = false
+  openLogin() {
+    this.showLogin = true
+  }
+  closeLogin() {
+    this.showLogin = false
   }
 
 

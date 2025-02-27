@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
+import { Router,} from '@angular/router';
 import { PeticionService } from '../../servicios/peticionservice.service';
 import Swal from 'sweetalert2';
 declare var localStorage: any
 
+
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule,  FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -30,6 +31,11 @@ export class LoginComponent implements OnInit{
     this.inicializarGoogle();
   }
 
+  @Output() onClose = new EventEmitter<void>(); // Evento para cerrar la ventana
+  // Método para cerrar la ventana
+  close() {
+    this.onClose.emit();
+  }
 
   inicializarGoogle() {  
     // Definir la función global para manejar la respuesta de Google
@@ -61,7 +67,7 @@ export class LoginComponent implements OnInit{
               localStorage.setItem("pass", "")  
             }  
 
-            this.router.navigate(["/dashboard"])  
+            this.router.navigate(["/"])  
 
             Swal.fire({  
               title: "¡Qué bien!",  
@@ -132,6 +138,7 @@ export class LoginComponent implements OnInit{
           localStorage.setItem("pass","")
         }
 
+        this.close()
         this.router.navigate(["/"])
         
         Swal.fire({
