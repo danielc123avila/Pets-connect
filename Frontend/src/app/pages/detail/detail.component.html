@@ -10,7 +10,7 @@
 
 <div class="detail-container">
   <div class="image-section">
-<img *ngFor="let foto of mascota()?.fotos" src="foto" alt="">
+    <img src="../../../assets/gato.jpg" alt="Mascota" class="pet-image" />
 
     <!-- Caja de Comentarios -->
     <div class="comment-box">
@@ -42,8 +42,8 @@
     <div class="owner">
       <div class="owner-info">
         <img
-        [src]="'http://localhost:3000/uploads/' + mascota()?.fotos"
-           alt="Luciana"
+          src="../../../assets/profile.jpg"
+          alt="Luciana"
           class="owner-avatar"
         />
         <div class="owner-details">
