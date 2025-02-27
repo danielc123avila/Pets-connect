@@ -1,102 +1,119 @@
 <app-encabezado></app-encabezado>
 <div class="breadcrumb">
-    <a href="#">&lt; Volver</a> &nbsp; / &nbsp;
-    <a href="#">Publicaciones</a> &nbsp; / &nbsp;
-    <a href="#">Mascotas Perdidas</a> &nbsp; / &nbsp;
-    <span>Descripción</span>
+  <a href="#">&lt; Volver</a> &nbsp; / &nbsp;
+  <a href="#">Publicaciones</a> &nbsp; / &nbsp;
+  <a href="#">Mascotas Perdidas</a> &nbsp; / &nbsp;
+  <span>Descripción</span>
 </div>
 
 <h1 class="page-title">Mascotas perdidas</h1>
 
 <div class="detail-container">
-    <div class="image-section">
-        <img src="../../../assets/gato.jpg" alt="Mascota" class="pet-image" />
+  <div class="image-section">
+<img *ngFor="let foto of mascota()?.fotos" src="foto" alt="">
 
-        <!-- Caja de Comentarios -->
-        <div class="comment-box">
-            <h2>Si tenes información para aportar no dudes en dejar tu comentario</h2>
-            <textarea placeholder="Dejar un comentario..."></textarea>
-            <div class="comment-actions">
-                <button class="send-comment">Comentar</button>
-            </div>
+    <!-- Caja de Comentarios -->
+    <div class="comment-box">
+      <h2>Si tenes información para aportar no dudes en dejar tu comentario</h2>
+      <textarea placeholder="Dejar un comentario..."></textarea>
+      <div class="comment-actions">
+        <button class="send-comment">Comentar</button>
+      </div>
+    </div>
+  </div>
+  <!-- CIERRE CORRECTO DE image-section -->
+
+  <div class="info-section">
+    <div class="pet-card">
+      <h2 class="pet-name">
+        <i class="fa-solid fa-cat"></i> {{ mascota()?.nombre }}
+      </h2>
+      <div class="date">
+        <p class="last-seen">
+          <i class="fa-solid fa-eye"></i>{{ mascota()?.fechaExtravio }}
+        </p>
+        <p class="location">
+          <i class="fa-solid fa-location-dot"></i
+          >{{ mascota()?.ultimaUbicacion }}
+        </p>
+      </div>
+    </div>
+
+    <div class="owner">
+      <div class="owner-info">
+        <img
+        [src]="'http://localhost:3000/uploads/' + mascota()?.fotos"
+           alt="Luciana"
+          class="owner-avatar"
+        />
+        <div class="owner-details">
+          <p class="owner-name">{{ mascota()?.dueno?.nombre }}</p>
+          <p class="update-date">{{ mascota()?.updatedAt }}</p>
+          <p class="contact-email">
+            <i class="fa-solid fa-envelope"></i>{{ mascota()?.dueno?.email }}
+          </p>
+          <p class="contact-phone">
+            <i class="fa-solid fa-phone"></i> {{ mascota()?.dueno?.telefono }}
+          </p>
         </div>
-    </div> <!-- CIERRE CORRECTO DE image-section -->
+      </div>
 
-    <div class="info-section">
-        <div class="pet-card">
-            <h2 class="pet-name"><i class="fa-solid fa-cat"></i> {{mascota?.nombre}}</h2>
-            <div class="date">
-                <p class="last-seen"><i class="fa-solid fa-eye"></i>{{mascota?.fechaExtravio}}</p>
-                <p class="location"><i class="fa-solid fa-location-dot"></i>{{mascota?.ultimaUbicacion}}</p>
-            </div>
-        </div>
+      <div class="description">
+        <h3>Descripción</h3>
+        <p>{{ mascota()?.descripcion }}</p>
+        <p>¡Ayúdame a traerlo de vuelta a casa! 🏡</p>
+      </div>
 
-        <div class="owner">
-            <div class="owner-info">
-                <img src="../../../assets/profile.jpg" alt="Luciana" class="owner-avatar" />
-                <div class="owner-details">
-                    <p class="owner-name">{{mascota?.dueno?.nombre}}</p>
-                    <p class="update-date">{{mascota?.updatedAt}}</p>
-                    <p class="contact-email"><i class="fa-solid fa-envelope"></i>{{mascota?.dueno?.email}}</p>
-                    <p class="contact-phone"><i class="fa-solid fa-phone"></i> {{mascota?.dueno?.telefono}}</p>
-                </div>
-            </div>
+      <div class="extra-info">
+        <p><strong>Palabras Claves: </strong>{{ mascota()?.palabrasClave }}</p>
+        <p><strong>Sexo: </strong>{{ mascota()?.sexo }}</p>
+        <p>
+          <strong>Color:</strong>
+          <span class="color-box">{{ mascota()?.color }}</span>
+          <span class="color-box">{{ mascota()?.color }}</span>
+        </p>
+      </div>
+      <!-- CIERRE FALTANTE extra-info -->
 
-            <div class="description">
-                <h3>Descripción</h3>
-                <p>{{mascota?.descripcion}}</p>
-                <p>¡Ayúdame a traerlo de vuelta a casa! 🏡</p>
-            </div>
+      <div class="other-characteristics">
+        <p>Castrado</p>
+        <p>Adulto</p>
+        <p>Pelo corto</p>
+      </div>
 
-            <div class="extra-info">
-                <p><strong>Sexo:</strong>{{mascota?.palabrasClave}}</p>
-                <p><strong>Color:</strong>
-                    <span class="color-box">{{mascota?.color}}</span>
-                    <span class="color-box">{{mascota?.color}}</span>
-                </p>
-            </div> <!-- CIERRE FALTANTE extra-info -->
-
-            <div class="other-characteristics">
-                <p>Castrado</p>
-                <p>Adulto</p>
-                <p>Pelo corto</p>
-            </div>
-
-            <div class="link-report">
-                <a href="#">Reportar Publicación</a>
-            </div>
-        </div>
-    </div> <!-- CIERRE CORRECTO DE info-section -->
-
-</div> <!-- CIERRE DE detail-container -->
+      <div class="link-report">
+        <a href="#">Reportar Publicación</a>
+      </div>
+    </div>
+  </div>
+  <!-- CIERRE CORRECTO DE info-section -->
+</div>
+<!-- CIERRE DE detail-container -->
 
 <div class="share-container">
-    <div class="share-text">
-        <h3>Compartir</h3>
-        <p>¡Compartí la publicación en tus redes para aumentar la difusión!</p>
-    </div>
-    <div class="social-icons">
-        <i class="fa-brands fa-whatsapp social-icon"></i>
-        <i class="fa-brands fa-facebook social-icon"></i>
-        <i class="fa-brands fa-instagram social-icon"></i>
-    </div>
+  <div class="share-text">
+    <h3>Compartir</h3>
+    <p>¡Compartí la publicación en tus redes para aumentar la difusión!</p>
+  </div>
+  <div class="social-icons">
+    <i class="fa-brands fa-whatsapp social-icon"></i>
+    <i class="fa-brands fa-facebook social-icon"></i>
+    <i class="fa-brands fa-instagram social-icon"></i>
+  </div>
 </div>
 
 <div class="container">
-    <h2>Ver más mascotas perdidas</h2>
-    <div class="mascotas-grid">
-        <div class="mascota-card">
-            <img src="../../../assets/gato.jpg" alt="">
-            <h3>PEPE</h3>
-            <p>
-                <span class="icon">📍</span> Visto por última vez: 10/12/1995
-            </p>
-            <p><strong>📍 Lugar:</strong> Titan Plaza</p>
-            <p><strong>Descripción:</strong> Pelo blanco</p>
-            <button class="btn-ver-mas">Ver más</button>
-        </div>
+  <h2>Ver más mascotas perdidas</h2>
+  <div class="mascotas-grid">
+    <div class="mascota-card">
+      <img src="../../../assets/gato.jpg" alt="" />
+      <h3>PEPE</h3>
+      <p><span class="icon">📍</span> Visto por última vez: 10/12/1995</p>
+      <p><strong>📍 Lugar:</strong> Titan Plaza</p>
+      <p><strong>Descripción:</strong> Pelo blanco</p>
+      <button class="btn-ver-mas">Ver más</button>
     </div>
+  </div>
 </div>
-
 
 <app-pie-de-pagina></app-pie-de-pagina>
