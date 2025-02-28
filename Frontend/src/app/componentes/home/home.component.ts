@@ -7,11 +7,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 import { LoginComponent } from "../login/login.component";
 import { CommonModule } from '@angular/common';
+import { RegistroComponent } from '../registro/registro.component';
 
 
 @Component({
   selector: 'app-home',
-  imports: [EncabezadoComponent, PieDePaginaComponent, MatButtonModule, MatDialogModule, LoginComponent, CommonModule],
+  imports: [EncabezadoComponent, PieDePaginaComponent, MatButtonModule, MatDialogModule, LoginComponent, CommonModule, RegistroComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -30,5 +31,13 @@ export class HomeComponent {
   }
   closeLogin() {
     this.showLogin = false
+  }
+
+  showRegistro = false
+  openRegistro() {
+    this.showRegistro = true
+  }
+  closeRegistro() {
+    this.showRegistro = false
   }
 }

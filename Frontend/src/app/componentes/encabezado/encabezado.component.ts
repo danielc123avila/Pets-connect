@@ -4,14 +4,18 @@ import { Router, RouterLink } from '@angular/router';
 import { PeticionService } from '../../servicios/peticionservice.service';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from "../login/login.component";
+import { AuthService } from '../../authservice/auth.service';
 import Swal from 'sweetalert2';
+import { RegistroComponent } from "../registro/registro.component";
+
+
 
 
 
 @Component({
   selector: 'app-encabezado',
   standalone: true,
-  imports: [RouterLink, CommonModule, MatIconModule, LoginComponent],
+  imports: [RouterLink, CommonModule, MatIconModule, LoginComponent, RegistroComponent],
   templateUrl: './encabezado.component.html',
   styleUrl: './encabezado.component.css'
 })
@@ -20,11 +24,23 @@ export class EncabezadoComponent implements OnInit {
   nombre:string = ""
   rol:string = ""
   _id:string = ""
+  isAuthenticated: boolean = false
   isLoading: boolean = true
 
-  constructor (public peticion:PeticionService, private router:Router, private cdr: ChangeDetectorRef){}
+  constructor (public peticion:PeticionService, private router:Router, private cdr: ChangeDetectorRef, private authservice: AuthService){}
   ngOnInit(): void {
-    this.status()
+    //this.status()
+    // Suscríbete al observable para detectar cambios
+    this.authservice.isAuthenticated$.subscribe((isAuthenticated) => {
+      this.isAuthenticated = isAuthenticated;
+      console.log("Estado de autenticación:", this.isAuthenticated)
+      
+    })
+
+    this.authservice.isLoading$.subscribe((isLoading) => {
+      this.isLoading = isLoading
+      this.isLoading = false
+    })
   }
 
   showLogin = false
@@ -35,39 +51,13 @@ export class EncabezadoComponent implements OnInit {
     this.showLogin = false
   }
 
-
-  status() {
-    let data = {
-      host: this.peticion.urlHost,
-      path: "/api/status",
-      payload: {}
-    };
-
-    this.isLoading = true; // Activar el estado de carga
-    this.peticion.post(data.host + data.path, data.payload).then((res: any) => {
-      console.log(res);
-
-      // Asignar el rol
-      switch (res.rol) {
-        case "0":
-          this.rol = "Cliente";
-          break;
-        case "1":
-          this.rol = "Administrador";
-          break;
-        default:
-          this.rol = "";
-          break;
-      }
-
-      this.isLoading = false; // Desactivar el estado de carga
-    }).catch((error) => {
-      console.error("Error en la petición de status:", error);
-      this.isLoading = false; // Desactivar el estado de carga en caso de error
-    });
+  showRegistro = false
+  openRegistro() {
+    this.showRegistro = true
   }
-
-
+  closeRegistro() {
+    this.showRegistro = false
+  }
 
   logout() {
     let data = {
@@ -84,9 +74,8 @@ export class EncabezadoComponent implements OnInit {
           text: res.mensaje,
           icon: "success"
         })
-        
+        this.authservice.setAuthenticationStatus(false)
         this.rol = ""
-        this.cdr.detectChanges()
         this. router.navigate (["/"])
       }
 

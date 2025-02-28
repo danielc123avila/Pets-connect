@@ -8,19 +8,21 @@
         <a class="linkHeader" routerLink="/faq">FAQ</a>
         <a class="linkHeader" href="">Ver publicaciones</a>
     </div>
-   
-    <div class="btnIniciarSesion" *ngIf="!isLoading && rol !== 'Administrador' && rol !== 'Cliente'">
-        <button class="btnIniciarSesion" (click)="openLogin()">Iniciar sesión</button>
-    </div>
     
-    
-    <button  mat-button class="logout-button" *ngIf="!isLoading && (rol === 'Administrador' || rol === 'Cliente')">
-        <span (click)="logout()">Cerrar sesión</span>
-        <div class="separator"></div>
-        <span class="material-symbols-outlined" routerLink="/dashboard">account_circle</span>
-    </button>
-    
+    <ng-container *ngIf="!isLoading">
+        <div class="btnIniciarSesion" *ngIf="!isAuthenticated">
+            <button class="btnIniciarSesion" (click)="openLogin()">Iniciar sesión</button>
+        </div>
+
+        <button  mat-button class="logout-button" *ngIf="isAuthenticated">
+            <span (click)="logout()">Cerrar sesión</span>
+            <div class="separator"></div>
+            <span class="material-symbols-outlined" routerLink="/dashboard">account_circle</span>
+        </button>
+    </ng-container>
    
 </header>
 
 <app-login *ngIf="showLogin" (onClose)="closeLogin()"></app-login>
+<app-registro *ngIf="showRegistro" (onClose)="closeRegistro()"></app-registro>
+
