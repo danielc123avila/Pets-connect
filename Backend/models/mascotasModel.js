@@ -116,3 +116,4 @@ mascotasModel.eliminar = function (post, callback) {
 }
 
 
+export default mascotasModel
