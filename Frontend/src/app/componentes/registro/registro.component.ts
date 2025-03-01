@@ -10,7 +10,7 @@ declare var localStorage: any
 
 @Component({
   selector: 'app-registro',
-  imports: [CommonModule, FormsModule, LoginComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css'
 })
