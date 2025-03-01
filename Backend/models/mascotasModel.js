@@ -22,7 +22,7 @@ const mascotasSchema = new Schema({
 
 })
 
-const mascotas = mongoose.model("mascotas", mascotasSchema)
+const Mascotas = mongoose.model("mascotas", mascotasSchema)
 
 
 mascotasModel.guardar = function (post, callback) {
