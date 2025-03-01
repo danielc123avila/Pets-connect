@@ -8,13 +8,13 @@
       <!-- Opciones del menú centradas -->
       <ul class="navbar-nav mx-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard">Perfil</a>
+          <a class="nav-link" routerLink="/perfil">Perfil</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/usuarios">Usuarios</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/mascotas">Mascotas</a>
+          <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/mascotasshow">Mascotas</a>
         </li>
       </ul>
       <!-- Dropdown para la información del usuario -->
@@ -37,7 +37,9 @@
       </ul>
     </div>
 </nav>
-<app-perfil></app-perfil>
+
+
+
 
 
 

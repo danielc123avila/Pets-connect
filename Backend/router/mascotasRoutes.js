@@ -1,5 +1,6 @@
-import express from "express";
-import mascotasController from "../controller/mascotasController.js";
+import express from "express"
+import mascotasController from "../controller/mascotasController.js"
+
 
 /* import {
   crearReporte,

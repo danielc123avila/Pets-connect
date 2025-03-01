@@ -3,11 +3,10 @@ import { PeticionService } from '../../servicios/peticionservice.service';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-import { PerfilComponent } from "../perfil/perfil.component";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, CommonModule, PerfilComponent],
+  imports: [RouterLink, CommonModule,],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

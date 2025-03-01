@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +106,12 @@ export class PeticionService {
 
     return promise
 
+  }
+
+  Upload(file:File, destino:string):Observable <any>{
+    const formData: FormData = new FormData()
+    formData.append('userFile', file)
+    return this.http.post(this.urlHost + destino, formData)
   }
 
 }

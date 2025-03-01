@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { PeticionService } from '../../servicios/peticionservice.service';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
+import { DashboardComponent } from "../dashboard/dashboard.component";
 declare var $:any 
 
 
 @Component({
   selector: 'app-perfil',
-  imports: [FormsModule, CommonModule, ],
+  imports: [FormsModule, CommonModule, DashboardComponent],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })

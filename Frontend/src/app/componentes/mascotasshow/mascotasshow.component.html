@@ -1,0 +1,149 @@
+<app-dashboard></app-dashboard>
+
+<div id="ventana">
+  <div class="lbltitulo">
+    Modulo Mascotas
+    <div id="adddata">
+      <i class="fa fa-plus" (click)="Nuevo()"></i>  <!-- Llama la modal nuevo usuario -->
+    </div>
+  </div>
+
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Imagen</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Especie</th>
+        <th scope="col">Sexo</th>
+        <th scope="col">Color</th>
+        <th scope="col">Raza</th>
+        <th scope="col">Fecha Extravío</th>
+        <th scope="col">Dueño (Email)</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Última Ubicación</th>
+        <th scope="col">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of datos"> <!-- Ciclo, ng-container es un div en angular -->
+        <tr (click)="EditarId(item._id)">
+          <td><img [src]="item.imagen" alt="Mascota" width="50"></td>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.especie }}</td>
+          <td>{{ item.sexo }}</td>
+          <td>{{ item.color }}</td>
+          <td>{{ item.raza }}</td>
+          <td>{{ item.fechaExtravio | date:'dd/MM/yyyy' }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.celular }}</td>
+          <td>{{ item.ultimaUbicacion }}</td>
+          <td>
+            <span *ngIf="item.estado === 'perdido'" class="text-danger">Perdido</span>
+            <span *ngIf="item.estado === 'encontrado'" class="text-success">Encontrado</span>
+            <span *ngIf="item.estado === 'adopcion'" class="text-warning">En Adopción</span>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade formdatos" tabindex="-1" aria-labelledby="formdatos" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalles de la Mascota</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <div class="modal-body">
+
+    <label  for="subirimg" id="productoimg">
+
+      <div id="miimagenproducto">
+        <img src ="{{peticion.urlHost}}/Mascotas/{{IdSeleccionado}}.png?x='{{random}}">
+      </div>
+
+      <div id="subirarchivos">
+        <input type ="file" id="subirimg" style="display: none;"(change)="OpenFileSelected ($event)">
+        <button class="btn btn-primary" (click)="onUpload()" >{{nombrearchivo}}</button>
+      </div>
+    </label>
+      
+    
+
+    <div class="form-group">
+    <label for="nombre">Nombre</label>
+    <input type="text" class="form-control" [(ngModel)]="nombre">
+    </div>
+
+    <div class="form-group">
+    <label for="especie">Especie</label>
+    <input type="text" class="form-control" [(ngModel)]="especie">
+    </div>
+
+    <div class="form-group">
+    <label for="sexo">Sexo</label>
+    <select class="form-control" [(ngModel)]="sexo">
+        <option value="macho">Macho</option>
+        <option value="hembra">Hembra</option>
+    </select>
+    </div>
+
+    <div class="form-group">
+    <label for="color">Color</label>
+    <input type="text" class="form-control" [(ngModel)]="color">
+    </div>
+
+    <div class="form-group">
+    <label for="raza">Raza</label>
+    <input type="text" class="form-control" [(ngModel)]="raza">
+    </div>
+
+    <div class="form-group">
+    <label for="fechaExtravio">Fecha de Extravío</label>
+    <input type="date" class="form-control" [(ngModel)]="fechaExtravio">
+    </div>
+
+    <div class="form-group">
+    <label for="email">Email del Dueño</label>
+    <input type="email" class="form-control" [(ngModel)]="email">
+    </div>
+
+    <div class="form-group">
+    <label for="celular">Teléfono del Dueño</label>
+    <input type="tel" class="form-control" [(ngModel)]="celular">
+    </div>
+
+    <div class="form-group">
+    <label for="ultimaUbicacion">Última Ubicación</label>
+    <input type="text" class="form-control" [(ngModel)]="ultimaUbicacion">
+    </div>
+
+    <div class="form-group">
+    <label for="descripcion">Descripción</label>
+    <textarea class="form-control" [(ngModel)]="descripcion"></textarea>
+    </div>
+
+    <div class="form-group">
+    <label for="estado">Estado</label>
+    <select class="form-control" [(ngModel)]="estado">
+        <option value="perdido">Perdido</option>
+        <option value="encontrado">Encontrado</option>
+        <option value="adopcion">En Adopción</option>
+    </select>
+    </div>
+  </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary"(click)="guardar()" *ngIf="IdSeleccionado ==''">Guardar</button>
+        <!--El simbolo (! Lo contrario) hace referencia a que es visible solo si Id no esta vacio-->
+        <button type="button" class="btn btn-primary"(click)="actualizar()" *ngIf="IdSeleccionado !=''">Actualizar</button>
+        <button type="button" class="btn btn-danger"(click)="eliminar()" *ngIf="IdSeleccionado !=''">eliminar</button>
+    </div>
+  </div>
+</div>
+

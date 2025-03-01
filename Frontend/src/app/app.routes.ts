@@ -11,6 +11,7 @@ import { SolicitarcodigoComponent } from './componentes/solicitarcodigo/solicita
 import { RecuperarpassComponent } from './componentes/recuperarpass/recuperarpass.component';
 import { ActivarComponent } from './componentes/activar/activar.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
+import { MascotasshowComponent } from './componentes/mascotasshow/mascotasshow.component';
 
 export const routes: Routes = [
 
@@ -25,9 +26,11 @@ export const routes: Routes = [
   //seccion del administrador
   {path:"dashboard",component:DashboardComponent,pathMatch:"full"},
   {path:"usuarios",component:UsuariosComponent,pathMatch:"full",canActivate: [AuthGuard] },
+  {path:"mascotasshow",component:MascotasshowComponent,pathMatch:"full"},
   {path:"quienessomos",component:QuienesSomosComponent,pathMatch:"full"},
   {path:"faq",component:FAQComponent,pathMatch:"full"},
   //PerfilUsuario
   {path:"perfil",component:PerfilComponent,pathMatch:"full"}
+
 
 ]

@@ -5,9 +5,12 @@ import bodyParser from "body-parser";
 import connectDB from "./config/dataBase.js";
 import usuariosRoutes from './router/usuariosRoutes.js';
 import mascotasRoutes from './router/mascotasRoutes.js';
+import archivosRoutes from './router/archivosRoutes.js'
 import session from "express-session"
 import cookieParser from "cookie-parser"
 import config from "./config/config.js"
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 const app = express();
 
 // config variables de entorno
@@ -74,6 +77,13 @@ app.use(cors({
 // routes
 app.use("/api", usuariosRoutes)
 app.use("/api", mascotasRoutes)
+app.use("/api", archivosRoutes)
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Ahora puedes usar __dirname
+app.use('/mascotas', express.static(__dirname + '/mascotas'));
 
 // Usar las rutas de usuarios
 

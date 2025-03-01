@@ -54,9 +54,9 @@ mascotasController.guardar = function (request, response) {
     if (!post.estado) {
         return response.json({ state: false, mensaje: "El campo estado es obligatorio" })
     }
-    if (!post.dueno) {
+    /* if (!post.dueno) {
         return response.json({ state: false, mensaje: "El campo dueño es obligatorio" })
-    }
+    } */
 
     mascotasModel.guardar(post, function (respuesta) {
         response.json(respuesta);
