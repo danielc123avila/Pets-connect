@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PieDePaginaComponent } from '../../componentes/pie-de-pagina/pie-de-pagina.component';
 import { EncabezadoComponent } from '../../componentes/encabezado/encabezado.component';
+import { PetsCardsComponent } from "../../componentes/pets-cards/pets-cards.component";
 
 @Component({
   selector: 'app-detail',
@@ -14,7 +15,8 @@ import { EncabezadoComponent } from '../../componentes/encabezado/encabezado.com
     CommonModule,
     PieDePaginaComponent,
     EncabezadoComponent,
-  ],
+    PetsCardsComponent
+],
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css'],
 })
@@ -27,15 +29,20 @@ export class DetailComponent implements OnInit {
 
   id: string | null = null;
 
+
   // Servicios inyectados
   private mascotaService = inject(MascotaService);
   private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
+    console.log('ID desde la URL:', this.id);
     if (this.id) {
       this.mascotaService.getMascotaPorId(this.id).subscribe({
-        next: (data) => this.mascota.set(data),
+        next: (data) => {
+          console.log('Mascota en DetailComponent:', data);
+          this.mascota.set(data);
+        },
         error: (error) => console.error('Error al obtener mascota:', error)
       });
     }

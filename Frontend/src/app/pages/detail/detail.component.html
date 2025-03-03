@@ -102,18 +102,6 @@
   </div>
 </div>
 
-<div class="container">
-  <h2>Ver más mascotas perdidas</h2>
-  <div class="mascotas-grid">
-    <div class="mascota-card">
-      <img src="../../../assets/gato.jpg" alt="" />
-      <h3>PEPE</h3>
-      <p><span class="icon">📍</span> Visto por última vez: 10/12/1995</p>
-      <p><strong>📍 Lugar:</strong> Titan Plaza</p>
-      <p><strong>Descripción:</strong> Pelo blanco</p>
-      <button class="btn-ver-mas">Ver más</button>
-    </div>
-  </div>
-</div>
+<app-pets-cards *ngIf="mascota()" [idMascotaActual]="mascota()?._id!"></app-pets-cards>
 
 <app-pie-de-pagina></app-pie-de-pagina>

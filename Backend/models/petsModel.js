@@ -105,6 +105,8 @@ const petSchema = new mongoose.Schema(
       enum: ["Perdido", "Encontrado", "en adopcion"],
     },
 
+    dueno: { type: mongoose.Schema.Types.ObjectId, ref: "Usuarios", required: true },
+
     deletedAt: {
       type: Date,
       default: null,

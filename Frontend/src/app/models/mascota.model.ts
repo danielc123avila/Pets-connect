@@ -1,5 +1,6 @@
 export interface Mascota {
     id?: string
+    _id?: string
     especie: string
     sexo: string
     nombre:string
