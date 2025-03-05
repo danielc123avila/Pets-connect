@@ -1,0 +1,40 @@
+<div class="container main-container">
+  <app-sidebar></app-sidebar>
+  <div class="content">
+    <div class="content-header">
+      <h1>Mascotas perdidas</h1>
+      <p>
+        Hay <strong>{{ totalPets }}</strong> mascotas perdidas en
+        <strong>{{ location }}</strong> en los últimos
+        <strong>{{ lastDays }} días</strong> que coinciden con tu búsqueda
+      </p>
+
+      <div class="content-actions">
+        <button class="btn-green" (click)="publishPet()">
+          Publicar mascota
+        </button>
+        <button class="btn-outline" (click)="sortPets()">
+          Ordenar mascotas
+        </button>
+      </div>
+    </div>
+
+    <div class="pets-grid">
+      @for (card of mascotas(); track card.id){
+      <app-card [mascota]="card"></app-card>
+      }
+    </div>
+
+    <div class="pagination">
+      <button
+        class="pagination-btn"
+        [class.active]="currentPage === i"
+        *ngFor="let page of pages; let i = index"
+        (click)="changePage(i)"
+      >
+        {{ i + 1 }}
+      </button>
+      <button class="pagination-btn" (click)="nextPage()">Siguiente</button>
+    </div>
+  </div>
+</div>

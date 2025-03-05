@@ -1,0 +1,378 @@
+.breadcrumb {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d19141;
+    padding-left: 20px;
+}
+
+.detail-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.image-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Para alinear la imagen y la caja de comentarios en columna */
+    align-items: center;
+}
+
+.pet-image {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 10px;
+}
+
+.info-section {
+    flex: 1;
+    padding: 20px;
+}
+
+.pet-card {
+    background-color: #fef9e7;
+    padding: 18px 0 0 0;
+    border: 2px solid #f3d9a8;
+    border-radius: 30px;
+    margin-bottom: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.pet-name{
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222; 
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.date {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #444; 
+    background-color: white;
+    padding: 12px;
+    border-radius: 0 0 30px 30px; 
+    border-top: none; 
+    width: 100%; 
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.last-seen, .location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 5px 0;
+}
+
+.owner{
+    background-color: #F4F4DC;
+    border-radius: 10px;
+}
+
+p.owner-name{
+    color: #277380;
+    font-weight: bold;
+}
+
+p.update-date{
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #444;
+    margin: 5px 0px;
+    
+}
+
+.owner-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #F4F4DC;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.owner-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.description {
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.extra-info {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.extra-info p{
+    margin: 10px;
+}
+
+.other-characteristics{
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.other-characteristics p{
+    border: 1px solid #444;
+    padding: .3rem;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.color-box {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 2px;
+    border: 1px solid #444; 
+    border-radius: 6px; 
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333; 
+}
+
+.link-report{
+    display: flex;
+    justify-content: end;
+    padding-bottom: 1rem;
+    padding-right: .5rem;
+}
+
+.link-report a{
+    text-decoration: none;
+    color: #0B63E5;
+    font-weight: bold;
+}
+
+.link-report a:hover{
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+.comment-box {
+    width: 100%;
+    max-width: 450px;
+    margin-top: 15px;
+    padding: 15px;
+    background: #fef9e7;
+    border: 2px solid #f3d9a8;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Asegura que los elementos ocupen todo el ancho */
+}
+
+.comment-box h2 {
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.comment-actions {
+    display: flex;
+    justify-content: flex-end; /* Mueve el botón a la derecha */
+    margin-top: 10px;
+}
+
+.comment-box textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 14px;
+    resize: none;
+}
+
+.comment-box .send-comment {
+    padding: 8px 12px;
+    background: #f3d9a8;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    transition: 0.3s;
+    
+}
+
+.comment-box .send-comment:hover {
+    background: #eac28a;
+}
+
+.share-container {
+    background-color: transparent;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #6DC5D1;
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: left;
+    position: relative;
+    left: 210px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.share-text {
+    flex: 1;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.social-icon {
+    font-size: 32px;
+    margin: 0 10px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.2); 
+    color: #ff5733; 
+}
+
+.fa-whatsapp:hover {
+    color: #25D366; 
+}
+
+.fa-facebook:hover {
+    color: #1877F2;
+}
+
+.fa-instagram:hover {
+    color: #C13584;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Contenedor fijo del carrusel */
+.carousel-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel {
+    position: relative;
+    width: 450px; /* Tamaño fijo */
+    height: 350px; /* Altura fija */
+    overflow: hidden;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black; /* Evita fondo blanco si la imagen es más pequeña */
+}
+
+/* Imagen ajustada dentro del carrusel */
+.pet-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen sin distorsión */
+    border-radius: 10px;
+    display: block;
+}
+
+/* Botones de navegación dentro de la imagen */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.3s;
+    z-index: 3; /* Se mantiene sobre la imagen */
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.left {
+    left: 10px;
+}
+
+.right {
+    right: 10px;
+}
+
+/* Indicadores (bolitas) dentro de la imagen */
+.carousel-indicators {
+    position: absolute;
+    bottom: 15px;
+    left: 35%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    z-index: 3; /* Para que esté sobre la imagen */
+}
+
+/* Estilos de cada bolita */
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Bolita activa */
+.dot.active {
+    background-color: white;
+    width: 14px;
+    height: 14px;
+}
+
+/* Contador de imágenes */
+.counter {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    z-index: 2;
+}

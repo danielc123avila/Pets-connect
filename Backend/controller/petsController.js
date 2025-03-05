@@ -15,10 +15,11 @@ export const obtenerMascotas = async (req, res) => {
 export const obtenerMascotaPorId = async (req, res) => {
   try {
     const { id } = req.params;
+
     const mascota = await Pet.findOne({
       _id: id,
       deletedAt: { $eq: null },
-    });
+    }).populate("dueno", "nombre telefono email profileImg username direccion edad"); // 🔥 Solo los campos necesarios
 
     if (!mascota) {
       throw new Error("Mascota no encontrada");
@@ -39,6 +40,7 @@ export const obtenerMascotaPorId = async (req, res) => {
 export const crearReporte = async (req, res) => {
   try {
     const {
+      dueno,
       especie,
       sexo,
       nombre,
@@ -59,6 +61,7 @@ export const crearReporte = async (req, res) => {
     }
 
     const nuevaMascota = new Pet({
+      dueno,
       especie,
       sexo,
       nombre,
@@ -66,10 +69,10 @@ export const crearReporte = async (req, res) => {
       fechaExtravio,
       color,
       raza,
-      email: email.toLowerCase(),
+      email: email ? email.toLowerCase() : undefined,
       celular,
       descripcion,
-      palabrasClave: palabrasClave.split(",").map((p) => p.trim()),
+      palabrasClave: palabrasClave ? palabrasClave.split(",").map((p) => p.trim()) : [],
       estado,
       fotos:
         req.files?.map((file, index) => ({
@@ -131,10 +134,10 @@ export const actualizarMascota = async (req, res) => {
       fechaExtravio,
       color,
       raza,
-      email: email?.toLowerCase(),
+      email: email ? email.toLowerCase() : undefined,
       celular,
       descripcion,
-      palabrasClave: palabrasClave?.split(",").map((p) => p.trim()),
+      palabrasClave: palabrasClave ? palabrasClave.split(",").map((p) => p.trim()) : [],
       ...(fotosActualizadas.length && { fotos: fotosActualizadas }),
       estado,
     };

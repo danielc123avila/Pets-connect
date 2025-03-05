@@ -1,0 +1,79 @@
+/* sidebar.component.css */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.sidebar-section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.volver {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2a9d8f;
+  font-weight: bold;
+}
+
+.search p {
+  margin-bottom: 10px;
+}
+
+.filter h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  color: #2a9d8f;
+}
+
+.filter-group {
+  margin-bottom: 15px;
+}
+
+.filter-group h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.filter-input input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #e6f3f5;
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-option label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    width: 100%;
+  }
+}

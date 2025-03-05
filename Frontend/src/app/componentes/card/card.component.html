@@ -1,0 +1,12 @@
+<div class="pet-card">
+  <div class="pet-image">
+    <img [src]="" [alt]="">
+  </div>
+  <div class="pet-info">
+    <h3>{{ mascota?.nombre }}</h3>
+    <p><i class="fas fa-map-marker-alt"></i> {{ mascota?.raza }}</p>
+    <p><i class="far fa-calendar"></i> Visto por última vez: {{ mascota?.ultimaUbicacion }}</p>
+    <p class="pet-description">{{ mascota?.descripcion }}</p>
+    <button class="btn-orange" (click)="viewDetails()">Ver más</button>
+  </div>
+</div>
