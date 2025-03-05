@@ -14,10 +14,10 @@ export class MascotaService {
 
   getMascotas(): Observable<Mascota[]> {
     return this.http.get<Mascota[]>(`${this.urlBase}/mascotas`).pipe(
-      tap((response) => console.log('Respuesta de API:', response)), // Verifica la respuesta real
+      tap((response) => console.log('Respuesta de API:')), // Verifica la respuesta real
       map((response) => {
         if (!Array.isArray(response)) {
-          console.error('Respuesta inesperada de API:', response);
+          console.error('Respuesta inesperada de API:');
           return [];
         }
         return response; // Directamente retornar el array
@@ -28,7 +28,12 @@ export class MascotaService {
   getMascotaPorId(id: string): Observable<Mascota> {
     return this.http.get<{ success: boolean; data: Mascota }>(`${this.urlBase}/mascotas/${id}`).pipe(
       tap((response: { success: boolean; data: Mascota }) => console.log('Respuesta de API:', response)), //  Verifica respuesta
-      map((response) => response.data)
+      map((response) => {
+        if (!response.success || !response.data) {
+          throw new Error('La API no devolvió datos válidos');
+        }
+        return response.data;
+      })
     );
   }
 

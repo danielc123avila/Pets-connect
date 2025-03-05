@@ -273,6 +273,106 @@ p.update-date{
 
 .container {
     max-width: 400px;
-    margin: 0;
+    margin: 0 auto;
     padding: 20px;
+}
+
+/* Contenedor fijo del carrusel */
+.carousel-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel {
+    position: relative;
+    width: 450px; /* Tamaño fijo */
+    height: 350px; /* Altura fija */
+    overflow: hidden;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black; /* Evita fondo blanco si la imagen es más pequeña */
+}
+
+/* Imagen ajustada dentro del carrusel */
+.pet-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen sin distorsión */
+    border-radius: 10px;
+    display: block;
+}
+
+/* Botones de navegación dentro de la imagen */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.3s;
+    z-index: 3; /* Se mantiene sobre la imagen */
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.left {
+    left: 10px;
+}
+
+.right {
+    right: 10px;
+}
+
+/* Indicadores (bolitas) dentro de la imagen */
+.carousel-indicators {
+    position: absolute;
+    bottom: 15px;
+    left: 35%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    z-index: 3; /* Para que esté sobre la imagen */
+}
+
+/* Estilos de cada bolita */
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Bolita activa */
+.dot.active {
+    background-color: white;
+    width: 14px;
+    height: 14px;
+}
+
+/* Contador de imágenes */
+.counter {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    z-index: 2;
 }

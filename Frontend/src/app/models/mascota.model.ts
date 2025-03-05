@@ -1,3 +1,10 @@
+export interface Foto {
+    url: string;
+    thumbnail?: string;
+    descripcion?: string;
+    _id?: string;
+}
+
 export interface Mascota {
     id?: string
     _id?: string
@@ -9,7 +16,7 @@ export interface Mascota {
     ultimaUbicacion:string
     fechaExtravio:string
     descripcion: string
-    fotos?: string[]
+    fotos?: Foto[]
     createdAt?: string
     updatedAt?: string
     palabrasClave?: string[]

@@ -10,7 +10,33 @@
 
 <div class="detail-container">
   <div class="image-section">
-    <img src="../../../assets/gato.jpg" alt="Mascota" class="pet-image" />
+    <!-- <img src="../../../assets/gato.jpg" alt="Mascota" class="pet-image" /> -->
+    <div *ngIf="mascota() as mascotaData">
+      <div *ngIf="mascotaData.fotos && mascotaData.fotos.length > 0; else sinImagenes" class="carousel-container">
+        <div class="carousel">
+          <!-- Botón Anterior -->
+          <button (click)="anterior()" class="carousel-btn left">❮</button>
+    
+          <!-- Imagen de la mascota -->
+          <img [src]="'http://localhost:3000' + mascotaData.fotos[indiceActual].url" alt="Mascota" class="pet-image">
+    
+          <!-- Botón Siguiente -->
+          <button (click)="siguiente()" class="carousel-btn right">❯</button>
+    
+          <!-- Indicador de imágenes (bolitas) -->
+          <div class="carousel-indicators">
+            <span *ngFor="let foto of mascotaData.fotos; let i = index"
+                  class="dot"
+                  [class.active]="i === indiceActual"
+                  (click)="indiceActual = i"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ng-template #sinImagenes>
+      <p>No hay imágenes disponibles.</p>
+    </ng-template>
 
     <!-- Caja de Comentarios -->
     <div class="comment-box">
@@ -102,6 +128,10 @@
   </div>
 </div>
 
-<app-pets-cards *ngIf="mascota()" [idMascotaActual]="mascota()?._id!"></app-pets-cards>
+<app-pets-cards 
+  *ngIf="mascota() as m" 
+  [idMascotaActual]="m._id ?? null" 
+  (verMas)="actualizarDetalleMascota($event)">
+</app-pets-cards>
 
 <app-pie-de-pagina></app-pie-de-pagina>

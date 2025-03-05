@@ -1,10 +1,10 @@
 import { Mascota } from '../../models/mascota.model';
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MascotaService } from '../../servicios/mascota.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-pets-cards',
@@ -14,6 +14,8 @@ import { RouterLink } from '@angular/router';
 })
 export class PetsCardsComponent implements OnInit, OnDestroy {
   @Input() idMascotaActual: string | null = null;
+  @Input() mascota!: Mascota;
+  @Output() verMas: EventEmitter<string> = new EventEmitter<string>();
 
   private mascotaService = inject(MascotaService);
   mascotas: Mascota[] = []; // Lista completa de mascotas
@@ -24,20 +26,27 @@ export class PetsCardsComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    console.log('ID recibido en pets-cards:', this.idMascotaActual);
     this.cargarMascotas();
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['mascota']) {
+    }
+  }
+
+  onVerMas(): void {
+    if (!this.mascota || !this.mascota._id) {
+      return;
+    }
+    this.verMas.emit(this.mascota._id);
+  }
+
 
   cargarMascotas() {
     this.mascotaService.getMascotas().subscribe((mascotas) => {
-      console.log("Datos recibidos de la API:", mascotas);
 
       this.mascotas = mascotas.filter((m) => m.especie === "Perro");
 
-      console.log("Mascotas después de filtrar:", this.mascotas);
-
       if (this.mascotas.length === 0) {
-        console.warn("Advertencia: No hay mascotas para mostrar después de filtrar.");
         return;
       }
 
@@ -82,7 +91,6 @@ export class PetsCardsComponent implements OnInit, OnDestroy {
     this.mascotas.push(this.mascotas.shift()!);
     this.mascotasVisibles = this.mascotas.slice(0, this.cantidadTarjetas);
 
-    console.log('Mascotas visibles actualizadas:', this.mascotasVisibles);
   }
 
   ngOnDestroy(): void {

@@ -35,7 +35,6 @@ export class EncabezadoComponent implements OnInit {
 
     this.isLoading = true; // Activar el estado de carga
     this.peticion.post(data.host + data.path, data.payload).then((res: any) => {
-      console.log(res);
 
       // Asignar el rol
       switch (res.rol) {

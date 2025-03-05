@@ -2,12 +2,12 @@
     <h2>Ver más mascotas perdidas</h2>
     <div class="mascotas-grid">
         <div *ngFor="let mascota of mascotasVisibles" class="mascota-card">
-            <img src="../../../assets/gato.jpg" alt="" />
+            <img *ngIf="mascota.fotos && mascota.fotos.length > 0" [src]="'http://localhost:3000' + mascota.fotos[0].url" alt="Mascota">
             <h3>{{mascota.nombre}}</h3>
             <p><span class="icon">📍</span> Visto por última vez: {{mascota.fechaExtravio}}</p>
             <p><strong>📍 Lugar:</strong> {{mascota.ultimaUbicacion}}</p>
             <p><strong>Descripción:</strong> {{mascota.descripcion}}</p>
-            <button class="btn-ver-mas">Ver más</button>
+            <button class="btn-ver-mas" (click)="onVerMas()">Ver más</button>
         </div>
     </div>
 </div>
