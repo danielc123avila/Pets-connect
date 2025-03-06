@@ -69,6 +69,15 @@ export class CrearMascotaComponent {
         if (result) {
           this.mascotaService.crearMascota(
             this.toformData(this.registerMascota.value)
+          ).subscribe(
+            (response) => {
+              console.log('Mascota creada exitosamente:', response);
+              // Lógica adicional si es necesario
+            },
+            (error) => {
+              console.error('Error al crear la mascota:', error);
+              this.Error.set('Hubo un error al crear la mascota. Por favor, intenta nuevamente.');
+            }
           );
         }
       });
@@ -76,4 +85,5 @@ export class CrearMascotaComponent {
       this.Error.set('Por favor completa todos los campos obligatorios.');
     }
   }
+
 }
