@@ -1,0 +1,19 @@
+<div class="crear-mascota">
+  <form [formGroup]="registerMascota" (ngSubmit)="onsubmit()">
+    <h2>Crear una mascota</h2>
+
+    <input type="text" placeholder="Especie" formControlName="especie">
+    <input type="text" placeholder="Sexo" formControlName="sexo">
+    <input type="text" placeholder="Nombre" formControlName="nombre">
+    <input type="text" placeholder="Última Ubicación" formControlName="ultimaUbicacion">
+    <input type="date" placeholder="Fecha de Extravio" formControlName="fechaExtravio">
+    <input type="text" placeholder="Color" formControlName="color">
+    <input type="text" placeholder="Raza" formControlName="raza">
+    <input type="email" placeholder="Email" formControlName="email">
+    <input type="text" placeholder="Celular" formControlName="celular">
+    <input type="text" placeholder="Palabras Clave" formControlName="palabrasClave">
+    <input type="text" placeholder="Estado" formControlName="estado">
+    <input type="file" placeholder="Fotos" formControlName="fotos" (change)="onFileChange($event)">
+    <button type="submit">Crear</button>
+  </form>
+</div>
