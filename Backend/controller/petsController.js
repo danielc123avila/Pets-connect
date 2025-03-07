@@ -1,4 +1,5 @@
 import Pet from "../models/petsModel.js";
+import usuariosModel from "../models/usuariosModel.js";
 
 export const obtenerMascotas = async (req, res) => {
   try {
@@ -37,10 +38,11 @@ export const obtenerMascotaPorId = async (req, res) => {
   }
 };
 
+
 export const crearReporte = async (req, res) => {
   try {
     const {
-      dueno,
+      email, // Extraer el email del cuerpo de la solicitud
       especie,
       sexo,
       nombre,
@@ -48,12 +50,17 @@ export const crearReporte = async (req, res) => {
       fechaExtravio,
       color,
       raza,
-      email,
       celular,
       descripcion,
       palabrasClave,
       estado,
     } = req.body;
+
+    console.log('Datos recibidos:', req.body);
+
+    // Buscar el usuario por email usando la función asíncrona
+    const usuario = await usuariosModel.buscarPorEmail(email);
+    console.log('Usuario encontrado:', usuario);
 
     // Validación de fecha
     if (new Date(fechaExtravio) > new Date()) {
@@ -61,7 +68,7 @@ export const crearReporte = async (req, res) => {
     }
 
     const nuevaMascota = new Pet({
-      dueno,
+      dueno: usuario._id, // Asociar la mascota con el ID del usuario encontrado
       especie,
       sexo,
       nombre,
@@ -69,7 +76,7 @@ export const crearReporte = async (req, res) => {
       fechaExtravio,
       color,
       raza,
-      email: email ? email.toLowerCase() : undefined,
+      email: email.toLowerCase(),
       celular,
       descripcion,
       palabrasClave: palabrasClave ? palabrasClave.split(",").map((p) => p.trim()) : [],
@@ -82,19 +89,26 @@ export const crearReporte = async (req, res) => {
         })) || [],
     });
 
+    console.log('Mascota a guardar:', nuevaMascota);
+
     await nuevaMascota.save();
+
+    console.log('Mascota guardada:', nuevaMascota);
 
     res.status(201).json({
       success: true,
       data: nuevaMascota,
     });
   } catch (error) {
+    console.error('Error al crear el reporte:', error);
     res.status(400).json({
       success: false,
       message: error.message,
     });
   }
 };
+
+
 
 export const actualizarMascota = async (req, res) => {
   try {
