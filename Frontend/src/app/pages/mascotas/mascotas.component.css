@@ -1,0 +1,66 @@
+/* pet-list.component.css */
+.content {
+  flex-grow: 1;
+}
+
+.content-header {
+  margin-bottom: 20px;
+}
+
+.content-header h1 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.content-header p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.content-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.pagination-btn {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.pagination-btn.active {
+  background-color: #2a9d8f;
+  color: white;
+  border-color: #2a9d8f;
+}
+
+.pagination-btn:last-child {
+  width: auto;
+  padding: 0 10px;
+}
+
+@media (max-width: 768px) {
+  .pets-grid {
+    grid-template-columns: 1fr;
+  }
+}

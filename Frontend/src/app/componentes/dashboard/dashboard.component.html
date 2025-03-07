@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Home alineado a la izquierda -->
+    <a class="navbar-brand" href="/">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Opciones del menú centradas -->
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/perfil">Perfil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/usuarios">Usuarios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/mascotasshow">Mascotas</a>
+        </li>
+      </ul>
+      <!-- Dropdown para la información del usuario -->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user"></i> <!-- Ícono de usuario (Font Awesome) -->
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <div class="dropdown-item">
+              <span class="lblnombre">{{nombre}}</span> | <span class="lblrol">{{rol}}</span>
+            </div>
+            <div class="dropdown-item">
+              Último Logueo: {{ultimologin | date : 'dd/MM/yyyy HH:mm:ss'}}
+            </div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+</nav>
+
+
+
+
+
+
+
+  
+

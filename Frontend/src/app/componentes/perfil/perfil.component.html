@@ -1,0 +1,99 @@
+<app-dashboard></app-dashboard>
+<div class="ventana">
+  <div class="lbltitulo">
+    Modulo Perfil
+  </div>
+
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Email</th>
+        <th scope="col">Telefono</th>
+        <th scope="col" *ngIf="rol === 'Administrador' || rol === '1'">Rol</th>
+        <th scope="col" *ngIf="rol === 'Administrador' || rol === '1'">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of datos"> 
+        <tr (click)="EditarId(item._id)">
+          <td>{{item.nombre}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.telefono}}</td>
+          <td *ngIf="rol === 'Administrador' || rol === '1'">
+            <span *ngIf="item.rol == '0'">Cliente</span>
+            <span *ngIf="item.rol == '1'">Administrador</span>
+          </td>
+          <td *ngIf="rol === 'Administrador' || rol === '1'">
+            <span *ngIf="item.estado == '0'">Desactivado</span>
+            <span *ngIf="item.estado == '1'">Activado</span>
+            <span *ngIf="item.estado == '2'">Baneado</span>
+          </td>
+        </tr>
+      </ng-container>
+      
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade formdatos" tabindex="-1" aria-labelledby="formdatos" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="nombre" class="form-control nombre" [(ngModel)]="nombre">
+        </div>
+      
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control email" [(ngModel)]="email" [disabled]="IdSeleccionado != ''">
+        </div>
+
+        <div class="form-group">
+          <label for="telefono">Telefono</label>
+          <input type="telefono" class="form-control telefono" [(ngModel)]="telefono">
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control password" [(ngModel)]="password" [disabled]="IdSeleccionado != ''">
+        </div>
+
+        <div class="form-group" *ngIf="rol === 'Administrador' || rol === '1'">
+          <label for="rol">Rol</label>
+          <select class="form-control rol" [(ngModel)]="rol">
+            <option value="0">Cliente</option>
+            <option value="1">Administrador</option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="rol === 'Administrador' || rol === '1'">
+          <label for="estado">Estado</label>
+          <select class="form-control estado" [(ngModel)]="estado">
+            <option value="0">Desactivado</option>
+            <option value="1">Activado</option>
+            <option value="2">Baneado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <a class="btn btn-link" (click)="recuperar(_id, $event)">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary"(click)="actualizar()" *ngIf="IdSeleccionado !=''">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>

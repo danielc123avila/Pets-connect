@@ -1,0 +1,420 @@
+.vistaPrincipal {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.textoIntroduccion {
+    margin-bottom: 45px;
+}
+
+.textoPrincipal {
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 100px; 
+}
+
+.tituloPrincipal {
+    font-size: 50px;
+    color: #277380;
+    font-family: "Poppins";
+    font-weight: bold;
+    line-height: 60px;
+}
+
+.titulo {
+    color: #277380;
+    margin-bottom: 20px;
+}
+
+.text {
+    color: #277380;
+    font-family: "Inter";
+    font-size: 17px;
+}
+
+.pPrincipal {
+    margin-bottom: 15px;
+    
+}
+
+
+.botones {
+    width: 100%;
+    height: auto;
+    display: flex;
+    gap: 60px;
+}
+
+.btnPublicar {
+    width: 200px;
+    height: 40px;
+    background-color: #6DC5D1;
+    border-radius: 50px;
+    border: none;
+    color: black;
+    font-family: "Roboto";
+    box-shadow: 3px 4px 6px 1px #BEBEB2;
+}
+
+.btnVerPublicaciones {
+    width: 200px;
+    height: 40px;
+    background-color: #FEB941;
+    border-radius: 50px;
+    border: none;
+    color: black;
+    font-family: "Roboto";
+    box-shadow: 3px 4px 6px 1px #BEBEB2;
+}
+
+/* --------------------------- PARTE CÓMO FUNCIONA --------------------------- */
+
+.comoFunciona {
+    max-width: 1600px;
+    height: 493px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 75px;
+}
+
+.contenedorCardsComoFunciona {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.cardComoFunciona{
+    width: 260px;
+    height: 393px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #D9EFF2;
+    border-radius: 20px;
+}
+
+.publicarAvisos {
+    grid-area: 1;
+}
+
+.buscarMascotas {
+    grid-area: 1;
+}
+
+.adoptar{
+    grid-area: 1;
+}
+
+.recibirAlertas {
+    grid-area: 1;
+}
+
+.contenidoCard {
+    width: 100%;
+    height: 385px;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.tituloSeccionComoFunciona {
+    font-size: 35px;
+    color: #277380;
+    font-family: "Poppins";
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.imgCards {
+    width: 100%;
+    height: auto;
+    padding: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icono {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    background-color: #FDF1CE;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    grid-area: 1fr;
+}
+
+.tituloPrincipalCard {
+    text-align: center;
+    font-size: 20px;
+    color: #3D3D3D;
+    font-weight: 600;
+    font-family: "Poppins";
+    margin-bottom: 45px;
+    grid-area: 1fr;
+}
+
+.tituloCardComoFunciona {
+    grid-area: 1fr;
+}
+
+.textoCards {
+    font-size: 18px;
+    font-weight: 500;
+    color: #00000099;
+    font-family: "Inter";
+    text-align: center;
+    padding: 1px;
+    margin-top: -25px
+}
+
+.textoCardComoFunciona {
+    grid-area: 1fr;
+}
+
+/* --------------------------- PARTE QUIÉNES SOMOS -------------------------------- */
+
+.quienesSomos {
+    max-width: 1600px;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.tituloQuienesSomos {
+    font-size: 35px;
+    text-align: center;
+    color: #277380;
+    font-family: "Poppins";
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.contenedorTextoQuienesSomos {
+    width: 55%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.textoQuienesSomos {
+    font-size: 18px;
+    color: #000000;
+    font-family: "Inter";
+    text-align: center;
+    margin-bottom: 20px;
+    margin-bottom: 5px;
+    font-weight: 450;
+    line-height: 180%;
+}
+
+/* --------------------------- PARTE TESTIMONIOS --------------------------- */
+.testimonios {
+    max-width: 1600px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 75px;
+}
+
+.tituloTestimonios {
+    font-size: 36px;
+    text-align: center;
+    color: #277380;
+    font-family: "Poppins";
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.contenedorCardsTestimonios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.contenedorCardTestimonios{
+    width: 450px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #B8E4E9;
+    border-radius: 24px;
+    padding: 16px;
+}
+
+.cardTestimonio {
+    height: 100%;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 8px 24px 0px #E545450A;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.contenedorIconoTestimonios {
+    width: 45px;
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+.iconoCardTestimonio {
+    width: 100%;
+    height: 100%;
+}
+
+.contenedorTextoTestimonios {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.textoTestimonio {
+    font-family: "Inter";
+    font-size: 16px;
+    color: #061C3D;
+}
+
+.contenedorPerfilTestimonios {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+
+}
+
+.contenedorImagenPerfilTestimonios {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+}
+
+.imagenPerfilTestimonios {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.contenedorNombrePerfilTestimonio {
+    margin-bottom: 5px;
+}
+
+.nombrePerfilTestimonio {
+    font-family: "Inter";
+    font-size: 16px;
+    color: #061C3D;
+    font-weight: 500;
+}
+
+.ubicacionPerfilTestimonio {
+    font-family: "Inter";
+    font-size: 14px;
+    color: #838E9E;
+    font-weight: 500;
+}
+
+/* --------------------------- PARTE NUESTRA COMUNIDAD --------------------------- */
+
+.nuestraComunidad {
+    max-width: 1600px;
+    height: auto;
+    display: flex;
+    margin-bottom: 75px;
+}
+
+.contenedorContenidoNuestraComunidad {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+}
+
+.tituloNuestraComunidad {
+    font-family: "Poppins";
+    font-size: 39px;
+    color: #DD761C;
+    font-weight: 600;
+    text-shadow: 1px 4px 6px #C8B3A4;
+    text-align: center;
+}
+
+.contenedorTextoNuestraComunidad {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 50px 25px 105px;
+}
+
+.textoNuestraComunidad {
+    font-family: "Inter";
+    font-size: 18px;
+    color: #1A202C;
+    font-weight: 450;
+    line-height: 170%;
+    text-align: center;
+}
+
+.separacionTextoNuestraComunidad {
+    margin-bottom: 20px;
+}
+
+.botonNuestraComunidad {
+    width: 200px;
+    height: 40px;
+    background-color: #FEB941;
+    border-radius: 50px;
+    border: none;
+    color: #1E1E1E;
+    font-family: "Roboto";
+    font-size: 16px;
+    box-shadow: 3px 4px 6px 1px #BEBEB2;
+    font-weight: 500;
+}
+
+
+
+
+.contenedorImagenNuestraComunidad {
+    width: 465px;
+    height: 411px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 -90px;
+}
+
+.imagenNuestraComunidad {
+    width: 100%;
+    height: 100%;
+}
+
+/* --------------------------- PARTE RESPONSIVE --------------------------- */

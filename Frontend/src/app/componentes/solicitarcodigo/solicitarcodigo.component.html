@@ -1,0 +1,14 @@
+<app-encabezado></app-encabezado>
+<div id="login">
+    <div class="form-group">
+      <label for="Email">Email address</label>
+      <input type="email" class="form-control" id="email" [(ngModel)] = "email"> <!-- Two way bindind, banana in box -->
+      <!-- ngModel establece una variable que se comunica con typescript-->
+    </div>
+
+  <div class="lblsolicitar" routerLink="/recuperarpass">Ya tengo un codigo</div>
+
+  <button type="submit" class="btn btn-primary" (click)="solicitar()">Solicitar codigo de recuperacion</button>
+    
+</div>
+<app-pie-de-pagina></app-pie-de-pagina>

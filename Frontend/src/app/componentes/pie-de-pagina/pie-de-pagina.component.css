@@ -1,0 +1,78 @@
+footer {
+    background-color: #277380;
+    padding: 10px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 325px;
+}
+
+.contenedorPrimeraInformacionFooter {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 60px;
+}
+
+.contenedorLogoYRedesSociales {
+    padding: 20px 0px 0px 30px;
+}
+
+.logoPetsConnectFooter {
+    width: 140px;
+    height: 74px;
+    margin-bottom: 20px;
+}
+
+.contenedorTextoRutas {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding: 50px 50px 0px 0px;
+}
+
+.rutasFooter {
+    font-family: "Plus Jakarta Sans";
+    font-size: 24px;
+    text-decoration: none;
+    font-weight: 500;
+    color: #FFFFFF;
+    margin: 0px 15px;
+}
+
+.iconRedesSociales {
+    width: 46px;
+    height: 44px;
+}
+
+.lineaSeparadoraFooter {
+    margin: 0 auto;
+    width: 95%;
+    height: 3px;
+    background-color: #B8E4E9;
+    border-color: #B8E4E9;
+}
+
+.contenedorUltimaInformacionFooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 50px;
+}
+
+.contenedorTextoDerechaFooter {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 30px;
+    margin-right: -15px;
+}
+
+.textoFinalFooter {
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-left: -15px;
+}

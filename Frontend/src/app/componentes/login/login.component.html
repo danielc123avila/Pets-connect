@@ -1,0 +1,44 @@
+
+<!-- Overlay para difuminar el fondo -->
+<div class="overlay" (click)="close()"></div>
+
+<!-- Contenedor del login -->
+<div class="login-container">
+  <!-- Botón de cierre  -->
+  <button class="close-button" (click)="close()">X</button>
+  
+  <div class="icon-container">
+    <img class="iconlogin" src="../../../assets/Logologin.png" alt="Buscar Mascotas">
+    <h2>Iniciar sesión</h2>   
+  </div>
+      
+  <div class="login">
+    <label for="email">Correo electrónico</label>
+    <input type="email" [(ngModel)] = "email" id="email" placeholder="ejemplo@email.com" required />
+
+    <label for="password">Contraseña</label>
+    <input type="password" [(ngModel)] = "password" id="password" required />
+
+    <a href="#" class="forgot-password" routerLink="/solicitarcodigo">¿Olvidaste tu contraseña?</a>
+
+    <div class="button-container">
+      <button type="submit" (click)="login()" class="login-button">Iniciar sesión</button>
+      <button type="button" class="google-button" (click)="inicializarGoogle()">Iniciar sesión con Google</button>
+      <!-- <div id="buttonDiv"></div> -->
+    </div>
+  </div>
+  
+  <p>¿No tenés una cuenta? <button class="link-style" (click)="openRegistro()">Registrate aquí</button></p> 
+  
+</div> 
+
+<app-registro *ngIf="showRegistro" (onClose)="closeRegistro()"></app-registro>
+
+
+
+
+
+
+
+
+

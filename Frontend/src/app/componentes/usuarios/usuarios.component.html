@@ -1,0 +1,103 @@
+<app-dashboard></app-dashboard>
+<div id="ventana">
+    <div class="lbltitulo">
+      Modulo Usuarios
+      <div id="adddata">
+        <i class="fa fa-plus" (click)="Nuevo()"></i>  <!-- Llama la modal nuevo usuario -->
+      </div>
+    </div>
+  
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Email</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Rol</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of datos"> <!-- Ciclo, ng-container es un div en angular -->
+          <tr (click)="EditarId(item._id)">
+            <td>{{item.nombre}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.telefono}}</td>
+            <td>
+              <span *ngIf="item.rol == '0'">Cliente</span>
+              <span *ngIf="item.rol == '1'">Administrador</span>
+            </td>
+            <td>
+              <span *ngIf="item.estado == '0'">Desactivado</span>
+              <span *ngIf="item.estado == '1'">Activado</span>
+              <span *ngIf="item.estado == '2'">Baneado</span>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="formdatos" tabindex="-1" aria-labelledby="formdatos" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="nombre" class="form-control" id="nombre" [(ngModel)]="nombre">
+        </div>
+      
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" [(ngModel)]="email" [disabled]="IdSeleccionado != ''">
+        </div>
+
+        <div class="form-group">
+          <label for="telefono">telefono</label>
+          <input type="telefono" class="form-control" id="telefono" [(ngModel)]="telefono">
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" [(ngModel)]="password" [disabled]="IdSeleccionado != ''">
+        </div>
+
+        <div class="form-group">
+          <label for="rol">Rol</label>
+          <select class="form-control" id="rol" [(ngModel)]="rol">
+            <option value="0">Cliente</option>
+            <option value="1">Administrador</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="estado">Estado</label>
+          <select class="form-control" id="estado" [(ngModel)]="estado">
+            <option value="0">Desactivado</option>
+            <option value="1">Activado</option>
+            <option value="2">Baneado</option>
+          </select>
+        </div>      
+
+
+      </div>
+      <div class="modal-footer"><!--ngIf, boton visible solo si IdSeleccionado esta vacio -->
+        <button type="button" class="btn btn-primary"(click)="guardar()" *ngIf="IdSeleccionado ==''">Guardar</button>
+        <!--El simbolo (! Lo contrario) hace referencia a que es visible solo si Id no esta vacio-->
+        <button type="button" class="btn btn-primary"(click)="actualizar()" *ngIf="IdSeleccionado !=''">Actualizar</button>
+        <button type="button" class="btn btn-danger"(click)="eliminar()" *ngIf="IdSeleccionado !=''">eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
