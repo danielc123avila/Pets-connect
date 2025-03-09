@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit{
   rol:string = "Cargando..."
   ultimologin:string ="1900/01/01"
   _id:string = ""
-  random:number = 0
+  
 
   status(){
     let data = {
@@ -56,8 +56,6 @@ export class DashboardComponent implements OnInit{
       
   }  
 
-
-
   logout (){
     
     let data = {
@@ -84,4 +82,5 @@ export class DashboardComponent implements OnInit{
     })
       
   }
+
 }

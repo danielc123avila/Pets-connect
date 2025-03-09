@@ -32,7 +32,7 @@ export class MascotasshowComponent implements OnInit {
   ultimaUbicacion: string = ""
   descripcion: string = ""
   estado: string = "perdido"
-  imagen: string = "assets/noimagen.jpg"
+  imagen: string = ""
   IdSeleccionado: string = ""
   random:number = 0
   nombrearchivo:string = "Upload"
@@ -54,7 +54,7 @@ export class MascotasshowComponent implements OnInit {
     this.ultimaUbicacion = "";
     this.descripcion = "";
     this.estado = "perdido";
-    this.imagen = "assets/noimagen.jpg";
+    this.imagen = "";
     this.IdSeleccionado = "";
     }
 
@@ -216,7 +216,7 @@ export class MascotasshowComponent implements OnInit {
 
     onUpload(){
         if(this.selectedFile){
-          this.peticion.Upload(this.selectedFile,"/subirmascotas/" + this.IdSeleccionado).subscribe((res:any) => {
+          this.peticion.Upload(this.selectedFile,"/api/subirmascotas/" + this.IdSeleccionado).subscribe((res:any) => {
             console.log(res)
             this.random = Math.random() * (9999 - 0) + 0;
       

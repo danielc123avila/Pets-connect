@@ -7,6 +7,7 @@
   <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
+        <th scope="col">Imagen</th>
         <th scope="col">Nombre</th>
         <th scope="col">Email</th>
         <th scope="col">Telefono</th>
@@ -17,6 +18,9 @@
     <tbody>
       <ng-container *ngFor="let item of datos"> 
         <tr (click)="EditarId(item._id)">
+          <td>
+            <img src="{{peticion.urlHost}}/Avatar/{{item._id}}.png?x='{{random}}" class="avatar">
+          </td>
           <td>{{item.nombre}}</td>
           <td>{{item.email}}</td>
           <td>{{item.telefono}}</td>
@@ -47,6 +51,19 @@
         </button>
       </div>
       <div class="modal-body">
+
+
+        <label  for="subirimg" id="productoimg">
+
+          <div id="miimagenproducto">
+            <img src ="{{peticion.urlHost}}/Avatar/{{IdSeleccionado}}.png?x='{{random}}">
+          </div>
+    
+          <div id="subirarchivos">
+            <input type ="file" id="subirimg" style="display: none;"(change)="OpenFileSelected ($event)">
+            <button class="btn btn-primary" (click)="onUpload()" >{{nombrearchivo}}</button>
+          </div>
+        </label>
 
         
         <div class="form-group">

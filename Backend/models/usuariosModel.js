@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 // Define the schema
 const usuariosSchema = new Schema({
+    imagen:String,
     nombre: String,
     email: String,
     password: String,
@@ -25,6 +26,7 @@ const Usuarios = mongoose.model("Usuarios", usuariosSchema);
 // Function to save user data
 usuariosModel.guardar = function (post, callback) {
     const instancia = new Usuarios({
+        imagen: post.imagen ? post.imagen : "",
         nombre: post.nombre,
         email: post.email,
         password: post.password,
@@ -151,7 +153,8 @@ usuariosModel.listarId = function(post, callback){
 usuariosModel.actualizar = function (post, callback){
 
     Usuarios.findByIdAndUpdate(post._id, 
-    {
+    {   
+        imagen:post.imagen,
         nombre:post.nombre,
         rol:post.rol,
         estado:post.estado,
