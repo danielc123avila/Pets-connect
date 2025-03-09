@@ -18,7 +18,7 @@ export class ModalComponent {
     this.matDialogRef.close();
   }
   abrirModal(): void {
-    this.matDialogRef.close();
+    this.matDialogRef.close(true);
     this._matDialog.open(ModalGenailComponent, {
       width: '588px',
       height: '354px',

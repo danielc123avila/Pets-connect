@@ -28,7 +28,7 @@ export class RegistroComponent implements OnInit {
     this.inicializarGoogle();
   }
 
-  @Output() onClose = new EventEmitter<void>(); 
+  @Output() onClose = new EventEmitter<void>();
     close() {
     this.onClose.emit();
   }
@@ -49,47 +49,47 @@ export class RegistroComponent implements OnInit {
     this.showRegistro = false
   }
 
-  inicializarGoogle() {  
+  inicializarGoogle() {
     // Definir la función global para manejar la respuesta de Google
-    (window as any).handleCredentialResponse = (response: any) => {  
-      const token = response.credential;  
+    (window as any).handleCredentialResponse = (response: any) => {
+      const token = response.credential;
 
-      const data = {  
-        host: this.peticion.urlHost,  
-        path: "/api/usuarios/loginGoogle", // Ruta para el backend  
-        payload: { token }  
+      const data = {
+        host: this.peticion.urlHost,
+        path: "/api/usuarios/loginGoogle", // Ruta para el backend
+        payload: { token }
       };
 
-      this.peticion.post(data.host + data.path, data.payload)  
-        .then((res: any) => {  
-          if (res.state === false) {  
-            Swal.fire({  
-              title: "Ouch!",  
-              text: res.mensaje,  
-              icon: "error"  
-            });  
-          } else {  
-            
-            this.router.navigate(["/"])  
+      this.peticion.post(data.host + data.path, data.payload)
+        .then((res: any) => {
+          if (res.state === false) {
+            Swal.fire({
+              title: "Ouch!",
+              text: res.mensaje,
+              icon: "error"
+            });
+          } else {
 
-            Swal.fire({  
-              title: "¡Qué bien!",  
-              text: res.mensaje,  
-              icon: "success"  
-            });  
-          }  
-        })  
-        .catch((error: any) => {  
+            this.router.navigate(["/"])
+
+            Swal.fire({
+              title: "¡Qué bien!",
+              text: res.mensaje,
+              icon: "success"
+            });
+          }
+        })
+        .catch((error: any) => {
           console.error("Error al autenticar con Google: ", error);
-          Swal.fire({  
-            title: "Error",  
-            text: "Hubo un problema con la autenticación. Por favor, intenta de nuevo.",  
-            icon: "error"  
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema con la autenticación. Por favor, intenta de nuevo.",
+            icon: "error"
           })
         })
     }
 
-    
+
     setTimeout(() => {
       if ((window as any).google) {
         (window as any).google.accounts.id.initialize({
@@ -100,18 +100,18 @@ export class RegistroComponent implements OnInit {
 
         (window as any).google.accounts.id.renderButton(
           document.getElementById("buttonDiv"),
-          { theme: "outline", size: "large" } 
+          { theme: "outline", size: "large" }
         );
       } else {
         console.error("Google API no se ha cargado correctamente.");
       }
     }, 1000);
   }
-  
+
   registrar(){
     let data = {
      host:this.peticion.urlHost,
-     path:"/api/usuarios/registro", 
+     path:"/api/usuarios/registro",
      payload:{
       nombre:this.nombre,
       email:this.email,
@@ -124,28 +124,28 @@ export class RegistroComponent implements OnInit {
     this.peticion.post(data.host + data.path,data.payload).then((res:any)=>{
       console.log(res)
       if (res.state == false){
-        
+
         Swal.fire({
           title: "Ouch!",
           text: res.mensaje,
           icon: "question"
         });
 
-        this.close();  
+        this.close();
         this.router.navigate(["/"]);
 
       }
       else{
         Swal.fire({
           title: "Que bien!",
-          text: res.mensaje, 
+          text: res.mensaje,
           icon: "success"
-          
+
         });
-        
+
       }
-      
+
     })
   }
-  
+
 }

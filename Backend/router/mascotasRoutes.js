@@ -1,4 +1,5 @@
-import express from "express"
+import express from "express";
+
 
 import {
   crearReporte,
@@ -6,7 +7,7 @@ import {
   obtenerMascotaPorId,
   eliminarMascota,
   actualizarMascota,
-} from "../controller/petsController.js"; 
+} from "../controller/petsController.js";
 import { uploadMiddleware } from "../config/multer.js";
 
 const router = express.Router();
@@ -15,6 +16,6 @@ router.get("/mascotas", obtenerMascotas);
 router.get("/mascotas/:id", obtenerMascotaPorId);
 router.post("/mascotas", uploadMiddleware, crearReporte);
 router.delete("/mascotas/:id", eliminarMascota);
-router.put("/mascotas/:id", uploadMiddleware, actualizarMascota); 
+router.put("/mascotas/:id", uploadMiddleware, actualizarMascota);
 
 export default router;
