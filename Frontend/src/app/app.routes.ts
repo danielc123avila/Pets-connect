@@ -50,12 +50,7 @@ export const routes: Routes = [
   },
   { path: 'quienessomos', component: QuienesSomosComponent, pathMatch: 'full' },
   { path: 'faq', component: FAQComponent, pathMatch: 'full' },
-  {
-    path: 'mascotas-perdidas',
-    component: MascotasComponent,
-    pathMatch: 'full',
-  },
-  //PerfilUsuario
+  {path: 'mascotas-perdidas',component: MascotasComponent,pathMatch: 'full',},
   { path: 'perfil', component: PerfilComponent, pathMatch: 'full' },
   //detalle mascota
   { path: 'detalle/:id', component: DetailComponent },

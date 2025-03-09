@@ -16,7 +16,6 @@ const mascotasSchema = new Schema({
     descripcion:String,
     palabraClave:[],
     estado:String,
-    dueno: String,
     azar:String,
     imagen:String,
 
@@ -39,7 +38,6 @@ mascotasModel.guardar = function (post, callback) {
         descripcion: post.descripcion,
         palabraClave: post.palabraClave || [], 
         estado: post.estado,
-        dueno: post.dueno,
         azar: post.azar,
         imagen: post.imagen ? post.imagen : "assets/noimagen.jpg"
     })
@@ -92,7 +90,6 @@ mascotasModel.actualizar = function (post, callback) {
             descripcion: post.descripcion,
             palabraClave: post.palabraClave,
             estado: post.estado,
-            dueno: post.dueno,
             azar: post.azar,
             imagen:post.imagen,
         }

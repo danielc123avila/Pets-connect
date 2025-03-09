@@ -5,11 +5,12 @@ import bodyParser from "body-parser";
 import connectDB from "./config/dataBase.js";
 import usuariosRoutes from "./router/usuariosRoutes.js";
 import mascotasRoutes from "./router/mascotasRoutes.js";
+import archivosRoutes from "./router/archivosRoutes.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
 import path from "path";
-import { fileURLToPath } from "url"; // Importa esta función
+import { fileURLToPath } from "url"; // Importa esta función"
 
 const app = express();
 
@@ -78,8 +79,13 @@ app.use(
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+global.path = path;
+global.AppRoot = path.resolve(__dirname);
+
+app.use('/Avatar', express.static(__dirname + '/Avatar'));
+
 // Servir archivos estáticos desde la carpeta 'uploads'
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
 app.get("/api/images", (req, res) => {
   const images = [
     { id: 1, url: "/uploads/image1.jpg" },
@@ -87,9 +93,11 @@ app.get("/api/images", (req, res) => {
   ];
   res.json(images);
 });
+
 // Routes
 app.use("/api", usuariosRoutes);
 app.use("/api", mascotasRoutes);
+app.use("/api", archivosRoutes)
 
 // Port
 const port = process.env.PORT || 5000;

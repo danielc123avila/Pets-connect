@@ -26,6 +26,7 @@ usuariosController.status = function (request, response) {
 
 usuariosController.guardar = function(request, response) {
     const post = {
+        imagen: request.body.imagen,
         nombre: request.body.nombre,
         email: request.body.email,
         password: request.body.password,
@@ -247,6 +248,7 @@ usuariosController.actualizar = function (request, response){
 
     const post = {
         _id:request.body._id,
+        imagen: request.body.imagen,
         nombre:request.body.nombre,
         rol:request.body.rol,
         estado:request.body.estado,

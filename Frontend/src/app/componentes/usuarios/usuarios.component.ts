@@ -13,7 +13,8 @@ declare var $:any
   styleUrl: './usuarios.component.css'
 })
 export class UsuariosComponent implements OnInit {
-  constructor(private peticion:PeticionService){}
+  
+  constructor(public peticion:PeticionService){}
 
  
   datos:any [] = []
@@ -24,6 +25,8 @@ export class UsuariosComponent implements OnInit {
   IdSeleccionado:string=""
   estado:string = "1"
   rol:string = ""
+  random:number = 0
+  _id:string = ""
   
   ngOnInit(): void {
     this.listar()
@@ -196,4 +199,5 @@ export class UsuariosComponent implements OnInit {
                                
     })
   }
+
 }

@@ -7,7 +7,7 @@ import { DashboardComponent } from "../dashboard/dashboard.component";
 import Swal from 'sweetalert2';
 
 
-declare var $:any 
+declare var $:any
 
 
 @Component({
@@ -17,9 +17,9 @@ declare var $:any
   styleUrl: './mascotasshow.component.css'
 })
 export class MascotasshowComponent implements OnInit {
-     
+
   constructor(public peticion:PeticionService, private router:Router){}
-  
+
   datos: any[] = []
   nombre: string = ""
   especie: string = ""
@@ -32,15 +32,15 @@ export class MascotasshowComponent implements OnInit {
   ultimaUbicacion: string = ""
   descripcion: string = ""
   estado: string = "perdido"
-  imagen: string = "assets/noimagen.jpg"
+  imagen: string = ""
   IdSeleccionado: string = ""
   random:number = 0
   nombrearchivo:string = "Upload"
-  
+
   ngOnInit(): void {
   this.listar()
   }
-  
+
     Nuevo() {
     $('.formdatos').modal('show');
     this.nombre = "";
@@ -54,7 +54,7 @@ export class MascotasshowComponent implements OnInit {
     this.ultimaUbicacion = "";
     this.descripcion = "";
     this.estado = "perdido";
-    this.imagen = "assets/noimagen.jpg";
+    this.imagen = "";
     this.IdSeleccionado = "";
     }
 
@@ -70,8 +70,8 @@ export class MascotasshowComponent implements OnInit {
             this.datos = res.datos;
         });
     }
-    
- 
+
+
 
    guardar() {
         let data = {
@@ -216,12 +216,12 @@ export class MascotasshowComponent implements OnInit {
 
     onUpload(){
         if(this.selectedFile){
-          this.peticion.Upload(this.selectedFile,"/subirmascotas/" + this.IdSeleccionado).subscribe((res:any) => {
+          this.peticion.Upload(this.selectedFile,"/api/subirmascotas/" + this.IdSeleccionado).subscribe((res:any) => {
             console.log(res)
             this.random = Math.random() * (9999 - 0) + 0;
-      
+
             if (res.state == false){
-      
+
               Swal.fire({
                 title: "Ouch!",
                 text: res.mensaje, // Esta es la respuesta que viene del servidor
@@ -235,13 +235,13 @@ export class MascotasshowComponent implements OnInit {
                 icon: "success"//icono se puede cabiar en base a los iconos de sweep alaert
               });
               this.nombrearchivo = "Archivo cargado"
-      
+
             }
-            
-      
+
+
           })
         }
     }
 
- 
+
 }

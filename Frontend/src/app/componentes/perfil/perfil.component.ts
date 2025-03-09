@@ -16,12 +16,13 @@ declare var $:any
 })
 export class PerfilComponent implements OnInit{
 
-  constructor(private peticion:PeticionService, private router:Router){}
+  constructor(public peticion:PeticionService, private router:Router){}
 
   // la respuesta de la peticion se guarda en el siguiente array
   datos:any [] = []
   // variables de ng que estan en html
   nombre:string=""
+  imagen:string=""
   email:string=""
   telefono : number = 0
   password:string=""
@@ -30,6 +31,9 @@ export class PerfilComponent implements OnInit{
   estado:string = "1"
   rol:string = ""
   _id:string= ""
+  random:number = 0
+  nombrearchivo:string = "Upload"
+  avatarUrl: string = ""
 
   ngOnInit(): void {
     this.status()
@@ -105,6 +109,7 @@ export class PerfilComponent implements OnInit{
       console.log(res)
       $('.formdatos').modal('show')
       this.nombre = res.datos[0].nombre
+      this.imagen = res.datos[0].imagen
       this.email = res.datos[0].email
       this.telefono = res.datos[0].telefono
       this.rol = res.datos[0].rol
@@ -123,6 +128,7 @@ export class PerfilComponent implements OnInit{
       path:"/api/usuarios/actualizar", 
       payload:{
       nombre:this.nombre,
+      imagen:this.imagen,
       telefono:this.telefono,
       rol:this.rol,
       estado:this.estado,
@@ -154,5 +160,41 @@ export class PerfilComponent implements OnInit{
     })
 
   }
+
+  selectedFile:File | null = null
+  OpenFileSelected(event:any){
+    this.nombrearchivo = event.target.files[0].name
+    console.log(this.nombrearchivo)
+    this.selectedFile = event.target.files[0]
+  }
+
+  onUpload(){
+    if(this.selectedFile){
+      this.peticion.Upload(this.selectedFile,"/api/subiravatar/" + this.IdSeleccionado).subscribe((res:any) => {
+        console.log(res)
+        this.random = Math.random() * (9999 - 0) + 0;
+  
+        if (res.state == false){
+  
+          Swal.fire({
+            title: "Ouch!",
+            text: res.mensaje, // Esta es la respuesta que viene del servidor
+            icon: "error"//icono se puede cabiar en base a los iconos de sweep alaert
+          });
+        }
+        else{
+          Swal.fire({
+            title: "Que bien!",
+            text: res.mensaje, // Esta es la respuesta que viene del servidor
+            icon: "success"//icono se puede cabiar en base a los iconos de sweep alaert
+          });
+          this.nombrearchivo = "Archivo cargado"
+  
+        }
+        
+  
+      })
+    }
+  } 
 
 }

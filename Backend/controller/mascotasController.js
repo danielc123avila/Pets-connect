@@ -19,7 +19,6 @@ mascotasController.guardar = function (request, response) {
         descripcion: request.body.descripcion,
         palabraClave: request.body.palabraClave || [],
         estado: request.body.estado,
-        dueno: request.body.dueno,
         imagen: request.body.imagen,
         azar: request.body.azar
     }
@@ -98,13 +97,12 @@ mascotasController.actualizar = function (request, response) {
         descripcion: request.body.descripcion,
         palabraClave: request.body.palabraClave,
         estado: request.body.estado,
-        dueno: request.body.dueno,
         imagen: request.body.imagen,
         azar: request.body.azar
     };
 
     // Validación de campos obligatorios
-    const camposObligatorios = ["_id", "nombre", "especie", "sexo", "color", "raza", "estado", "dueno"]
+    const camposObligatorios = ["_id", "nombre", "especie", "sexo", "color", "raza", "estado",]
     for (const campo of camposObligatorios) {
         if (!post[campo]) {
             return response.json({ state: false, mensaje: `El campo ${campo} es obligatorio` })

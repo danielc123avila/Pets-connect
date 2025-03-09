@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 // Define the schema
 const usuariosSchema = new Schema({
+  imagen:String,
   nombre: String,
   email: String,
   password: String,
@@ -15,8 +16,8 @@ const usuariosSchema = new Schema({
   codepass: String,
   ultlogin: Date,
   rol: String,
-  azar: String,
-  googleId: String,
+  azar:String,
+  googleId: String
 });
 
 // Create the model
@@ -25,13 +26,14 @@ const Usuarios = mongoose.model("Usuarios", usuariosSchema);
 // Function to save user data
 usuariosModel.guardar = function (post, callback) {
   const instancia = new Usuarios({
+    imagen: post.imagen ? post.imagen : "",
     nombre: post.nombre,
     email: post.email,
     password: post.password,
-    estado: post.estado,
+    estado:post.estado,
     telefono: post.telefono,
     rol: post.rol,
-  });
+  })
 
   // Save the information
   instancia
@@ -176,16 +178,21 @@ usuariosModel.listarId = function (post, callback) {
     });
 };
 
-usuariosModel.actualizar = function (post, callback) {
-  Usuarios.findByIdAndUpdate(post._id, {
-    nombre: post.nombre,
-    rol: post.rol,
-    estado: post.estado,
-    telefono: post.telefono,
-  })
-    .then((respuesta) => {
-      return callback({ state: true, mensaje: "Elemento actualizado" });
-      console.log(respuesta);
+usuariosModel.actualizar = function (post, callback){
+
+    Usuarios.findByIdAndUpdate(post._id, 
+    {   
+      imagen:post.imagen,
+      nombre:post.nombre,
+      rol:post.rol,
+      estado:post.estado,
+      telefono:post.telefono
+  
+
+    }) .then((respuesta) => {
+      return callback ({state:true, mensaje:"Elemento actualizado"})
+      console.log(respuesta)
+
     })
     .catch((error) => {
       return callback({
