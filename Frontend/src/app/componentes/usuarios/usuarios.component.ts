@@ -16,7 +16,7 @@ export class UsuariosComponent implements OnInit {
   
   constructor(public peticion:PeticionService){}
 
- 
+  filtro:String =""
   datos:any [] = []
   nombre:string=""
   email:string=""

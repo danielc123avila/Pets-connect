@@ -23,7 +23,7 @@ import { PieDePaginaComponent } from '../../componentes/pie-de-pagina/pie-de-pag
     ReactiveFormsModule,
     EncabezadoComponent,
     PieDePaginaComponent,
-  ], // Asegúrate de importar aquí CommonModule y ReactiveFormsModule
+  ],
 })
 export class CrearMascotaComponent {
   registerMascota: FormGroup;

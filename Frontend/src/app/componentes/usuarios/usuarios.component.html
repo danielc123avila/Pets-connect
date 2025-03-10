@@ -4,6 +4,11 @@
       Modulo Usuarios
       <div id="adddata">
         <i class="fa fa-plus" (click)="Nuevo()"></i>  <!-- Llama la modal nuevo usuario -->
+        <input type="text"placeholder="filtro" [ngModel]="filtro">
+        <div class =test *ngFor="let item of datos">
+          <div>{{item.nombre}}</div>
+        </div>
+        
       </div>
     </div>
   

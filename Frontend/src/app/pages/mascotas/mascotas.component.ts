@@ -4,11 +4,13 @@ import { Mascota } from './../../models/mascota.model';
 import { SidebarComponent } from './../../componentes/sidebar/sidebar.component';
 import { CardComponent } from './../../componentes/card/card.component';
 import { NgFor } from '@angular/common';
+import { EncabezadoComponent } from "../../componentes/encabezado/encabezado.component";
+import { PieDePaginaComponent } from "../../componentes/pie-de-pagina/pie-de-pagina.component";
 
 @Component({
   selector: 'app-mascotas',
   standalone: true, // Asegúrate de que esto esté configurado si usas standalone components
-  imports: [SidebarComponent, CardComponent, NgFor],
+  imports: [SidebarComponent, CardComponent, NgFor, EncabezadoComponent, PieDePaginaComponent],
   templateUrl: './mascotas.component.html',
   styleUrls: ['./mascotas.component.css'], // Corrige la propiedad para 'styleUrls'
 })
