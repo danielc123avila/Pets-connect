@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, input, OnInit, Output, output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, input, OnChanges, OnInit, Output, output, SimpleChanges } from '@angular/core';
 import { CommentsService } from '../../servicios/comments.service';
 import { CommonModule } from '@angular/common';
-import { response } from 'express';
-import { error } from 'console';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,14 +9,14 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.css'
 })
-export class CommentsComponent implements OnInit {
-  @Input() petId!: string; // Se recibe el id de la mascota como parámetro
+export class CommentsComponent implements OnInit, OnChanges {
+  @Input() petId!: string;
   @Output() commentAdded = new EventEmitter<void>();
 
   comments: any[] = [];
   commentContent: string = '';
 
-  constructor(private commentService: CommentsService) {}
+  constructor(private commentService: CommentsService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     if (!this.petId) {
@@ -26,6 +24,13 @@ export class CommentsComponent implements OnInit {
       return;
     }
     this.obtenerComentarios();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['petId'] && !changes['petId'].firstChange) {
+      // Si petId cambia, obtenemos los comentarios para la nueva mascota
+      this.obtenerComentarios();
+    }
   }
 
   obtenerComentarios() {
@@ -39,8 +44,10 @@ export class CommentsComponent implements OnInit {
         if (response && Array.isArray(response.comments)) {
           this.comments = response.comments;
         } else {
-          this.comments = []; 
+          this.comments = [];
         }
+        // Forzar la detección de cambios para actualizar la vista
+        this.cdr.detectChanges();
       },
       (error) => {
         console.error("Error al obtener comentarios", error);

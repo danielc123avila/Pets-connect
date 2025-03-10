@@ -14,10 +14,10 @@ export class MascotaService {
 
   getMascotas(): Observable<Mascota[]> {
     return this.http.get<Mascota[]>(`${this.urlBase}/mascotas`).pipe(
-      tap((response) => console.log('Respuesta de API:')), // Verifica la respuesta real
+      tap((response) => console.log('Respuesta de API:', response)), // Verifica la respuesta real
       map((response) => {
         if (!Array.isArray(response)) {
-          console.error('Respuesta inesperada de API:');
+          console.error('Respuesta inesperada de API:', response);
           return [];
         }
         return response; // Directamente retornar el array

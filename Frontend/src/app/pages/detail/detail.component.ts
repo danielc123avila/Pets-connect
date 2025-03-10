@@ -1,5 +1,5 @@
 import { Mascota } from './../../models/mascota.model';
-import { Component, OnInit, signal, Input, inject, WritableSignal, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, signal, Input, inject, WritableSignal, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MascotaService } from '../../servicios/mascota.service';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { EncabezadoComponent } from '../../componentes/encabezado/encabezado.com
 import { PetsCardsComponent } from "../../componentes/pets-cards/pets-cards.component";
 import { CommentsComponent } from "../../componentes/comments/comments.component";
 import { CommentsService } from '../../servicios/comments.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail',
@@ -23,14 +24,15 @@ import { CommentsService } from '../../servicios/comments.service';
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css'],
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
   mascota: WritableSignal<Mascota | null> = signal(null);
   indiceActual: number = 0;
+  comentarios: any[] = [];
+  private routeSub: Subscription = new Subscription(); // Suscripción para gestionar los cambios
 
   @Input() Mascota: any;
   idMascotaActual: string | null = null;
   id: string | null = null;
-  comentarios: any[] = [];
 
   private mascotaService = inject(MascotaService);
   private route = inject(ActivatedRoute);
@@ -39,31 +41,43 @@ export class DetailComponent implements OnInit {
   private router = inject(Router)
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) {
-      this.mascotaService.getMascotaPorId(this.id).subscribe({
-        next: (data) => {
-          if (!data || !data._id) {
-            console.error("La mascota recibida no tiene un _id válido:", data);
-            return;
-          }
-          this.mascota.set(data);
-          console.log("Mascota cargada correctamente:", this.mascota());
-          this.idMascotaActual = data._id;
-          this.obtenerComentarios();
-        },
-        error: (error) => console.error('Error al obtener mascota:', error)
-      });
+    // Suscribirse al paramMap para escuchar los cambios en la URL
+    this.routeSub = this.route.paramMap.subscribe(params => {
+      this.id = params.get('id');
+      if (this.id) {
+        this.cargarMascotaPorId(this.id);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Cancelar la suscripción cuando el componente se destruya para evitar fugas de memoria
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
     }
   }
 
-  
+  cargarMascotaPorId(id: string): void {
+    this.mascotaService.getMascotaPorId(id).subscribe({
+      next: (data) => {
+        if (!data || !data._id) {
+          console.error("La mascota recibida no tiene un _id válido:", data);
+          return;
+        }
+        this.mascota.set(data);
+        this.idMascotaActual = data._id;
+        this.obtenerComentarios();
+      },
+      error: (error) => console.error('Error al obtener mascota:', error)
+    });
+  }
+
   obtenerComentarios() {
     if (!this.idMascotaActual) {
       console.warn("No se puede obtener los comentarios: idMascotaActual no encontrado");
       return;
     }
-  
+
     this.commentService.getComments(this.idMascotaActual).subscribe(
       (response) => {
         this.comentarios = response; // Asigna los comentarios a la propiedad
@@ -75,9 +89,7 @@ export class DetailComponent implements OnInit {
   }
 
   actualizarDetalleMascota(id: string): void {
-    console.log("ID recibido del evento verMas:", id);
-    // Asegúrate de que esto se ejecute
-    this.router.navigate([`/detalles/${id}`]);
+    this.router.navigate([`/detalle/${id}`]);
   }
 
   anterior(): void {
