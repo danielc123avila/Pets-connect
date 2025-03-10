@@ -152,4 +152,9 @@ color: #333;
 .close-button:hover {
 color: #000;
 } 
-    
+
+.link-style {
+    all: unset;
+    color: #277380;
+    cursor: pointer; 
+}

@@ -8,11 +8,12 @@ import { ModalComponent } from '../modal/modal.component';
 import { LoginComponent } from "../login/login.component";
 import { CommonModule } from '@angular/common';
 import { RegistroComponent } from '../registro/registro.component';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-home',
-  imports: [EncabezadoComponent, PieDePaginaComponent, MatButtonModule, MatDialogModule, LoginComponent, CommonModule, RegistroComponent],
+  imports: [EncabezadoComponent, PieDePaginaComponent, MatButtonModule, MatDialogModule, LoginComponent, CommonModule, RegistroComponent, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit{
     this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
       console.log(res)
       if (res.nombre == undefined || res.nombre == null){
-        this.router.navigate(["login"])
+        this.router.navigate(["/"])
       }
       this.nombre = res.nombre
       this.ultimologin = res.ultimologin

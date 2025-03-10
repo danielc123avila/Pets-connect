@@ -35,5 +35,5 @@ export const routes: Routes = [
   { path: 'perfil', component: PerfilComponent, pathMatch: 'full' },
   //detalle mascota
   { path: 'detalle/:id', component: DetailComponent },
-  {path: 'registro-mascotas',component: CrearMascotaComponent,pathMatch: 'full',},
+  {path:'registro-mascotas',component: CrearMascotaComponent,pathMatch: 'full',},
 ];
