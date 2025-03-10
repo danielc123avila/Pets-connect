@@ -4,7 +4,7 @@
     max-width: 450px;
     margin-top: 15px;
     padding: 15px;
-    background: #fef9e7;
+    background: #FFFFFF;
     border: 2px solid #f3d9a8;
     border-radius: 8px;
     text-align: center;
@@ -40,9 +40,9 @@
 
 .comment-box .send-comment {
     padding: 10px 20px;
-    background: #f3d9a8;
+    background: #FEB941;
     border: none;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
     font-size: 14px;
     color: #333;
@@ -51,7 +51,7 @@
 }
 
 .comment-box .send-comment:hover {
-    background: #eac28a;
+    background: #ffa710;
 }
 
 /* Estilo para la lista de comentarios */

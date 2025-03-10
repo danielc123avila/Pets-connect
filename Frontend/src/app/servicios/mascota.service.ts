@@ -14,10 +14,9 @@ export class MascotaService {
 
   getMascotas(): Observable<Mascota[]> {
     return this.http.get<Mascota[]>(`${this.urlBase}/mascotas`).pipe(
-      tap((response) => console.log('Respuesta de API:', response)), // Verifica la respuesta real
+      tap((response) => console.log('Respuesta de API:')), // Verifica la respuesta real
       map((response) => {
         if (!Array.isArray(response)) {
-          console.error('Respuesta inesperada de API:', response);
           return [];
         }
         return response; // Directamente retornar el array
@@ -27,7 +26,7 @@ export class MascotaService {
 
   getMascotaPorId(id: string): Observable<Mascota> {
     return this.http.get<{ success: boolean; data: Mascota }>(`${this.urlBase}/mascotas/${id}`).pipe(
-      tap((response: { success: boolean; data: Mascota }) => console.log('Respuesta de API:', response)), //  Verifica respuesta
+      tap((response: { success: boolean; data: Mascota }) => console.log('Respuesta de API:')), //  Verifica respuesta
       map((response) => {
         if (!response.success || !response.data) {
           throw new Error('La API no devolvió datos válidos');
@@ -56,14 +55,14 @@ export class MascotaService {
 
   actualizarMascota(id: string, mascota: Partial<Mascota>): Observable<Mascota> {
     return this.http.put<{ success: boolean; data: Mascota }>(`${this.urlBase}/mascotas/${id}`, mascota).pipe(
-      tap((response) => console.log('Respuesta de API (actualizar):', response)),
+      tap((response) => console.log('Respuesta de API (actualizar):')),
       map((response) => response.data)
     );
   }
 
   eliminarMascota(id: string): Observable<boolean> {
     return this.http.delete<{ success: boolean }>(`${this.urlBase}/mascotas/${id}`).pipe(
-      tap((response) => console.log('Respuesta de API (eliminar):', response)),
+      tap((response) => console.log('Respuesta de API (eliminar):')),
       map((response) => response.success ?? false) // Previene undefined
     );
   }
