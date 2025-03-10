@@ -4,12 +4,16 @@
       Modulo Usuarios
       <div id="adddata">
         <i class="fa fa-plus" (click)="Nuevo()"></i>  <!-- Llama la modal nuevo usuario -->
-        <input type="text"placeholder="filtro" [ngModel]="filtro">
-        <div class =test *ngFor="let item of datos">
-          <div>{{item.nombre}}</div>
-        </div>
-        
       </div>
+
+      <div class="filtro">
+        <input type="text" placeholder="Filtro" [(ngModel)]="filtros">
+      </div>
+      
+      <div class="test" *ngFor="let item of datos | filtros: filtros">
+        <div>{{ item.nombre }}</div>
+      </div>
+      
     </div>
   
     <table class="table table-hover">
@@ -42,6 +46,7 @@
       </tbody>
     </table>
 </div>
+
 
 
 

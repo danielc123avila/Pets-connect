@@ -5,8 +5,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FiltrosPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
-    return null;
+  transform(value: any[], criterio: string): any[] {
+    if (!criterio || !value) {
+      return value;
+    }
+
+    const regex = new RegExp(criterio, 'i'); // Usa la variable `criterio`
+    return value.filter(item => regex.test(item.nombre)); // Filtra por `nombre`
   }
 
 }
