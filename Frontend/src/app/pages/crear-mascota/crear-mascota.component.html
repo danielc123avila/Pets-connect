@@ -1,342 +1,169 @@
-<app-encabezado></app-encabezado>
-<div class="container">
-  <h1>Registrar Nueva Mascota</h1>
-
-  <form [formGroup]="registerMascota" (ngSubmit)="onsubmit()">
-    <!-- Nombre de la mascota -->
-    <div class="form-group">
-      <label for="nombre">Nombre de la mascota*</label>
-      <input
-        type="text"
-        id="nombre"
-        formControlName="nombre"
-        class="form-control"
-      />
-      <div
-        *ngIf="
-          registerMascota.get('nombre')?.invalid &&
-          registerMascota.get('nombre')?.touched
-        "
-        class="error-texto"
-      >
-        El nombre es obligatorio
-      </div>
-    </div>
-
-    <!-- Email -->
-    <div class="form-group">
-      <label for="email">Correo electrónico*</label>
-      <input
-        type="email"
-        id="email"
-        formControlName="email"
-        class="form-control"
-      />
-      <div
-        *ngIf="
-          registerMascota.get('email')?.invalid &&
-          registerMascota.get('email')?.touched
-        "
-        class="error-texto"
-      >
-        <span *ngIf="registerMascota.get('email')?.errors?.['required']">
-          El correo electrónico es obligatorio
-        </span>
-        <span *ngIf="registerMascota.get('email')?.errors?.['email']">
-          Ingrese un correo electrónico válido
-        </span>
-      </div>
-    </div>
-
-    <!-- Celular -->
-    <div class="form-group">
-      <label for="celular">Número de celular*</label>
-      <input
-        type="tel"
-        id="celular"
-        formControlName="celular"
-        class="form-control"
-      />
-      <div
-        *ngIf="
-          registerMascota.get('celular')?.invalid &&
-          registerMascota.get('celular')?.touched
-        "
-        class="error-texto"
-      >
-        <span *ngIf="registerMascota.get('celular')?.errors?.['required']">
-          El número de celular es obligatorio
-        </span>
-        <span *ngIf="registerMascota.get('celular')?.errors?.['pattern']">
-          Ingrese un número de celular válido (9-10 dígitos)
-        </span>
-      </div>
-    </div>
-
-    <!-- Estado -->
-    <div class="form-group">
-      <label>Estado*</label>
-      <div class="opciones-container">
-        <button
-          *ngFor="let estado of estados"
-          type="button"
-          class="opcion"
-          [class.selected]="selectedEstado === estado"
-          (click)="selectEstado(estado)"
-        >
-          {{ estado }}
-        </button>
-      </div>
-      <div
-        *ngIf="
-          registerMascota.get('estado')?.invalid &&
-          registerMascota.get('estado')?.touched
-        "
-        class="error-texto"
-      >
-        Seleccionar un estado es obligatorio
-      </div>
-    </div>
-
-    <!-- Última Ubicación - NUEVO CAMPO -->
-    <div class="form-group">
-      <label for="ultimaUbicacion">Última ubicación conocida*</label>
-      <input
-        type="text"
-        id="ultimaUbicacion"
-        formControlName="ultimaUbicacion"
-        class="form-control"
-      />
-      <div
-        *ngIf="
-          registerMascota.get('ultimaUbicacion')?.invalid &&
-          registerMascota.get('ultimaUbicacion')?.touched
-        "
-        class="error-texto"
-      >
-        La última ubicación es obligatoria
-      </div>
-    </div>
-
-    <!-- Fecha de Extravío - NUEVO CAMPO -->
-    <div class="form-group">
-      <label for="fechaExtravio">Fecha de extravío*</label>
-      <input
-        type="date"
-        id="fechaExtravio"
-        formControlName="fechaExtravio"
-        class="form-control"
-      />
-      <div
-        *ngIf="
-          registerMascota.get('fechaExtravio')?.invalid &&
-          registerMascota.get('fechaExtravio')?.touched
-        "
-        class="error-texto"
-      >
-        La fecha de extravío es obligatoria
-      </div>
-    </div>
-
-    <!-- Especie -->
-    <div class="form-group">
-      <label>Especie*</label>
-      <div class="opciones-container">
-        <button
-          type="button"
-          class="opcion"
-          [class.selected]="selectedEspecie === 'Perro'"
-          (click)="selectEspecie('Perro')"
-        >
-          Perro
-        </button>
-        <button
-          type="button"
-          class="opcion"
-          [class.selected]="selectedEspecie === 'Gato'"
-          (click)="selectEspecie('Gato')"
-        >
-          Gato
-        </button>
-        <button
-          type="button"
-          class="opcion"
-          [class.selected]="selectedEspecie === 'Otro'"
-          (click)="selectEspecie('Otro')"
-        >
-          Otro
-        </button>
-      </div>
-      <div
-        *ngIf="
-          registerMascota.get('especie')?.invalid &&
-          registerMascota.get('especie')?.touched
-        "
-        class="error-texto"
-      >
-        Seleccionar una especie es obligatorio
-      </div>
-    </div>
-
-    <!-- Raza -->
-    <div class="form-group">
-      <label for="raza">Raza de la mascota</label>
-      <input
-        type="text"
-        id="raza"
-        formControlName="raza"
-        class="form-control"
-      />
-    </div>
-
-    <!-- Sexo -->
-    <div class="form-group">
-      <label>Sexo*</label>
-      <div class="opciones-container">
-        <button
-          type="button"
-          class="opcion"
-          [class.selected]="selectedSexo === 'Macho'"
-          (click)="selectSexo('Macho')"
-        >
-          Macho
-        </button>
-        <button
-          type="button"
-          class="opcion"
-          [class.selected]="selectedSexo === 'Hembra'"
-          (click)="selectSexo('Hembra')"
-        >
-          Hembra
-        </button>
-      </div>
-      <div
-        *ngIf="
-          registerMascota.get('sexo')?.invalid &&
-          registerMascota.get('sexo')?.touched
-        "
-        class="error-texto"
-      >
-        Seleccionar el sexo es obligatorio
-      </div>
-    </div>
-
-    <!-- Color -->
-    <div class="form-group">
-      <label>Color principal*</label>
-      <div class="opciones-container">
-        <button
-          type="button"
-          class="opcion color-negro"
-          [class.selected]="selectedColor === 'Negro'"
-          (click)="selectColor('Negro')"
-        >
-          Negro
-        </button>
-        <button
-          type="button"
-          class="opcion color-blanco"
-          [class.selected]="selectedColor === 'Blanco'"
-          (click)="selectColor('Blanco')"
-        >
-          Blanco
-        </button>
-        <button
-          type="button"
-          class="opcion color-marron"
-          [class.selected]="selectedColor === 'Marrón'"
-          (click)="selectColor('Marrón')"
-        >
-          Marrón
-        </button>
-        <button
-          type="button"
-          class="opcion color-gris"
-          [class.selected]="selectedColor === 'Gris'"
-          (click)="selectColor('Gris')"
-        >
-          Gris
-        </button>
-        <button
-          type="button"
-          class="opcion color-otro"
-          [class.selected]="selectedColor === 'Otro'"
-          (click)="selectColor('Otro')"
-        >
-          Otro
-        </button>
-      </div>
-      <div
-        *ngIf="
-          registerMascota.get('color')?.invalid &&
-          registerMascota.get('color')?.touched
-        "
-        class="error-texto"
-      >
-        Seleccionar un color es obligatorio
-      </div>
-    </div>
-
-    <!-- Edad -->
-    <div class="form-group">
-      <label for="edad">Edad aproximada (meses)</label>
-      <input
-        type="number"
-        id="edad"
-        formControlName="edad"
-        class="form-control"
-      />
-    </div>
-
-    <!-- Descripción -->
-    <div class="form-group">
-      <label for="descripcion">Descripción</label>
-      <textarea
-        id="descripcion"
-        formControlName="descripcion"
-        class="form-control"
-        rows="4"
-      ></textarea>
-    </div>
-
-    <!-- Palabras clave -->
-    <div class="form-group">
-      <label>Características</label>
-      <div class="palabras-clave-container">
-        <button
-          type="button"
-          *ngFor="let palabra of palabrasClaves"
-          class="palabra-clave"
-          [class.selected]="selectedPalabras.includes(palabra)"
-          (click)="togglePalabra(palabra)"
-        >
-          {{ palabra }}
-        </button>
-      </div>
-    </div>
-
-    <!-- Subir foto -->
-    <div class="form-group">
-      <label>Foto de la mascota</label>
-      <div class="foto-upload-container">
-        <button type="button" class="subir-foto-btn" (click)="openFileInput()">
-          <span class="icon">📷</span>
-          <span>Subir foto</span>
-        </button>
-        <input
-          type="file"
-          id="fileInput"
-          accept="image/*"
-          (change)="onFileSelected($event)"
-          style="display: none"
-        />
-      </div>
-    </div>
-
-    <!-- Botón de envío -->
-    <div class="form-actions">
-      <button type="submit" class="btn-registrar">Registrar Mascota</button>
-    </div>
-  </form>
+<!-- Título principal -->
+<div class="titulo-principal-container">
+  <h1 class="titulo-principal">Publica una mascota</h1>
 </div>
-<app-pie-de-pagina></app-pie-de-pagina>
+
+<div class="main-container">
+  <!-- Columna izquierda -->
+  <div class="left-column">
+      <div class="container">
+          <!-- Contenedor de Especie y Sexo -->
+          <div class="species-sex-container">
+              <!-- Especie del animal -->
+              <div class="species-container">
+                  <h3><strong>Especie del animal *</strong></h3>
+                  <p>Seleccione el tipo de mascota que vas a publicar</p>
+                  <div>
+                      <div class="option-button" [ngClass]="{'selected': selectedEspecie === 'perro'}"
+                          (click)="selectEspecie('perro')">
+                          Perro
+                      </div>
+                      <div class="option-button" [ngClass]="{'selected': selectedEspecie === 'gato'}"
+                          (click)="selectEspecie('gato')">
+                          Gato
+                      </div>
+                      <div class="option-button" [ngClass]="{'selected': selectedEspecie === 'otro'}"
+                          (click)="selectEspecie('otro')">
+                          Otro
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Sexo -->
+              <div class="sex-container">
+                  <h3><strong>Sexo *</strong></h3>
+                  <p>Seleccione el sexo</p>
+                  <div>
+                      <div class="option-button" [ngClass]="{'selected': selectedSexo === 'macho'}"
+                          (click)="selectSexo('macho')">
+                          Macho
+                      </div>
+                      <div class="option-button" [ngClass]="{'selected': selectedSexo === 'hembra'}"
+                          (click)="selectSexo('hembra')">
+                          Hembra
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Nombre del animal -->
+          <div class="input-container">
+              <h3><strong>Nombre del animal</strong></h3>
+              <p>Indica el nombre de la mascota, si no lo sabes puedes saltarte este campo</p>
+              <input type="text" placeholder="Nombre de la mascota" class="custom-input">
+          </div>
+
+          <!-- Ubicación -->
+          <div class="input-container">
+              <h3><strong>Ubicación *</strong></h3>
+              <p>Indica la ubicación que mejor corresponda a la situación</p>
+              <div class="ubicacion-fields">
+                  <select class="custom-select">
+                      <option value="provincia1">Provincia 1</option>
+                      <option value="provincia2">Provincia 2</option>
+                  </select>
+                  <select class="custom-select">
+                      <option value="ciudad1">Ciudad 1</option>
+                      <option value="ciudad2">Ciudad 2</option>
+                  </select>
+                  <select class="custom-select">
+                      <option value="localidad1">Localidad 1</option>
+                      <option value="localidad2">Localidad 2</option>
+                  </select>
+              </div>
+          </div>
+
+          <!-- Fecha -->
+          <div class="input-container">
+              <h3><strong>Fecha *</strong></h3>
+              <p>Indica la fecha en la que perdiste, encontraste o das en adopción a la mascota</p>
+              <input type="date" class="custom-input">
+          </div>
+
+          <!-- Color del animal -->
+          <div class="input-container">
+              <h3><strong>Color del animal *</strong></h3>
+              <p>Selecciona el color que más se adapte a la mascota</p>
+              <div class="color-options">
+                  <div class="option-button" [ngClass]="{'selected': selectedColor === 'negro'}"
+                      (click)="selectColor('negro')">
+                      Negro
+                  </div>
+                  <div class="option-button" [ngClass]="{'selected': selectedColor === 'blanco'}"
+                      (click)="selectColor('blanco')">
+                      Blanco
+                  </div>
+                  <div class="option-button" [ngClass]="{'selected': selectedColor === 'gris'}"
+                      (click)="selectColor('gris')">
+                      Gris
+                  </div>
+                  <div class="option-button" [ngClass]="{'selected': selectedColor === 'marron'}"
+                      (click)="selectColor('marron')">
+                      Marrón
+                  </div>
+                  <div class="option-button" [ngClass]="{'selected': selectedColor === 'amarillo-beige'}"
+                      (click)="selectColor('amarillo-beige')">
+                      Amarillo/Beige
+                  </div>
+                  <div class="option-button" [ngClass]="{'selected': selectedColor === 'multicolor'}"
+                      (click)="selectColor('multicolor')">
+                      Multicolor
+                  </div>
+                  <div class="option-button" [ngClass]="{'selected': selectedColor === 'otro'}"
+                      (click)="selectColor('otro')">
+                      Otro
+                  </div>
+              </div>
+          </div>
+
+          <!-- Contacto -->
+          <div class="input-container">
+              <h3><strong>Contacto *</strong></h3>
+              <p>Indica el medio por el cual te gustaría ser contactado, podes incluir tu número o correo electrónico
+              </p>
+              <div class="contacto-fields">
+                  <input type="email" placeholder="Ingresa el correo electrónico" class="custom-input">
+                  <input type="tel" placeholder="Ingresa el número telefónico" class="custom-input">
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Columna derecha -->
+  <div class="right-column">
+      <!-- Agrega Fotos -->
+      <div class="fotos-container">
+          <h3><strong>Agrega Fotos</strong></h3>
+          <p>Agrega hasta 3 fotos de la mascota para brindar más detalles sobre el aspecto de la misma</p>
+          <div class="foto-card" (click)="openFileInput()">
+              <input type="file" id="fileInput" style="display: none;" (change)="onFileSelected($event)">
+              <span>+</span>
+          </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="descripcion-container">
+          <h3><strong>Descripción</strong></h3>
+          <p>Escribe información que consideres necesaria sobre la mascota</p>
+          <textarea class="custom-textarea" placeholder="Escribe aquí..." maxlength="500"></textarea>
+          <div class="char-counter">0/500</div>
+      </div>
+
+      <!-- Palabras Claves -->
+      <div class="palabras-claves-container">
+          <h3><strong>Palabras Claves</strong></h3>
+          <p>Selecciona algunas palabras claves con rasgos característicos para la mascota</p>
+          <div class="palabras-claves-options">
+              <div class="option-button" *ngFor="let palabra of palabrasClaves"
+                  [ngClass]="{'selected': selectedPalabras.includes(palabra)}" (click)="togglePalabra(palabra)">
+                  {{ palabra }}
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Botón Publicar -->
+<div class="boton-publicar-container">
+  <button class="boton-publicar">Publicar</button>
+</div>
