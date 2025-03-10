@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit{
 
       this.peticion.post(data.host + data.path, data.payload)  
         .then((res: any) => {  
+          console.log(res)
           if (res.state === false) {  
             Swal.fire({  
               title: "Ouch!",  
@@ -60,6 +61,10 @@ export class LoginComponent implements OnInit{
               localStorage.setItem("email", "")  
               localStorage.setItem("pass", "")  
             }  
+
+            //GUARDAR USERID Y NOMBRE
+
+            localStorage.setItem("userId", res.userId);
 
             this.router.navigate(["/dashboard"])  
 
@@ -132,6 +137,10 @@ export class LoginComponent implements OnInit{
           localStorage.setItem("pass","")
         }
 
+        //GUARDAR USERID Y NOMBRE
+
+        localStorage.setItem("userId", res.userId)
+
         this.router.navigate(["/"])
         
         Swal.fire({
@@ -140,7 +149,6 @@ export class LoginComponent implements OnInit{
           icon: "success"
         });
       }
-                               
     })
    
   }

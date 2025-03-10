@@ -39,13 +39,10 @@
     </ng-template>
 
     <!-- Caja de Comentarios -->
-    <div class="comment-box">
-      <h2>Si tenes información para aportar no dudes en dejar tu comentario</h2>
-      <textarea placeholder="Dejar un comentario..."></textarea>
-      <div class="comment-actions">
-        <button class="send-comment">Comentar</button>
-      </div>
-    </div>
+    
+
+    <app-comments [petId]="idMascotaActual || 'default'" (commentAdded)="obtenerComentarios()"></app-comments>
+
   </div>
   <!-- CIERRE CORRECTO DE image-section -->
 
@@ -129,9 +126,9 @@
 </div>
 
 <app-pets-cards 
-  *ngIf="mascota() as m" 
-  [idMascotaActual]="m._id ?? null" 
+  *ngIf="mascota() as m"  
+  [mascota]="m"           
+  [idMascotaActual]="m._id ?? null"
   (verMas)="actualizarDetalleMascota($event)">
 </app-pets-cards>
-
 <app-pie-de-pagina></app-pie-de-pagina>

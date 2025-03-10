@@ -1,0 +1,25 @@
+<!-- Caja de comentarios -->
+<div class="comment-box">
+    <h2>Si tienes información para aportar, no dudes en dejar tu comentario</h2>
+    <textarea [(ngModel)]="commentContent" placeholder="Dejar un comentario..."></textarea>
+    <div class="comment-actions">
+        <button class="send-comment" (click)="postComment()">Comentar</button>
+    </div>
+</div>
+
+<!-- Sección para mostrar los comentarios -->
+<div class="comments-list" *ngIf="comments.length > 0; else noComments">
+    <div class="comment" *ngFor="let comment of comments">
+        <div class="comment-header">
+            <img class="user-avatar" [src]="comment.userId?.profilePicture || 'default-avatar.png'" alt="Foto de perfil">
+            <p><strong>{{ comment.userId?.nombre || comment.userId?.email || 'Usuario desconocido' }}</strong></p>
+        </div>
+        <p>{{ comment.content }}</p>
+        <p class="timestamp">{{ comment.createdAt | date: 'short' }}</p>
+    </div>
+</div>
+
+<!-- Mensaje si no hay comentarios -->
+<ng-template #noComments>
+    <p>No hay comentarios todavía. ¡Sé el primero en comentar!</p>
+</ng-template>

@@ -19,8 +19,7 @@ const usuariosSchema = new Schema({
     googleId: String
 });
 
-// Create the model
-const Usuarios = mongoose.model("Usuarios", usuariosSchema);
+
 
 // Function to save user data
 usuariosModel.guardar = function (post, callback) {
@@ -291,6 +290,9 @@ usuariosModel.recuperarPass = function (post, callback) {
         callback({ state: false, mensaje: "Error al actualizar la contraseña", error })
     })
 }
+
+// Create the model
+const Usuarios = mongoose.model("Usuarios", usuariosSchema);
 
 // Export the function and model
 export default usuariosModel

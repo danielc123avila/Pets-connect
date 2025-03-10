@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import connectDB from "./config/dataBase.js";
 import usuariosRoutes from "./router/usuariosRoutes.js";
 import mascotasRoutes from "./router/mascotasRoutes.js";
+import commentRoutes from "./router/commetRoutes.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
@@ -90,9 +91,12 @@ app.get("/api/images", (req, res) => {
 // Routes
 app.use("/api", usuariosRoutes);
 app.use("/api", mascotasRoutes);
+app.use('/api/comments', commentRoutes);
 
 // Port
-const port = process.env.PORT || 5000;
+console.log("PORT desde .env:", process.env.PORT);
+
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

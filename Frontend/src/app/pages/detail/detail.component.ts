@@ -1,12 +1,14 @@
 import { Mascota } from './../../models/mascota.model';
 import { Component, OnInit, signal, Input, inject, WritableSignal, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MascotaService } from '../../servicios/mascota.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PieDePaginaComponent } from '../../componentes/pie-de-pagina/pie-de-pagina.component';
 import { EncabezadoComponent } from '../../componentes/encabezado/encabezado.component';
 import { PetsCardsComponent } from "../../componentes/pets-cards/pets-cards.component";
+import { CommentsComponent } from "../../componentes/comments/comments.component";
+import { CommentsService } from '../../servicios/comments.service';
 
 @Component({
   selector: 'app-detail',
@@ -15,60 +17,67 @@ import { PetsCardsComponent } from "../../componentes/pets-cards/pets-cards.comp
     CommonModule,
     PieDePaginaComponent,
     EncabezadoComponent,
-    PetsCardsComponent
+    PetsCardsComponent,
+    CommentsComponent
 ],
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css'],
 })
 export class DetailComponent implements OnInit {
-  // Solo una definición de mascota
   mascota: WritableSignal<Mascota | null> = signal(null);
+  indiceActual: number = 0;
 
-  //indice actual para el carrousel
-  indiceActual: number = 0
-
-  // Input con minúscula inicial para seguir convenciones
   @Input() Mascota: any;
   idMascotaActual: string | null = null;
   id: string | null = null;
+  comentarios: any[] = [];
 
-
-  // Servicios inyectados
   private mascotaService = inject(MascotaService);
   private route = inject(ActivatedRoute);
   private cd = inject(ChangeDetectorRef);
+  private commentService = inject(CommentsService);
+  private router = inject(Router)
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
       this.mascotaService.getMascotaPorId(this.id).subscribe({
         next: (data) => {
+          if (!data || !data._id) {
+            console.error("La mascota recibida no tiene un _id válido:", data);
+            return;
+          }
           this.mascota.set(data);
+          console.log("Mascota cargada correctamente:", this.mascota());
+          this.idMascotaActual = data._id;
+          this.obtenerComentarios();
         },
         error: (error) => console.error('Error al obtener mascota:', error)
       });
     }
   }
 
-  actualizarDetalleMascota(id: string): void {
   
-    if (!id) {
+  obtenerComentarios() {
+    if (!this.idMascotaActual) {
+      console.warn("No se puede obtener los comentarios: idMascotaActual no encontrado");
       return;
     }
   
-    this.mascotaService.getMascotaPorId(id).subscribe({
-      next: (data) => {
-        console.log('🐾 Nueva mascota cargada:', data);
-        if (!data || !data._id) {
-          console.error('La mascota recibida no tiene _id:', data);
-          return;
-        }
-        this.mascota.set(data); // Actualizar el Signal
-        console.log('Mascota después de set:', this.mascota());
-        this.cd.markForCheck();
+    this.commentService.getComments(this.idMascotaActual).subscribe(
+      (response) => {
+        this.comentarios = response; // Asigna los comentarios a la propiedad
       },
-      error: (error) => console.error('Error al obtener mascota:', error)
-    });
+      (error) => {
+        console.error("Error al obtener los comentarios", error);
+      }
+    );
+  }
+
+  actualizarDetalleMascota(id: string): void {
+    console.log("ID recibido del evento verMas:", id);
+    // Asegúrate de que esto se ejecute
+    this.router.navigate([`/detalles/${id}`]);
   }
 
   anterior(): void {
@@ -77,7 +86,7 @@ export class DetailComponent implements OnInit {
       this.indiceActual = (this.indiceActual - 1 + mascotaData.fotos.length) % mascotaData.fotos.length;
     }
   }
-  
+
   siguiente(): void {
     const mascotaData = this.mascota();
     if (mascotaData && mascotaData.fotos?.length) {
@@ -85,4 +94,3 @@ export class DetailComponent implements OnInit {
     }
   }
 }
-

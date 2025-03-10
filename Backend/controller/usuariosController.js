@@ -277,6 +277,14 @@ usuariosController.actualizar = function (request, response){
     })
 }
 
+function establecerSesion(request, usuario) {
+    request.session.nombre = usuario.nombre;
+    request.session._id = usuario._id;
+    request.session.ultimologin = usuario.ultlogin;
+    request.session.rol = usuario.rol;
+}
+
+// Login normal
 usuariosController.login = function (request, response) {
     const post = {
         email: request.body.email,
@@ -286,73 +294,61 @@ usuariosController.login = function (request, response) {
     // Validación de campos obligatorios
     if (!post.email || !post.password) {
         return response.json({
-        state: false,
+            state: false,
             mensaje: !post.email ? "El campo email es obligatorio" : "El campo password es obligatorio"
-        })
+        });
     }
 
     // Encriptar la contraseña
-    post.password = SHA256(post.password + config.palabraclave).toString()
+    post.password = SHA256(post.password + config.palabraclave).toString();
 
     // Validar el login
     usuariosModel.validaLogin(post, function (validacion) {
-        const tiempo = tiempoTranscurridoEnMinutos(validacion.fechalogin)
+        const tiempo = tiempoTranscurridoEnMinutos(validacion.fechalogin);
 
         if (validacion.errorlogin < 3) {
-            // Si el usuario puede hacer login
             usuariosModel.login(post, function (respuesta) {
                 if (!respuesta.state) {
-                    // Incrementar el contador de errores
-                    post.cantidad = validacion.errorlogin + 1
-                    usuariosModel.actualizarErrores(post, function (act) {
-                        response.json(respuesta)
-                    })
-                } else {
-                    // Actualizar la fecha del último login
-                    usuariosModel.actualizarFechaLogin(post, function (actfecha) {
-                        // Almacenar datos en la sesión
-                        request.session.nombre = respuesta.data[0].nombre
-                        request.session._id = respuesta.data[0]._id
-                        request.session.ultimologin = respuesta.data[0].ultlogin
-                        request.session.rol = respuesta.data[0].rol
-
-                        response.json({ state: true, mensaje: "Bienvenido: " + respuesta.data[0].nombre })
-                    })
-                }
-            })
-        } else {
-            // Usuario bloqueado
-            if (tiempo < 2) {
-                response.json({ state: false, mensaje: "Debe esperar al menos 2 minutos. Han transcurrido: " + tiempo + " minutos" })
-            } else {
-                // Reiniciar el contador de errores
-                usuariosModel.login(post, function (respuesta) {
-                    post.cantidad = 0;
-                    usuariosModel.actualizarErrores(post, function (act) {
+                    post.cantidad = validacion.errorlogin + 1;
+                    usuariosModel.actualizarErrores(post, function () {
                         response.json(respuesta);
-                    })
-                })
+                    });
+                } else {
+                    usuariosModel.actualizarFechaLogin(post, function () {
+                        const usuario = respuesta.data[0];
+                        establecerSesion(request, usuario);
+
+                        response.json({ 
+                            state: true, 
+                            mensaje: "Bienvenido: " + usuario.nombre,
+                            userId: usuario._id
+                        });
+                    });
+                }
+            });
+        } else {
+            if (tiempo < 2) {
+                response.json({ state: false, mensaje: "Debe esperar al menos 2 minutos. Han transcurrido: " + tiempo + " minutos" });
+            } else {
+                post.cantidad = 0;
+                usuariosModel.login(post, function (respuesta) {
+                    usuariosModel.actualizarErrores(post, function () {
+                        response.json(respuesta);
+                    });
+                });
             }
         }
-    })
-    
+    });
 }
 
-usuariosController.logout = function (request, response) {
-    request.session.destroy(() => {
-        response.json({ state: true, mensaje: "Se ha cerrado su sesión correctamente" })
-    })
-}
-
+// Login con Google
 usuariosController.loginGoogle = function (request, response) {
     const { token } = request.body;
 
-    // Validación del token
     if (!token) {
         return response.json({ state: false, mensaje: "El token de Google es obligatorio" });
     }
 
-    // Verificar el token de Google
     client.verifyIdToken({
         idToken: token,
         audience: process.env.GOOGLE_CLIENT_ID,
@@ -364,28 +360,26 @@ usuariosController.loginGoogle = function (request, response) {
         const nombre = payload.name;
         const avatar = payload.picture;
 
-        // Buscar usuario por email o googleId
         usuariosModel.listarGoogleIdOEmail({ googleId, email }, function (resultado) {
             if (resultado.existe === 'no') {
-                // Si el usuario no existe, crearlo
                 const nuevoUsuario = {
                     nombre,
                     email,
                     googleId,
                     avatar,
-                    estado: "1", // Activo
-                    rol: "0" // Rol por defecto
-                }
+                    estado: "1",
+                    rol: "0"
+                };
 
                 usuariosModel.crearUsuarioG(nuevoUsuario, function (respuesta) {
                     if (respuesta.state) {
-                        // Almacenar datos en la sesión
-                        request.session.nombre = respuesta.usuario.nombre;
-                        request.session._id = respuesta.usuario._id;
-                        request.session.ultimologin = respuesta.usuario.ultlogin;
-                        request.session.rol = respuesta.usuario.rol;
+                        establecerSesion(request, respuesta.usuario);
 
-                        response.json({ state: true, mensaje: "Bienvenido: " + respuesta.usuario.nombre, usuario: respuesta.usuario });
+                        response.json({ 
+                            state: true, 
+                            mensaje: "Bienvenido: " + respuesta.usuario.nombre, 
+                            userId: respuesta.usuario._id
+                        });
                     } else {
                         response.json({ state: false, mensaje: "Error al crear el usuario" });
                     }
@@ -393,40 +387,46 @@ usuariosController.loginGoogle = function (request, response) {
             } else if (resultado.existe === 'si') {
                 const usuario = resultado.usuario;
 
-                // Si el usuario existe pero no tiene googleId, actualizarlo
                 if (!usuario.googleId) {
                     usuariosModel.actualizarConGoogleId({ _id: usuario._id, googleId }, function (respuesta) {
                         if (respuesta.state) {
-                            // Almacenar datos en la sesión
-                            request.session.nombre = usuario.nombre;
-                            request.session._id = usuario._id;
-                            request.session.ultimologin = usuario.ultlogin;
-                            request.session.rol = usuario.rol;
+                            establecerSesion(request, usuario);
 
-                            response.json({ state: true, mensaje: "Bienvenido: " + usuario.nombre, usuario });
+                            response.json({ 
+                                state: true, 
+                                mensaje: "Bienvenido: " + usuario.nombre, 
+                                userId: usuario._id
+                            });
                         } else {
-                            response.json({ state: false, mensaje: "Error al actualizar el usuario" })
+                            response.json({ state: false, mensaje: "Error al actualizar el usuario" });
                         }
-                    })
+                    });
                 } else {
-                    // Si el usuario ya existe y tiene googleId
-                    request.session.nombre = usuario.nombre;
-                    request.session._id = usuario._id;
-                    request.session.ultimologin = usuario.ultlogin;
-                    request.session.rol = usuario.rol;
+                    establecerSesion(request, usuario);
 
-                    response.json({ state: true, mensaje: "Bienvenido: " + usuario.nombre, usuario })
+                    response.json({ 
+                        state: true, 
+                        mensaje: "Bienvenido: " + usuario.nombre, 
+                        userId: usuario._id
+                    });
                 }
             } else {
-                response.json({ state: false, mensaje: "Error al buscar el usuario" })
+                response.json({ state: false, mensaje: "Error al buscar el usuario" });
             }
-        })
+        });
     })
     .catch(error => {
         console.error("Error en loginGoogle:", error);
-        response.json({ state: false, mensaje: "Error al iniciar sesión con Google" })
+        response.json({ state: false, mensaje: "Error al iniciar sesión con Google" });
+    });
+}
+
+usuariosController.logout = function (request, response) {
+    request.session.destroy(() => {
+        response.json({ state: true, mensaje: "Se ha cerrado su sesión correctamente" })
     })
 }
+
 
 usuariosController.activar = function (request, response) {
     const post = {

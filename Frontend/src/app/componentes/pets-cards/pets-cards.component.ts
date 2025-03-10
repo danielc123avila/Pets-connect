@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pets-cards',
@@ -23,45 +24,44 @@ export class PetsCardsComponent implements OnInit, OnDestroy {
   cantidadTarjetas: number = 5; // Número de tarjetas visibles
   intervaloRotacion = 5000; // Tiempo en milisegundos
   private intervaloId: any = null;
+  private router = inject(Router)
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
+    console.log("PetsCardsComponent se ha inicializado");
     this.cargarMascotas();
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mascota']) {
     }
   }
 
   onVerMas(): void {
+    console.log("Mascota en onVerMas:", this.mascota);  // Verifica el valor de mascota aquí
+  
+    // Si mascota es undefined, eso significa que no se está pasando correctamente desde el componente padre
     if (!this.mascota || !this.mascota._id) {
+      console.error("La mascota no está definida o no tiene _id.");
       return;
     }
+  
     this.verMas.emit(this.mascota._id);
+    this.router.navigate([`detalles/${this.mascota._id}`]);
   }
 
 
-  cargarMascotas() {
-    this.mascotaService.getMascotas().subscribe((mascotas) => {
+cargarMascotas() {
+  this.mascotaService.getMascotas().subscribe((mascotas) => {
+    this.mascotas = mascotas.filter((m) => m.especie === "Perro");
 
-      this.mascotas = mascotas.filter((m) => m.especie === "Perro");
+    if (this.mascotas.length === 0) {
+      return;
+    }
 
-      if (this.mascotas.length === 0) {
-        return;
-      }
-
-      // Mezclar antes de mostrar las primeras tarjetas
-      this.mascotas = this.mezclarArray(this.mascotas);
-
-      // Llenar `mascotasVisibles` con las primeras N tarjetas
-      this.mascotasVisibles = this.mascotas.slice(0, this.cantidadTarjetas);
-
-      // Iniciar la rotación si hay más mascotas que `cantidadTarjetas`
-      if (this.mascotas.length > this.cantidadTarjetas) {
-        this.iniciarRotacion();
-      }
-    });
-  }
+    this.mascotasVisibles = this.mascotas.slice(0, this.cantidadTarjetas);
+  });
+}
 
   mezclarArray(array: Mascota[]): Mascota[] {
     return [...array].sort(() => Math.random() - 0.5);
