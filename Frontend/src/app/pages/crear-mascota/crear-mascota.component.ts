@@ -81,7 +81,6 @@ export class CrearMascotaComponent {
   }
 
   // Métodos para seleccionar opciones
-  // Métodos para seleccionar opciones con valores correctos
   selectEspecie(especie: string) {
     // Convertir primera letra a mayúscula para coincidir con el modelo
     const especieCapitalized =
