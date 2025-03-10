@@ -11,12 +11,19 @@ import { MascotaService } from '../../servicios/mascota.service';
 import { Router } from '@angular/router';
 import { ModalComponent } from '../../componentes/modal/modal.component';
 import { BehaviorSubject } from 'rxjs';
+import { EncabezadoComponent } from '../../componentes/encabezado/encabezado.component';
+import { PieDePaginaComponent } from '../../componentes/pie-de-pagina/pie-de-pagina.component';
 
 @Component({
   selector: 'app-crear-mascota',
   templateUrl: './crear-mascota.component.html',
   styleUrls: ['./crear-mascota.component.css'],
-  imports: [CommonModule, ReactiveFormsModule], // Asegúrate de importar aquí CommonModule y ReactiveFormsModule
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    EncabezadoComponent,
+    PieDePaginaComponent,
+  ], // Asegúrate de importar aquí CommonModule y ReactiveFormsModule
 })
 export class CrearMascotaComponent {
   registerMascota: FormGroup;
@@ -26,7 +33,7 @@ export class CrearMascotaComponent {
   selectedColor: string | null = null;
   selectedEstado: string | null = null;
 
-  estados: string[] = ['Disponible', 'Adoptado', 'Perdido'];
+  estados: string[] = ['Encontrado', 'en adopcion', 'Perdido'];
   palabrasClaves: string[] = [
     'Manchas',
     'Cicatriz',
@@ -74,14 +81,20 @@ export class CrearMascotaComponent {
   }
 
   // Métodos para seleccionar opciones
+  // Métodos para seleccionar opciones con valores correctos
   selectEspecie(especie: string) {
-    this.selectedEspecie = especie;
-    this.registerMascota.get('especie')?.setValue(especie);
+    // Convertir primera letra a mayúscula para coincidir con el modelo
+    const especieCapitalized =
+      especie.charAt(0).toUpperCase() + especie.slice(1);
+    this.selectedEspecie = especieCapitalized;
+    this.registerMascota.get('especie')?.setValue(especieCapitalized);
   }
 
   selectSexo(sexo: string) {
-    this.selectedSexo = sexo;
-    this.registerMascota.get('sexo')?.setValue(sexo);
+    // Convertir primera letra a mayúscula para coincidir con el modelo
+    const sexoCapitalized = sexo.charAt(0).toUpperCase() + sexo.slice(1);
+    this.selectedSexo = sexoCapitalized;
+    this.registerMascota.get('sexo')?.setValue(sexoCapitalized);
   }
 
   selectColor(color: string) {
@@ -115,7 +128,6 @@ export class CrearMascotaComponent {
     const file = event.target.files[0];
     if (file) {
       this.fotos = file;
-      console.log('Archivo seleccionado:', file);
       // Aquí puedes manejar la subida del archivo o mostrarlo en la interfaz
     }
   }
@@ -131,7 +143,6 @@ export class CrearMascotaComponent {
     if (this.fotos) {
       formData.append('fotos', this.fotos);
     }
-    console.log(formData.getAll('fotos'));
     return formData;
   }
 
@@ -150,10 +161,7 @@ export class CrearMascotaComponent {
           this.mascotaService
             .crearMascota(this.toformData(formValue))
             .subscribe(
-              (response) => {
-                console.log('Mascota creada exitosamente:', response);
-                // Lógica adicional si es necesario
-              },
+              (response) => {},
               (error) => {
                 console.error('Error al crear la mascota:', error);
                 this.Error.next(
