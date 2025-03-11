@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pets-cards',
@@ -14,8 +15,8 @@ import { EventEmitter } from '@angular/core';
 })
 export class PetsCardsComponent implements OnInit, OnDestroy {
   @Input() idMascotaActual: string | null = null;
-  @Input() mascota!: Mascota;
-  @Output() verMas: EventEmitter<string> = new EventEmitter<string>();
+  @Input() mascota!: Mascota // ID de la mascota en detalle
+  @Output() verMas = new EventEmitter<string>();
 
   private mascotaService = inject(MascotaService);
   mascotas: Mascota[] = []; // Lista completa de mascotas
@@ -23,48 +24,42 @@ export class PetsCardsComponent implements OnInit, OnDestroy {
   cantidadTarjetas: number = 5; // Número de tarjetas visibles
   intervaloRotacion = 5000; // Tiempo en milisegundos
   private intervaloId: any = null;
+  private router = inject(Router);
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
+    console.log("PetsCardsComponent se ha inicializado");
     this.cargarMascotas();
   }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['mascota']) {
+    if (changes['idMascotaActual'] && !changes['idMascotaActual'].firstChange) {
+      this.filtrarMascotas(); // Actualiza la lista si cambia la mascota actual
     }
   }
 
-  onVerMas(): void {
-    if (!this.mascota || !this.mascota._id) {
+  onVerMas(mascota: Mascota): void {
+    if (!mascota || !mascota._id) {
+      console.error("La mascota no está definida o no tiene _id.");
       return;
     }
-    this.verMas.emit(this.mascota._id);
-  }
 
+    this.verMas.emit(mascota._id);
+    this.router.navigate([`/detalle/${mascota._id}`]);
+  }
 
   cargarMascotas() {
     this.mascotaService.getMascotas().subscribe((mascotas) => {
-
-      this.mascotas = mascotas.filter((m) => m.especie === "Perro");
-
-      if (this.mascotas.length === 0) {
-        return;
-      }
-
-      // Mezclar antes de mostrar las primeras tarjetas
-      this.mascotas = this.mezclarArray(this.mascotas);
-
-      // Llenar `mascotasVisibles` con las primeras N tarjetas
-      this.mascotasVisibles = this.mascotas.slice(0, this.cantidadTarjetas);
-
-      // Iniciar la rotación si hay más mascotas que `cantidadTarjetas`
-      if (this.mascotas.length > this.cantidadTarjetas) {
-        this.iniciarRotacion();
-      }
+      this.mascotas = mascotas.filter((m) => m.especie);
+      this.filtrarMascotas(); // Filtra las mascotas al cargarlas
     });
   }
 
-  mezclarArray(array: Mascota[]): Mascota[] {
-    return [...array].sort(() => Math.random() - 0.5);
+  filtrarMascotas(): void {
+    // Filtrar la lista para excluir la mascota actual en `DetailComponent`
+    this.mascotasVisibles = this.mascotas
+      .filter(mascota => mascota._id !== this.idMascotaActual)
+      .slice(0, this.cantidadTarjetas);
   }
 
   iniciarRotacion(): void {
@@ -82,15 +77,11 @@ export class PetsCardsComponent implements OnInit, OnDestroy {
   }
 
   actualizarTarjetas(): void {
-    if (this.mascotas.length <= this.cantidadTarjetas) {
-      this.mascotasVisibles = [...this.mascotas];
+    if (this.mascotasVisibles.length <= this.cantidadTarjetas) {
       return;
     }
 
-    // Rotar la lista sin modificar `this.mascotas`
-    this.mascotas.push(this.mascotas.shift()!);
-    this.mascotasVisibles = this.mascotas.slice(0, this.cantidadTarjetas);
-
+    this.mascotasVisibles.push(this.mascotasVisibles.shift()!);
   }
 
   ngOnDestroy(): void {

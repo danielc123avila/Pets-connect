@@ -22,6 +22,7 @@ export interface Mascota {
     palabrasClave?: string[]
     estado:string
     dueno:{
+        _id:string;
         nombre: string;
         telefono: string;
         email: string;
@@ -30,4 +31,13 @@ export interface Mascota {
         direccion?: string;
         edad?: number;
     }
+}
+
+export interface Comment {
+    _id: string;
+    userId: string;
+    content: string;
+    petId: string;
+    createdAt: string;
+    avatarUrl?: string; // Se agregará dinámicamente
 }

@@ -20,8 +20,7 @@ const usuariosSchema = new Schema({
   googleId: String
 });
 
-// Create the model
-const Usuarios = mongoose.model("Usuarios", usuariosSchema);
+
 
 // Function to save user data
 usuariosModel.guardar = function (post, callback) {
@@ -375,6 +374,9 @@ usuariosModel.recuperarPass = function (post, callback) {
       });
     });
 };
+
+// Create the model
+const Usuarios = mongoose.model("Usuarios", usuariosSchema);
 
 // Export the function and model
 export default usuariosModel;

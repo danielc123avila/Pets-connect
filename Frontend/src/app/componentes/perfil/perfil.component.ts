@@ -33,7 +33,7 @@ export class PerfilComponent implements OnInit{
   _id:string= ""
   random:number = 0
   nombrearchivo:string = "Upload"
- 
+  avatarUrl: string = ""
 
   ngOnInit(): void {
     this.status()
@@ -115,9 +115,9 @@ export class PerfilComponent implements OnInit{
       this.rol = res.datos[0].rol
       this.estado = res.datos[0].estado
       
-                               
+                              
     })
-     
+    
   }
 
   actualizar (){
