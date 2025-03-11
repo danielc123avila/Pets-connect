@@ -14,6 +14,7 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { DetailComponent } from './pages/detail/detail.component';
 import { MascotasComponent } from './pages/mascotas/mascotas.component';
 import { CrearMascotaComponent } from './pages/crear-mascota/crear-mascota.component';
+import { PipeComponent } from './componentes/pipe/pipe.component';
 
 export const routes: Routes = [
   {path: '',component: HomeComponent,pathMatch: 'full', title: 'PetsConnect',},
@@ -36,4 +37,8 @@ export const routes: Routes = [
   //detalle mascota
   { path: 'detalle/:id', component: DetailComponent },
   {path:'registro-mascotas',component: CrearMascotaComponent,pathMatch: 'full',},
+  {path:'mascotas',component: MascotasComponent,pathMatch: 'full',},
+  //pipe
+  {path:'pipe',component: PipeComponent,pathMatch: 'full',},
+  
 ];

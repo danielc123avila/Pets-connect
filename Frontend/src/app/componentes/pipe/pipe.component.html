@@ -1,0 +1,53 @@
+<p>pipe works!</p>
+
+<div class="filtro">
+  <input type="text" placeholder="Filtro" [(ngModel)]="filtros">
+</div>
+
+<div class="test" *ngFor="let item of datos | filtros: filtros">
+  <div>{{ item.nombre }}</div>
+</div>
+
+
+
+<!-- <div class="dropdown">
+  <div class="dropdown-header">
+    <span class="icon">🐾</span> 
+    <span>Especie de animal</span>
+  </div>
+
+  <input type="text" class="dropdown-search" placeholder="Seleccionar" [(ngModel)]="filtros">
+
+  <ul class="dropdown-list">
+    <li *ngFor="let item of datos | filtros: filtros" (click)="filtros = item.nombre">
+      {{ item.nombre }}
+    </li>
+  </ul>
+</div> -->
+
+
+<div class="dropdown">
+  <div class="dropdown-header">
+    <span class="icon">🔤</span> 
+    <span>Selecciona una letra</span>
+  </div>
+
+  <div class="dropdown-selected" (click)="toggleDropdown()">
+    {{ selectedLetter ? selectedLetter : 'Seleccionar' }}
+  </div>
+
+  <ul *ngIf="dropdownOpen" class="dropdown-list">
+    <li *ngFor="let letter of letras" (click)="selectLetter(letter)">
+      {{ letter }}
+    </li>
+  </ul>
+</div>
+
+<!-- Mostrar los nombres filtrados -->
+<div class="filtered-results">
+  <div *ngFor="let item of datosFiltrados">
+    {{ item.nombre }}
+  </div>
+</div>
+
+

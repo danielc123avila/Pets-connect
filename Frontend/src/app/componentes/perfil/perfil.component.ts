@@ -33,7 +33,7 @@ export class PerfilComponent implements OnInit{
   _id:string= ""
   random:number = 0
   nombrearchivo:string = "Upload"
-  avatarUrl: string = ""
+ 
 
   ngOnInit(): void {
     this.status()
