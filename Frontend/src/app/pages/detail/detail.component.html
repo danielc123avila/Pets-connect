@@ -10,8 +10,8 @@
 
 <div class="detail-container">
   <div class="image-section">
-    <!-- <img src="../../../assets/gato.jpg" alt="Mascota" class="pet-image" /> -->
-    <div *ngIf="mascota() as mascotaData">
+    <!-- Sección de imágenes de la mascota -->
+    <div *ngIf="mascota | async as mascotaData">
       <div *ngIf="mascotaData.fotos && mascotaData.fotos.length > 0; else sinImagenes" class="carousel-container">
         <div class="carousel">
           <!-- Botón Anterior -->
@@ -39,8 +39,6 @@
     </ng-template>
 
     <!-- Caja de Comentarios -->
-    
-
     <app-comments [petId]="idMascotaActual || 'default'" (commentAdded)="obtenerComentarios()"></app-comments>
 
   </div>
@@ -49,51 +47,46 @@
   <div class="info-section">
     <div class="pet-card">
       <h2 class="pet-name">
-        <i class="fa-solid fa-cat"></i> {{ mascota()?.nombre }}
+        <i class="fa-solid fa-cat"></i> {{ (mascota | async)?.nombre }}
       </h2>
       <div class="date">
         <p class="last-seen">
-          <i class="fa-solid fa-eye"></i>{{ mascota()?.fechaExtravio }}
+          <i class="fa-solid fa-eye"></i> {{ (mascota | async)?.fechaExtravio | date:'dd/MM/yyyy' }}
         </p>
         <p class="location">
-          <i class="fa-solid fa-location-dot"></i
-          >{{ mascota()?.ultimaUbicacion }}
+          <i class="fa-solid fa-location-dot"></i>{{ (mascota | async)?.ultimaUbicacion }}
         </p>
       </div>
     </div>
 
     <div class="owner">
-      <div class="owner-info">
-        <img
-          src="../../../assets/profile.jpg"
-          alt="Luciana"
-          class="owner-avatar"
-        />
+      <div class="owner-info" *ngIf="mascota | async as mascotaData">
+        <img [src]="getProfileImageUrl(mascotaData.dueno._id)" alt="Imagen de perfil" class="profileImg"/>
         <div class="owner-details">
-          <p class="owner-name">{{ mascota()?.dueno?.nombre }}</p>
-          <p class="update-date">{{ mascota()?.updatedAt }}</p>
+          <p class="owner-name">{{ mascotaData.dueno.nombre }}</p>
+          <p class="update-date">{{ mascotaData.updatedAt }}</p>
           <p class="contact-email">
-            <i class="fa-solid fa-envelope"></i>{{ mascota()?.dueno?.email }}
+            <i class="fa-solid fa-envelope"></i>{{ mascotaData.dueno.email }}
           </p>
           <p class="contact-phone">
-            <i class="fa-solid fa-phone"></i> {{ mascota()?.dueno?.telefono }}
+            <i class="fa-solid fa-phone"></i> {{ mascotaData.dueno.telefono }}
           </p>
         </div>
       </div>
 
       <div class="description">
         <h3>Descripción</h3>
-        <p>{{ mascota()?.descripcion }}</p>
+        <p>{{ (mascota | async)?.descripcion }}</p>
         <p>¡Ayúdame a traerlo de vuelta a casa! 🏡</p>
       </div>
 
       <div class="extra-info">
-        <p><strong>Palabras Claves: </strong>{{ mascota()?.palabrasClave }}</p>
-        <p><strong>Sexo: </strong>{{ mascota()?.sexo }}</p>
+        <p><strong>Palabras Claves: </strong>{{ (mascota | async)?.palabrasClave }}</p>
+        <p><strong>Sexo: </strong>{{ (mascota | async)?.sexo }}</p>
         <p>
           <strong>Color:</strong>
-          <span class="color-box">{{ mascota()?.color }}</span>
-          <span class="color-box">{{ mascota()?.color }}</span>
+          <span class="color-box">{{ (mascota | async)?.color }}</span>
+          <span class="color-box">{{ (mascota | async)?.color }}</span>
         </p>
       </div>
       <!-- CIERRE FALTANTE extra-info -->
@@ -126,9 +119,10 @@
 </div>
 
 <app-pets-cards 
-  *ngIf="mascota() as m"  
+  *ngIf="mascota | async as m"  
   [mascota]="m"           
   [idMascotaActual]="m._id ?? null"
   (verMas)="actualizarDetalleMascota($event)">
 </app-pets-cards>
 <app-pie-de-pagina></app-pie-de-pagina>
+

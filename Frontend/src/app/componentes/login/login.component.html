@@ -1,26 +1,44 @@
-<div id="login">
-  <div class="form-group">
-    <label for="Email">Email address</label>
-    <input type="email" class="form-control" id="email" [(ngModel)] = "email"> <!-- Two way bindind, banana in box -->
-    <!-- ngModel establece una variable que se comunica con typescript-->
-  </div>
-  <div class="form-group">
-    <label for="Password">Password</label>
-    <input type="password" class="form-control" id="Password" [(ngModel)] = "password">
-  </div>
 
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="recordar" [(ngModel)]="recordar">
-    <label class="form-check-label" for="exampleCheck1">Recordar</label>
-  </div>
+<!-- Overlay para difuminar el fondo -->
+<div class="overlay" (click)="close()"></div>
 
-  <div class="lblsolicitar" routerLink="/solicitarcodigo">¿Olvidaste tu contraseña?</div>
-
-  <button type="submit" class="btn btn-primary" (click)="login()">Iniciar sesion</button>
+<!-- Contenedor del login -->
+<div class="login-container">
+  <!-- Botón de cierre  -->
+  <button class="close-button" (click)="close()">X</button>
   
-</div>
+  <div class="icon-container">
+    <img class="iconlogin" src="../../../assets/Logologin.png" alt="Buscar Mascotas">
+    <h2>Iniciar sesión</h2>   
+  </div>
+      
+  <div class="login">
+    <label for="email">Correo electrónico</label>
+    <input type="email" [(ngModel)] = "email" id="email" placeholder="ejemplo@email.com" required />
 
-<div id="buttonDiv"></div>
+    <label for="password">Contraseña</label>
+    <input type="password" [(ngModel)] = "password" id="password" required />
+
+    <a href="#" class="forgot-password" routerLink="/solicitarcodigo">¿Olvidaste tu contraseña?</a>
+
+    <div class="button-container">
+      <button type="submit" (click)="login()" class="login-button">Iniciar sesión</button>
+      <button type="button" id="buttonDiv" (click)="inicializarGoogle()">Iniciar sesión con Google</button>
+      <!-- <div id="buttonDiv"></div> -->
+    </div>
+  </div>
+  
+  <p>¿No tenés una cuenta? <button class="link-style" (click)="openRegistro()">Registrate aquí</button></p> 
+  
+</div> 
+
+<app-registro *ngIf="showRegistro" (onClose)="closeRegistro()"></app-registro>
+
+
+
+
+
+
 
 
 

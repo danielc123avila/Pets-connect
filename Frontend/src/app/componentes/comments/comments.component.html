@@ -11,7 +11,7 @@
 <div class="comments-list" *ngIf="comments.length > 0; else noComments">
     <div class="comment" *ngFor="let comment of comments">
         <div class="comment-header">
-            <img class="user-avatar" [src]="comment.userId?.profilePicture || 'default-avatar.png'" alt="Foto de perfil">
+            <img [src]="comment.avatarUrl" class="user-avatar" alt="Avatar del usuario">
             <p><strong>{{ comment.userId?.nombre || comment.userId?.email || 'Usuario desconocido' }}</strong></p>
         </div>
         <p>{{ comment.content }}</p>

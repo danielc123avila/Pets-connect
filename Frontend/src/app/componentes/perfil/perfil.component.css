@@ -76,3 +76,26 @@ tbody tr:hover {
         font-size: 0.9rem;
     }
 }
+
+img.avatar {
+    width: 75px; /* Tamaño más pequeño */
+    height: 75px;
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    object-fit: cover; /* Recorta la imagen para que encaje bien */
+    border: 3px solid #ddd; /* Borde sutil */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.3s ease-in-out;
+}
+
+img.avatar:hover {
+    transform: scale(1.05); /* Pequeño zoom al pasar el mouse */
+}
+
+img {
+    width: 75px; /* Tamaño más pequeño */
+    height: 75px;
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    object-fit: cover; /* Recorta la imagen para que encaje bien */
+    border: 3px solid #ddd; /* Borde sutil */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}

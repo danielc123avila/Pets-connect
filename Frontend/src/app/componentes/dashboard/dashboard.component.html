@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- Home alineado a la izquierda -->
-    <a class="navbar-brand" href="#">Home</a>
+    <a class="navbar-brand" href="/">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -8,13 +8,13 @@
       <!-- Opciones del menú centradas -->
       <ul class="navbar-nav mx-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard">Perfil</a>
+          <a class="nav-link" routerLink="/perfil">Perfil</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/usuarios">Usuarios</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/mascotas">Mascotas</a>
+          <a class="nav-link" *ngIf="rol === 'Administrador'" routerLink="/mascotasshow">Mascotas</a>
         </li>
       </ul>
       <!-- Dropdown para la información del usuario -->
@@ -37,10 +37,3 @@
       </ul>
     </div>
 </nav>
-<app-perfil></app-perfil>
-
-
-
-
-  
-

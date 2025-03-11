@@ -103,9 +103,9 @@ p.update-date{
     border-radius: 10px;
 }
 
-.owner-avatar {
-    width: 50px;
-    height: 50px;
+.profileImg {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
 }
 

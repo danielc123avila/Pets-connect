@@ -1,0 +1,294 @@
+/* Estilos para el contenedor del título principal */
+.titulo-principal-container {
+  width: 100%;
+  text-align: center; /* Centra el título */
+  padding: 20px 0; /* Espacio arriba y abajo */
+  background-color: #f9f9f9; /* Fondo claro */
+  border-bottom: 1px solid #ccc; /* Línea inferior */
+}
+
+/* Estilos para el título principal */
+.titulo-principal {
+  font-size: 32px; /* Tamaño más grande */
+  font-weight: bold; /* Negrita */
+  color: #333; /* Color oscuro */
+  margin: 3rem; /* Elimina el margen predeterminado */
+}
+
+/* Ajustes para el contenedor principal */
+.main-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  margin-top: 20px; /* Espacio adicional para separar del título */
+}
+
+/* Ajustes para la columna izquierda */
+.left-column {
+  flex: 1;
+  max-width: 800px;
+}
+
+/* Ajustes para la columna derecha */
+.right-column {
+  flex: 1;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+
+/* Estilos generales */
+.main-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.left-column {
+    flex: 1;
+    max-width: 800px;
+}
+
+.right-column {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.container {
+    max-width: 800px;
+    margin-left: 20px;
+    padding: 20px;
+}
+
+/* Estilos para los inputs */
+.input-container {
+    margin-top: 20px;
+}
+
+.custom-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #e0f7fa;
+    /* Fondo azul celeste */
+    height: 40px;
+    /* Altura reducida */
+    box-sizing: border-box;
+}
+
+.custom-input:focus {
+    outline: none;
+    border-color: #00bcd4;
+    background-color: #b2ebf2;
+    /* Fondo azul celeste más claro al enfocar */
+}
+
+.custom-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #e0f7fa;
+    /* Fondo azul celeste */
+    height: 40px;
+    /* Altura reducida */
+    box-sizing: border-box;
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: #00bcd4;
+    background-color: #b2ebf2;
+    /* Fondo azul celeste más claro al enfocar */
+}
+
+/* Estilos para los botones de opción */
+.option-button {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    /* Bordes redondeados */
+    background-color: #f9f9f9;
+    cursor: pointer;
+    text-align: center;
+}
+
+.option-button:hover {
+    background-color: #e0e0e0;
+}
+
+.option-button.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Contenedor de especie y sexo */
+.species-sex-container {
+    display: flex;
+    gap: 20px;
+}
+
+.species-container,
+.sex-container {
+    flex: 1;
+}
+
+/* Contenedor de colores */
+.color-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Contenedor de los campos de ubicación */
+.ubicacion-fields {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Contenedor de los campos de contacto */
+.contacto-fields {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+
+/* Columna de la derecha */
+/* Estilos para el contenedor de fotos */
+.fotos-container {
+    margin-bottom: 20px;
+}
+
+.foto-card {
+    width: 198px;
+    height: 184px;
+    border: 2px dashed #ccc;
+    border-radius: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #e0f7fa;
+    /* Fondo azul celeste */
+    transition: background-color 0.3s ease;
+}
+
+.foto-card:hover {
+    background-color: #b2ebf2;
+    /* Fondo azul celeste más claro al pasar el mouse */
+}
+
+.foto-card span {
+    font-size: 24px;
+    color: #007bff;
+}
+
+/* Estilos para el contenedor de descripción */
+.descripcion-container {
+    margin-bottom: 20px;
+}
+
+.custom-textarea {
+    width: 526px;
+    height: 177px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #e0f7fa;
+    /* Fondo azul celeste */
+    resize: none;
+    /* Evita que el usuario redimensione el textarea */
+    font-family: Arial, sans-serif;
+}
+
+.custom-textarea:focus {
+    outline: none;
+    border-color: #00bcd4;
+    background-color: #b2ebf2;
+    /* Fondo azul celeste más claro al enfocar */
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 12px;
+    color: #757575;
+    margin-top: 5px;
+}
+
+/* Estilos para el contenedor de palabras claves */
+.palabras-claves-container {
+    margin-bottom: 20px;
+}
+
+.palabras-claves-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Estilos para los botones de opción (reutilizados) */
+.option-button {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    text-align: center;
+}
+
+.option-button:hover {
+    background-color: #e0e0e0;
+}
+
+.option-button.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Estilos para el contenedor del botón Publicar */
+.boton-publicar-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centra el botón horizontalmente */
+    margin-top: 20px; /* Espacio arriba del botón */
+    padding-bottom: 20px; /* Espacio abajo del botón */
+  }
+  
+  /* Estilos para el botón Publicar */
+  .boton-publicar {
+    width: 207px;
+    height: 48px;
+    padding: 12px 24px; /* Padding interno */
+    background-color: #ffcc00; /* Color amarillo */
+    border: none; /* Sin borde */
+    border-radius: 24px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de la fuente */
+    font-weight: bold; /* Negrita */
+    color: #333; /* Color del texto */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s ease; /* Transición suave */
+  }
+  
+  /* Efecto hover para el botón */
+  .boton-publicar:hover {
+    background-color: #e6b800; /* Color amarillo más oscuro al pasar el mouse */
+  }
+  
+  /* Efecto active para el botón */
+  .boton-publicar:active {
+    background-color: #cc9900; /* Color amarillo aún más oscuro al hacer clic */
+  }

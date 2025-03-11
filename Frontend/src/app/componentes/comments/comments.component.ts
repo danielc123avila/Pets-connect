@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, input, OnInit, Output, output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, input, OnChanges, OnInit, Output, output, SimpleChanges } from '@angular/core';
 import { CommentsService } from '../../servicios/comments.service';
 import { CommonModule } from '@angular/common';
 import { response } from 'express';
 import { error } from 'console';
 import { FormsModule } from '@angular/forms';
+import { PeticionService } from '../../servicios/peticionservice.service';
+import { Comment } from '../../models/mascota.model';
 
 @Component({
   selector: 'app-comments',
@@ -11,14 +13,18 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.css'
 })
-export class CommentsComponent implements OnInit {
-  @Input() petId!: string; // Se recibe el id de la mascota como parámetro
+export class CommentsComponent implements OnInit, OnChanges {
+  @Input() petId!: string;
   @Output() commentAdded = new EventEmitter<void>();
 
   comments: any[] = [];
   commentContent: string = '';
 
-  constructor(private commentService: CommentsService) {}
+  constructor(
+    private commentService: CommentsService,
+    private cdr: ChangeDetectorRef,
+    private peticion: PeticionService
+  ) {}
 
   ngOnInit(): void {
     if (!this.petId) {
@@ -26,6 +32,12 @@ export class CommentsComponent implements OnInit {
       return;
     }
     this.obtenerComentarios();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['petId'] && !changes['petId'].firstChange) {
+      this.obtenerComentarios();
+    }
   }
 
   obtenerComentarios() {
@@ -37,10 +49,20 @@ export class CommentsComponent implements OnInit {
     this.commentService.getComments(this.petId).subscribe(
       (response) => {
         if (response && Array.isArray(response.comments)) {
-          this.comments = response.comments;
+          this.comments = response.comments.map((comment: any) => {
+            const userId = comment.userId?._id || comment.userId; // Asegurar que es un string
+            const avatarUrl = `${this.peticion.urlHost}/Avatar/${userId}.png`;
+            console.log("Avatar URL generada:", avatarUrl);
+            
+            return {
+              ...comment,
+              avatarUrl
+            };
+          });
         } else {
-          this.comments = []; 
+          this.comments = [];
         }
+        this.cdr.detectChanges();
       },
       (error) => {
         console.error("Error al obtener comentarios", error);

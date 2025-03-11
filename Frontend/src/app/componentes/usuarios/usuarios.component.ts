@@ -4,18 +4,20 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { DashboardComponent } from "../dashboard/dashboard.component";
+import { FiltrosPipe } from '../../pipe/filtros.pipe';
 declare var $:any 
 
 @Component({
   selector: 'app-usuarios',
-  imports: [CommonModule, FormsModule, DashboardComponent],
+  imports: [CommonModule, FormsModule, DashboardComponent, FiltrosPipe],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
 export class UsuariosComponent implements OnInit {
-  constructor(private peticion:PeticionService){}
+  
+  constructor(public peticion:PeticionService){}
 
- 
+  filtros:string =""
   datos:any [] = []
   nombre:string=""
   email:string=""
@@ -24,6 +26,8 @@ export class UsuariosComponent implements OnInit {
   IdSeleccionado:string=""
   estado:string = "1"
   rol:string = ""
+  random:number = 0
+  _id:string = ""
   
   ngOnInit(): void {
     this.listar()
@@ -196,4 +200,5 @@ export class UsuariosComponent implements OnInit {
                                
     })
   }
+
 }

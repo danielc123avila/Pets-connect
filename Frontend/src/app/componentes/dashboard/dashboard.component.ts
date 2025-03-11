@@ -3,11 +3,10 @@ import { PeticionService } from '../../servicios/peticionservice.service';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-import { PerfilComponent } from "../perfil/perfil.component";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, CommonModule, PerfilComponent],
+  imports: [RouterLink, CommonModule,],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -22,7 +21,7 @@ export class DashboardComponent implements OnInit{
   rol:string = "Cargando..."
   ultimologin:string ="1900/01/01"
   _id:string = ""
-  random:number = 0
+  
 
   status(){
     let data = {
@@ -34,7 +33,7 @@ export class DashboardComponent implements OnInit{
     this.peticion.post(data.host + data.path,data.payload).then((res:any) => {
       console.log(res)
       if (res.nombre == undefined || res.nombre == null){
-        this.router.navigate(["login"])
+        this.router.navigate(["/"])
       }
       this.nombre = res.nombre
       this.ultimologin = res.ultimologin
@@ -56,8 +55,6 @@ export class DashboardComponent implements OnInit{
    
       
   }  
-
-
 
   logout (){
     
@@ -85,4 +82,5 @@ export class DashboardComponent implements OnInit{
     })
       
   }
+
 }

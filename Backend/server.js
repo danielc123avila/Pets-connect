@@ -6,11 +6,12 @@ import connectDB from "./config/dataBase.js";
 import usuariosRoutes from "./router/usuariosRoutes.js";
 import mascotasRoutes from "./router/mascotasRoutes.js";
 import commentRoutes from "./router/commetRoutes.js";
+import archivosRoutes from "./router/archivosRoutes.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
 import path from "path";
-import { fileURLToPath } from "url"; // Importa esta función
+import { fileURLToPath } from "url"; // Importa esta función"
 
 const app = express();
 
@@ -79,8 +80,14 @@ app.use(
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+global.path = path;
+global.AppRoot = path.resolve(__dirname); // Define la raíz de la aplicación
+
+// Sirve archivos estáticos desde el directorio 'Avatar'
+app.use('/Avatar', express.static(path.join(global.AppRoot, 'Avatar')));
+
 // Servir archivos estáticos desde la carpeta 'uploads'
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
 app.get("/api/images", (req, res) => {
   const images = [
     { id: 1, url: "/uploads/image1.jpg" },
@@ -88,10 +95,26 @@ app.get("/api/images", (req, res) => {
   ];
   res.json(images);
 });
+
 // Routes
 app.use("/api", usuariosRoutes);
 app.use("/api", mascotasRoutes);
 app.use('/api/comments', commentRoutes);
+app.use("/api", archivosRoutes)
+
+// Ruta para servir imágenes de perfil
+app.get('/Avatar/:id.png', (req, res) => {
+  const ownerId = req.params.id;  // Obtener el ID del dueño
+  const imagePath = path.join(process.cwd(), 'Avatar', `${ownerId}.png`);
+
+  // Verificar si la imagen existe
+  res.sendFile(imagePath, (err) => {
+      if (err) {
+          console.log("Error al enviar la imagen", err);
+          return res.status(404).json({ mensaje: "Imagen no encontrada" });
+      }
+  });
+});
 
 // Port
 console.log("PORT desde .env:", process.env.PORT);
