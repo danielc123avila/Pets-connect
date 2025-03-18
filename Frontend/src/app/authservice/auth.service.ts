@@ -29,19 +29,18 @@ export class AuthService {
     };
 
     this.peticion.post(data.host + data.path, data.payload).then((res: any) => {
-      console.log("Sesión recibida en loadSession():", res)
 
-      if (res.rol) {
+      if (res && res.rol) {
         this.setAuthenticationStatus(true)
       } else {
         this.setAuthenticationStatus(false)
       }
+      this.isLoadingSubject.next(false);
     }).catch(error => {
       this.setAuthenticationStatus(false)
       this.isLoadingSubject.next(false)
     })
   }
 }
-  
-  
+
 

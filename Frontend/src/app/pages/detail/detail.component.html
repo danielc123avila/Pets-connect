@@ -39,7 +39,7 @@
     </ng-template>
 
     <!-- Caja de Comentarios -->
-    <app-comments [petId]="idMascotaActual || 'default'" (commentAdded)="obtenerComentarios()"></app-comments>
+    <app-comments *ngIf="idMascotaActual" [petId]="idMascotaActual" (commentAdded)="obtenerComentarios()"></app-comments>
 
   </div>
   <!-- CIERRE CORRECTO DE image-section -->
