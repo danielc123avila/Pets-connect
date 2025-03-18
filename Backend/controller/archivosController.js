@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var archivosController = {}
 import multer from "multer"
 
@@ -29,9 +28,6 @@ archivosController.subiravatar = function (request,response){
     })
 }  
 
-export default archivosController
-=======
-import multer from "multer";
 import path from "path";
 import fs from "fs";
 
@@ -88,4 +84,4 @@ archivosController.subiravatar = function (request, response) {
 };
 
 export default archivosController;
->>>>>>> 632b45644b53e36da76da31364f0ae140bdaf78d
+

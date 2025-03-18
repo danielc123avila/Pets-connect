@@ -1,0 +1,155 @@
+<app-encabezado></app-encabezado>
+
+<div class="main-container">
+  <div class="filtros-container">
+    <div class="filtros-header">
+      <h2>Filtros</h2>
+      <button class="limpiar-btn" (click)="limpiarFiltros()">Limpiar filtros</button>
+    </div>
+
+    <form [formGroup]="filtrosForm" class="filtros-form">
+      <!-- Filtro por especie -->
+      <div class="filtro-grupo">
+        <h3>Especie</h3>
+        <div class="opciones-filtro">
+          <div
+            *ngFor="let especie of especies"
+            class="option-button"
+            [class.selected]="filtrosForm.get('especie')?.value === especie"
+            (click)="filtrosForm.get('especie')?.setValue(especie)">
+            {{ especie }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro por sexo -->
+      <div class="filtro-grupo">
+        <h3>Sexo</h3>
+        <div class="opciones-filtro">
+          <div
+            *ngFor="let sexo of sexos"
+            class="option-button"
+            [class.selected]="filtrosForm.get('sexo')?.value === sexo"
+            (click)="filtrosForm.get('sexo')?.setValue(sexo)">
+            {{ sexo }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro por color -->
+      <div class="filtro-grupo">
+        <h3>Color</h3>
+        <div class="opciones-filtro">
+          <div
+            *ngFor="let color of colores"
+            class="option-button"
+            [class.selected]="filtrosForm.get('color')?.value === color"
+            (click)="filtrosForm.get('color')?.setValue(color)">
+            {{ color }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro por estado -->
+      <div class="filtro-grupo">
+        <h3>Estado</h3>
+        <div class="opciones-filtro">
+          <div
+            *ngFor="let estado of estados"
+            class="option-button"
+            [class.selected]="filtrosForm.get('estado')?.value === estado"
+            (click)="filtrosForm.get('estado')?.setValue(estado)">
+            {{ estado }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro por ubicación -->
+      <div class="filtro-grupo">
+        <h3>Ubicación</h3>
+        <input
+          type="text"
+          class="custom-input"
+          placeholder="Buscar por ubicación"
+          formControlName="ultimaUbicacion">
+      </div>
+
+      <!-- Filtro por fecha -->
+      <div class="filtro-grupo">
+        <h3>Fechas</h3>
+        <div class="fechas-container">
+          <div class="fecha-campo">
+            <label>Desde:</label>
+            <input
+              type="date"
+              class="custom-input"
+              formControlName="fechaDesde">
+          </div>
+          <div class="fecha-campo">
+            <label>Hasta:</label>
+            <input
+              type="date"
+              class="custom-input"
+              formControlName="fechaHasta">
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro por palabras clave -->
+      <div class="filtro-grupo">
+        <h3>Palabras clave</h3>
+        <input
+          type="text"
+          class="custom-input"
+          placeholder="Separar con comas (ej: Manchas, Cola cortada)"
+          formControlName="palabrasClave">
+      </div>
+    </form>
+  </div>
+
+  <div class="mascotas-container">
+    <h1 class="titulo-principal">Mascotas</h1>
+
+    <!-- Mensaje de carga -->
+    <div *ngIf="cargando" class="mensaje-carga">
+      <p>Cargando mascotas...</p>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="error" class="mensaje-error">
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Mensaje si no hay resultados -->
+    <div *ngIf="!cargando && !error && mascotasFiltradas.length === 0" class="mensaje-no-resultados">
+      <p>No se encontraron mascotas con los criterios seleccionados</p>
+    </div>
+
+    <!-- Grid de mascotas -->
+    <div class="mascotas-grid">
+      <div
+        *ngFor="let mascota of mascotasFiltradas"
+        class="mascota-card"
+        (click)="verDetalleMascota(mascota._id)">
+        <div class="mascota-img-container">
+          <img [src]="getFotoUrl(mascota)" alt="{{ mascota.nombre }}" class="mascota-img">
+          <div class="mascota-estado" [ngClass]="mascota.estado">{{ mascota.estado }}</div>
+        </div>
+        <div class="mascota-info">
+          <h3 class="mascota-nombre">{{ mascota.nombre }}</h3>
+          <div class="mascota-detalle">
+            <span>{{ mascota.especie }} | {{ mascota.sexo }}</span>
+          </div>
+          <div class="mascota-ubicacion">
+            <span>{{ mascota.ultimaUbicacion }}</span>
+          </div>
+          <div class="mascota-fecha">
+            <span>{{ formatearFecha(mascota.fechaExtravio) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-pie-de-pagina></app-pie-de-pagina>
