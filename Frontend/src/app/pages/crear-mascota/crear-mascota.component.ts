@@ -160,8 +160,8 @@ export class CrearMascotaComponent {
         formData.append(key, formValue[key]);
       }
     }
-    this.fotos.forEach((foto, index) => {
-      formData.append(`foto[${index}]`, foto.file)
+    this.fotos.forEach((foto) => {
+      formData.append("fotos", foto.file)
     });
     return formData
   }
