@@ -6,9 +6,9 @@
     <div class="enlacesHeader">
         <a class="linkHeader" routerLink="/quienessomos">¿Quiénes somos?</a>
         <a class="linkHeader" routerLink="/faq">FAQ</a>
-        <a class="linkHeader" href="">Ver publicaciones</a>
+        <a class="linkHeader" routerLink="/mascotas-perdidas">Ver publicaciones</a>
     </div>
-    
+
     <ng-container *ngIf="!isLoading">
         <div class="btnIniciarSesion" *ngIf="!isAuthenticated">
             <button class="btnIniciarSesion" (click)="openLogin()">Iniciar sesión</button>
@@ -20,7 +20,7 @@
             <span class="material-symbols-outlined" routerLink="/dashboard">account_circle</span>
         </button>
     </ng-container>
-   
+
 </header>
 
 <app-login *ngIf="showLogin" (onClose)="closeLogin()"></app-login>

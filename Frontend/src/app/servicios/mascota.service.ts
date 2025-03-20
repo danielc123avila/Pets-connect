@@ -18,7 +18,7 @@ export class MascotaService {
   // Obtener todas las mascotas
   getMascotas(): Observable<Mascota[]> {
     return this.http.get<Mascota[]>(`${this.urlBase}/mascotas`).pipe(
-      tap((response) => console.log('Respuesta de API:', response)),
+      // tap((response) => console.log('Respuesta de API:', response)),
       map((response) => {
         if (!Array.isArray(response)) {
           console.error('Respuesta inesperada de API');
