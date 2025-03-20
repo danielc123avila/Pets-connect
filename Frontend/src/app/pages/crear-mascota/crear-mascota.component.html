@@ -214,18 +214,19 @@
       <!-- Agrega Fotos -->
       <div class="fotos-container">
         <h3><strong>Agrega Fotos</strong></h3>
-        <p>
-          Agrega hasta 3 fotos de la mascota para brindar más detalles sobre el
-          aspecto de la misma
-        </p>
-        <div class="foto-card" (click)="openFileInput()">
-          <input
-            type="file"
-            id="fileInput"
-            style="display: none"
-            (change)="onFileSelected($event)"
-          />
-          <span>+</span>
+        <p>Agrega hasta 3 fotos de la mascota para brindar más detalles sobre el aspecto de la misma</p>
+      
+        <div class="foto-grid">
+          <div class="foto-preview" *ngFor="let foto of fotos; let i = index">
+            <img [src]="foto.preview" alt="foto seleccionada" />
+            <button (click)="removePhoto(i)">X</button>
+          </div>
+      
+          <!-- Solo muestra el botón "+" si hay menos de 3 fotos -->
+          <div class="foto-card" (click)="openFileInput()" *ngIf="fotos.length < 3">
+            <input type="file" id="fileInput" style="display: none" (change)="onFileSelected($event)" multiple />
+            <span>+</span>
+          </div>
         </div>
       </div>
 

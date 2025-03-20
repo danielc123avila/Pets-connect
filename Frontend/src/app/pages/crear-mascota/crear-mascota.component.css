@@ -1,10 +1,10 @@
 /* Estilos para el contenedor del título principal */
 .titulo-principal-container {
-  width: 100%;
-  text-align: center; /* Centra el título */
-  padding: 20px 0; /* Espacio arriba y abajo */
-  background-color: #f9f9f9; /* Fondo claro */
-  border-bottom: 1px solid #ccc; /* Línea inferior */
+    width: 100%;
+    text-align: center; /* Centra el título */
+    padding: 20px 0; /* Espacio arriba y abajo */
+    background-color: #f9f9f9; /* Fondo claro */
+    border-bottom: 1px solid #ccc; /* Línea inferior */
 }
 
 /* Estilos para el título principal */
@@ -17,24 +17,24 @@
 
 /* Ajustes para el contenedor principal */
 .main-container {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-  margin-top: 20px; /* Espacio adicional para separar del título */
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 20px; /* Espacio adicional para separar del título */
 }
 
 /* Ajustes para la columna izquierda */
 .left-column {
-  flex: 1;
-  max-width: 800px;
+    flex: 1;
+    max-width: 800px;
 }
 
 /* Ajustes para la columna derecha */
 .right-column {
-  flex: 1;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 10px;
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 
@@ -167,31 +167,85 @@
 /* Columna de la derecha */
 /* Estilos para el contenedor de fotos */
 .fotos-container {
-    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h3 {
+    margin-bottom: 5px;
+}
+
+p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.foto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    justify-content: center;
+    max-width: 100%;
 }
 
 .foto-card {
-    width: 198px;
-    height: 184px;
+    width: 120px;
+    height: 120px;
     border: 2px dashed #ccc;
-    border-radius: 33px;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     background-color: #e0f7fa;
-    /* Fondo azul celeste */
     transition: background-color 0.3s ease;
 }
 
 .foto-card:hover {
     background-color: #b2ebf2;
-    /* Fondo azul celeste más claro al pasar el mouse */
 }
 
 .foto-card span {
-    font-size: 24px;
+    font-size: 32px;
     color: #007bff;
+}
+
+.foto-preview {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.foto-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.foto-preview button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.foto-preview button:hover {
+    opacity: 1;
 }
 
 /* Estilos para el contenedor de descripción */

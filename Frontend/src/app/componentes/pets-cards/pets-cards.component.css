@@ -6,9 +6,19 @@
 }
 
 h2 {
+    padding-left: 25px;
     color: #2c5f2d;
     font-size: 24px;
     margin-bottom: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    display: inline-block; /* Asegura que solo crezca su contenido */
+}
+
+h2:hover {
+    color: #ff9800;
+    transform: scale(1.1);
+    transform-origin: center; /* Mantiene el crecimiento centrado */
 }
 
 .mascotas-grid {

@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Ver más mascotas perdidas</h2>
+    <h2 a [routerLink]="['/mascotas-perdidas']">Ver más mascotas perdidas</h2>
     <div class="mascotas-grid">
         <div *ngFor="let mascota of mascotasVisibles" class="mascota-card">
             <img *ngIf="mascota.fotos && mascota.fotos.length > 0" [src]="'http://localhost:3000' + mascota.fotos[0].url" alt="Mascota">
